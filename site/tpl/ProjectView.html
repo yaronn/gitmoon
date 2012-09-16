@@ -1,0 +1,97 @@
+
+<div class="row">  
+<div class="span8">
+
+<div style="float:left; font-size: xx-large; font-weight: bold; ">
+<%= name%>
+</div>
+
+
+<div style="float:right; text-align: right;">
+	<iframe id="tweet" allowtransparency="true" frameborder="0" scrolling="no"
+	        src=""
+	        style="width:130px; height:21px;"></iframe>
+
+	<iframe id="like" src="" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:20px;" allowTransparency="true"></iframe>
+</div>
+
+
+
+<div style="clear:both;" />
+
+<br />
+
+<span style="font-size:medium ; color:gray;"><%= description%> (<a target="_blank" href="<%= repository.replace('git://', 'http://')%>">github</a>)</span>
+
+<div style="margin-top:5px; margin-bottom:0px" />
+
+<hr style="margin-top:10px" />
+
+
+</div>
+</div>
+
+<div class="row">  
+<div class="span8">
+
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="#general" data-toggle="tab">General</a></li>
+    <li><a href="#users" data-toggle="tab">Users</a></li>
+    <li><a href="#projects" data-toggle="tab">Projects</a></li>
+    <li><a href="#code" data-toggle="tab">CodeBack</a></li>            
+</ul>
+
+ <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="general">
+				<div class="row">              
+	             	<div class="span4">
+	             		<h3>Traction</h3><br />
+						
+						<span class="graphTitle" id="dependsTitle" />
+						<span id="dependsHelp" class="graphHelp">[?]</span>
+						<div id="depends"></div>
+
+						<span class="graphTitle" id="watchesTitle" />
+						<span id="watchesHelp" class="graphHelp">[?]</span>
+						<div id="watches"></div>
+
+						<span class="graphTitle" id="forksTitle" />
+						<span id="forksHelp" class="graphHelp">[?]</span>
+						<div id="forks"></div>
+					</div>
+
+					<div id="similar-projects" class="span4">
+					</div>
+					
+				</div>				
+
+            </div>
+            <div class="tab-pane fade" id="users">              
+            	<div class="row"> 
+	            	<div class="span8">
+						<div id="user-list" />
+					</div>
+				</div>
+
+            </div>
+
+            <div class="tab-pane fade" id="projects">
+            <div class="row"> 
+	            <div class="span8">
+		         	<div id="dep-projects-list" />		             
+				</div>
+			</div>
+            </div> 
+
+
+            <div class="tab-pane fade" id="code">
+            <div class="row">             	
+	            <div class="span8">
+	            	<div id="sample-code-list" />		
+				</div>
+
+            </div>            
+          </div>   
+
+</div>
+</div>

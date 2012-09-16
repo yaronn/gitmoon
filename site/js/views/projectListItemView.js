@@ -1,0 +1,1 @@
+window.ProjectListItemView = DefaultView.extend()

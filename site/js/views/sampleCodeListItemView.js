@@ -1,0 +1,1 @@
+window.SampleCodeListItemView = DefaultView.extend()

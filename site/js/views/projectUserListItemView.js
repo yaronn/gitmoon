@@ -1,0 +1,1 @@
+window.ProjectUserListItemView = DefaultView.extend()

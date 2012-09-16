@@ -1,0 +1,1 @@
+window.SimilarProjectListItemView = DefaultView.extend()

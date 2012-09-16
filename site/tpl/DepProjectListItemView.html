@@ -1,0 +1,41 @@
+
+
+<div class="row"> 
+    
+    <div class="span8">
+    	
+    	 <div style="margin-bottom:5px">
+	        <a href="/#project/<%= name%>" style="font-size:18px; font-weight: bold;">		<%= name%>
+			</a>			
+			<br />
+			<i><%= description%></i>
+			<%if (description && description.length>0) {%>
+			<br />
+			<%}%>
+
+			<a href="/#project/<%= name%>"><%= name%></a>
+			<i class="icon-arrow-right"></i>				
+
+			<% for (i in dependency_path) {%><a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
+			<%if (i<dependency_path.length-1) {%>
+			<i class="icon-arrow-right"></i>
+			<%}%>
+
+			<%}%>
+			
+			<br />
+			<%for (j in users) {%>
+				<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />					
+			<%}%>	
+			
+			
+			
+			
+		</div>
+
+
+    </div>
+
+</div>
+
+<br />

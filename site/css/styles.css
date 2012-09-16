@@ -1,0 +1,79 @@
+.dropdown-menu {
+    max-height: 400px;
+    overflow-y: scroll;
+    width: 220px;
+}
+
+.list-item {
+    padding-top: 6px;
+    padding-left: 56px;
+}
+
+.no-reports {
+    display: none;
+}
+
+.hidden {
+	display: none;
+}
+
+.codeSampleHighlight {
+	font-weight: bold;
+	color: navy;
+}
+
+.codeSampleSearchHighlight {
+	font-weight: bold;
+	color: #C76D06;
+}
+
+.graphTitle {
+	font-weight:bold; 
+	color:black;
+	margin-bottom: 0px;
+}
+
+.graphHelp {
+	color: #3B5998;
+	margin-left: 10px;
+	font-weight: bolder;
+	font-size: normal;
+	text-align: right;
+	cursor: pointer;
+}
+
+.navbar .nav .active > a,
+.navbar .nav .active > a:hover {
+  font-weight: bold;
+}
+
+.heroBigWord {
+	font-size: x-large;
+	font-weight: bold;
+	color: blue;
+}
+
+#main {
+	margin-top: 20px;
+	background-color: white;	
+	min-height: 370px;	
+	background: url('/img/moon_45_small.png') no-repeat;	
+	background-position: 0px 0px;
+}
+
+.bullet {
+	width: 18px;
+}
+
+.hero_special_word {
+	color: #0070C0;
+	text-weight: bold;
+}
+
+.hero_bullet {
+	font-size: 20px;
+}
+
+.hero_space {
+	height: 30px;
+}

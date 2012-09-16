@@ -1,0 +1,10 @@
+
+	<b><a href="/#project/<%= name %>"><%= name %></a></b>
+	<br />
+	<%= description %>
+	<br />
+	<%for (j in users) {%>
+	<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />					
+	<%}%>								
+	<br />
+	<hr />	

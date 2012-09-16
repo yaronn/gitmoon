@@ -1,0 +1,31 @@
+<div class="row">     
+    <div class="span8"> 
+    	<a href="/#project/<%= usingProjectName%>" style="font-size:14px; font-weight: bold;"><%= usingProjectName%></a>
+    	
+    	<%if (absoluteLink && absoluteLink.substring(0,7)=="http://") {%>
+    	(<a href="<%= absoluteLink%>"><%= relativeFileName %></a>)
+    	<%} else {%>
+    	<%= relativeFileName %>
+    	<%}%>
+
+
+    	<br />    	
+		<pre><% 
+		var reg = new RegExp(var_name, "g")
+		var pretty_code = code
+
+		if (searchWord && searchWord!="") {						
+			var reg1 = new RegExp(searchWord, "g")
+			pretty_code = pretty_code.replace(reg1, "<span class='codeSampleSearchHighlight'>"+searchWord+"</span>")
+		}
+
+		pretty_code = pretty_code.replace(reg, "<span class='codeSampleHighlight'>"+var_name+"</span>")		
+		
+		
+		print(pretty_code)
+
+		%></pre>
+    </div>
+</div>
+
+<br />
