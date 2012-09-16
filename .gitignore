@@ -1,7 +1,8 @@
 p.js
 error.log
 npm-debug.log
-crunch.*
+crunch.js
+crunch.css
 service/*.js
 server.js
 common/config.js
