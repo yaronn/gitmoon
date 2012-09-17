@@ -9,10 +9,12 @@ window.SampleCodeMasterView = Backbone.View.extend({
         this.sampleCodeList = new PagedList(null, 
             { "model": SampleCode
             , "url": baseCodeUrl
-            , "page_size": 7})
+            , "page_size": 7 })
            //   , "url": "http://localhost:8090/" })
 
-        this.sampleCodeListView = new SampleCodeListView({model: this.sampleCodeList})
+        this.sampleCodeListView = new SampleCodeListView({
+              model: this.sampleCodeList
+            , "project_name": options.projectName})
         this.isLoaded = false
 
 
@@ -55,7 +57,7 @@ window.SampleCodeMasterView = Backbone.View.extend({
 
     tabVisible: function() {
         if (!this.isLoaded) {
-            this.sampleCodeList.fetch()
+            this.sampleCodeListView.filterByAllProjects()
             this.sampleCodeListView.trackScroll(true)
         }
         this.isLoaded = true

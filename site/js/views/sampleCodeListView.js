@@ -1,11 +1,11 @@
 
 window.SampleCodeListView = ListView.extend({
 
-	initialize: function () {        
+	initialize: function (options) {        
 
         this.options.list_id = "#sample-code-list"
         this.options.Model = SampleCodeListItemView  
-        this.options.filter_field_name = "$code"
+        this.options.filter_field_name = "$code"        
         this.is_searching = false
         $("help", this.el).tooltip()
         //this.list = $(this.options.list_id, this.el)   
@@ -16,11 +16,15 @@ window.SampleCodeListView = ListView.extend({
     filterByProject: function(name) {
        this.model.server_api["using_project_name"] = name
        this.filterByProjectInternal()
+       $("#using_proj", this.el).text(name)
+       $("#used_proj", this.el).text(this.options.project_name)
     },
 
     filterByAllProjects: function() {
       delete this.model.server_api["using_project_name"]
       this.filterByProjectInternal()
+      $("#using_proj", this.el).text("[all projects]")
+      $("#used_proj", this.el).text(this.options.project_name)
     },
 
     filterByProjectInternal: function() {
