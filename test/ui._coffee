@@ -1,7 +1,7 @@
 assert = require 'assert'
 webdriver = require 'wd'
 
-run_on_prod = process.env.run_on_prod
+run_on_prod = process.env.production
 
 
 if run_on_prod

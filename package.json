@@ -29,7 +29,8 @@
         "clean": "rm server.js service/*.js common/*.js ./site/crunch.js ./site/crunch.css",
         "run-dev": "forever -w run_dev.js",
         "run-prod": "forever -w run_prod.js",
-        "test": "mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee"
+        "test-dev": "mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee",
+        "test-prod": "production=true mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee"
     },
     "repository" : {
         "type" : "git",
