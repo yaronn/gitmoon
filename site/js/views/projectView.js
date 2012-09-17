@@ -8,11 +8,11 @@ window.ProjectView = Backbone.View.extend({
     changeTab: function(e) { 
       this.depProjectsListView.trackScroll(false)
       this.projectUserListView.trackScroll(false)
-      this.sampleCodeListView.trackScroll(false)
+      this.sampleCodeMasterView.trackScroll(false)
 
       if (e.target.href.indexOf('users')!=-1) this.changeTabHelper("projectUser")
       if (e.target.href.indexOf('projects')!=-1) this.changeTabHelper("depProjects")
-      if (e.target.href.indexOf('code')!=-1) this.changeTabHelper("sampleCode")
+      if (e.target.href.indexOf('code')!=-1) this.sampleCodeMasterView.tabVisible()
     },
 
     changeTabHelper: function(name) {
@@ -30,7 +30,7 @@ window.ProjectView = Backbone.View.extend({
             
       this.projectUserLoaded = false
       this.depProjectsLoaded = false
-      this.sampleCodeLoaded = false
+      //this.sampleCodeLoaded = false
       
       this.similarProjectList = new PagedList(null, 
         {model: SimilarProject
@@ -56,13 +56,8 @@ window.ProjectView = Backbone.View.extend({
       this.projectUserListView = new ProjectUserListView({model: this.projectUserList})                  
       //this.projectUserList.fetch()
       
-      this.sampleCodeList = new PagedList(null, 
-        { "model": SampleCode
-        , "url": "/projects/" + this.model.get("name") + "/sample_code"
-        , "page_size": 7})
-       //   , "url": "http://localhost:8090/" })
 
-      this.sampleCodeListView = new SampleCodeListView({model: this.sampleCodeList})                  
+      this.sampleCodeMasterView = new SampleCodeMasterView({projectName: this.model.get("name")})                  
       //this.sampleCodeList.fetch()       
 
     },
@@ -71,7 +66,7 @@ window.ProjectView = Backbone.View.extend({
         this.unbind(); 
         this.depProjectsListView.close()
         this.projectUserListView.close()
-        this.sampleCodeListView.close()
+        this.sampleCodeMasterView.close()
         this.similarProjectsListView.close()
     },
 
@@ -95,8 +90,8 @@ window.ProjectView = Backbone.View.extend({
         this.depProjectsListView.render()
         $("#dep-projects-list", this.el).html(this.depProjectsListView.el);
 
-        this.sampleCodeListView.render()
-        $("#sample-code-list", this.el).html(this.sampleCodeListView.el);
+        this.sampleCodeMasterView.render()
+        $("#sample-code-list", this.el).html(this.sampleCodeMasterView.el);
         
         $('#myTab a[href="#users"]', this.el).text("Users ("+this.model.get("total_watch")+")")        
         $('#myTab a[href="#projects"]', this.el).text("Projects ("+this.model.get("total_deps")+")")

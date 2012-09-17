@@ -1,9 +1,9 @@
 window.PagedList = Backbone.Paginator.requestPager.extend({
 
-    initialize: function(models, options) {        
+    initialize: function(models, options) {           
         this.model = options.model
         this.url = options.url                
-                
+        
         this.server_api = {            
             // number of items to return per request/page
             '$top': function() { return this.perPage },

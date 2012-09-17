@@ -6,12 +6,25 @@ window.templateLoader = {
         var deferreds = [];
 
         $.each(views, function(index, view) {
-            if (window[view]) {
-                deferreds.push($.get('tpl/' + view + '.html', function(data) {
-                    window[view].prototype.template = _.template(data);
+            
+            var name, path;
+
+            if (view instanceof Array) {                
+                name = view[0]
+                path=view[1]
+            }
+            else {
+               name = view
+               path = ""
+            }
+
+            if (window[name]) {
+                var url = 'tpl/' + path + name + '.html'                
+                deferreds.push($.get(url, function(data) {                   
+                    window[name].prototype.template = _.template(data);
                 }, 'html'));                
             } else {
-                alert(view + " not found");
+                alert(name + " not found");
             }
         });
 

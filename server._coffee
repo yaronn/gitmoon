@@ -17,6 +17,12 @@ similar_projects = app.resource 'similar_projects', require('./service/similar_p
 proj.add similar_projects
 sample_code = app.resource 'sample_code', require('./service/sample_code')
 proj.add sample_code
+sample_code_using_projects = app.resource 'sample_code_using_projects', require('./service/sample_code_using_projects')
+proj.add sample_code_using_projects
+
+app.get '/projects/:project/sample_code/count', (req, res, _) ->		
+	require('./service/sample_code').getCount req, res
+
 app.use express.static('./site', { maxAge: 60000*0.5 }) #half hour cache
 
 app.error (err, req, res, next) ->
