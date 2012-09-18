@@ -29,6 +29,7 @@
         "clean": "rm server.js service/*.js common/*.js ./site/crunch.js ./site/crunch.css",
         "run-dev": "forever -w run_dev.js",
         "run-prod": "forever -w run_prod.js",
+        "test-dev-prepare": "java -jar ~/apps/selenium-server-standalone-2.25.0.jar",
         "test-dev": "mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee",
         "test-prod": "production=true mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee"
     },
