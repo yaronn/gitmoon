@@ -54,7 +54,7 @@ templateLoader.load(["HomeView", "HeaderView", "ProjectMasterView", "ProjectList
                      "ProjectListItemView", "ProjectView", "ProjectUserListView",
                      "ProjectUserListItemView", "DepProjectListView", 
                      "DepProjectListItemView", "SampleCodeListView", "SampleCodeListItemView",
-                     "SimilarProjectListItemView", "SimilarProjectListView", 
+                     "SimilarProjectListItemView", "SimilarProjectListView", "ProjectUsersMasterView",
                      "SampleCodeMasterView", ["ListViewItemView", "../components/listview/"], ["ListViewView", "../components/listview/"]],
     function () {                    
             $('#wait').css("display", "none")            

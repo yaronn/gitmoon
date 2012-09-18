@@ -282,7 +282,7 @@ updateUser = (user, _) ->
 	user.data.id = data.id
 	user.data.blog = data.blog ? ""
 	user.data.gravatar_id = data.gravatar_id ? ""
-	user.data.company = data.company ? ""
+	user.data.company = if data.company then data.company.trim() else ""
 	user.data.email = data.email ? ""
 	user.data.followers = data.followers ? 0
 	user.data.following = data.following ? 0
@@ -430,7 +430,7 @@ init_config = (_) ->
 
 #updateGithub 200, _
 
-setProjectRating _
+#setProjectRating _
 
 ###
 #delete everything without type property
@@ -443,10 +443,15 @@ applyOnNodes _, null, (r, _) ->
 
 ###
 neo4j = require 'neo4j'
-db = new neo4j.GraphDatabase 'http://localhost:7474'
-qry = 	"START n=node(*) WHERE n.stale=true RETURN count(n)"
+qry = 	"START  n=node(*) WHERE HAS(n.company) 
+		 AND n.company =~ /( .*)|(.* )/
+		 RETURN n"
 res = db.query qry, _
-console.log i for i in res
+i = 0
+res.forEach_ _, 10, (_, r) ->	
+	console.log i++
+	r.n.data.company = r.n.data.company.trim()
+	r.n.save _	
 ###
 
 ###

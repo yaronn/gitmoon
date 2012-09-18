@@ -6,13 +6,13 @@ window.ProjectView = Backbone.View.extend({
     },
 
     changeTab: function(e) { 
-      this.depProjectsListView.trackScroll(false)
-      this.projectUserListView.trackScroll(false)
+      this.projectUsersMasterView.trackScroll(false)
+      this.depProjectsListView.trackScroll(false)      
       this.sampleCodeMasterView.trackScroll(false)
 
-      if (e.target.href.indexOf('users')!=-1) this.changeTabHelper("projectUser")
+      if (e.target.href.indexOf('users')!=-1) this.projectUsersMasterView.render()
       if (e.target.href.indexOf('projects')!=-1) this.changeTabHelper("depProjects")
-      if (e.target.href.indexOf('code')!=-1) this.sampleCodeMasterView.tabVisible()
+      if (e.target.href.indexOf('code')!=-1) this.sampleCodeMasterView.render()
     },
 
     changeTabHelper: function(name) {
@@ -28,7 +28,7 @@ window.ProjectView = Backbone.View.extend({
     initialize: function() {                     
       var self = this
             
-      this.projectUserLoaded = false
+      //this.projectUserLoaded = false
       this.depProjectsLoaded = false
       //this.sampleCodeLoaded = false
       
@@ -48,12 +48,7 @@ window.ProjectView = Backbone.View.extend({
       this.depProjectsListView = new DepProjectListView({model: this.depProjectsList})            
       //this.depProjectsList.fetch()
 
-      this.projectUserList = new PagedList(null, 
-        { "model": ProjectUser
-        , "url": "/projects/" + this.model.get("name") + "/users"
-        , "page_size": 7})      
-
-      this.projectUserListView = new ProjectUserListView({model: this.projectUserList})                  
+      this.projectUsersMasterView = new ProjectUsersMasterView({projectName: this.model.get("name")})                  
       //this.projectUserList.fetch()
       
 
@@ -65,7 +60,7 @@ window.ProjectView = Backbone.View.extend({
     close: function() {            
         this.unbind(); 
         this.depProjectsListView.close()
-        this.projectUserListView.close()
+        this.projectUsersMasterView.close()
         this.sampleCodeMasterView.close()
         this.similarProjectsListView.close()
     },
@@ -84,14 +79,14 @@ window.ProjectView = Backbone.View.extend({
         $("#like", this.el).attr('src', //$("#like", this.el).attr('src')+'')
           "//www.facebook.com/plugins/like.php?href=" + url + "&send=false&layout=button_count&width=450&show_faces=false&action=like&colorscheme=light&font&height=21")
         
-        this.projectUserListView.render()
-        $("#user-list", this.el).html(this.projectUserListView.el);
+        //this.projectUsersMasterView.render()
+        $("#user-tab", this.el).html(this.projectUsersMasterView.el);
 
         this.depProjectsListView.render()
         $("#dep-projects-list", this.el).html(this.depProjectsListView.el);
 
-        this.sampleCodeMasterView.render()
-        $("#sample-code-list", this.el).html(this.sampleCodeMasterView.el);
+        //this.sampleCodeMasterView.render()
+        $("#sample-code-tab", this.el).html(this.sampleCodeMasterView.el);
         
         $('#myTab a[href="#users"]', this.el).text("Users ("+this.model.get("total_watch")+")")        
         $('#myTab a[href="#projects"]', this.el).text("Projects ("+this.model.get("total_deps")+")")

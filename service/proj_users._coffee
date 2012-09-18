@@ -9,7 +9,8 @@ exports.index = (req, res, _) ->
   console.log "startGetProjectUsersIndex"
   login = req.query.$login ? ""
   company = req.query.company ? ""
-  key = "proj_users_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{login}_#{company}"    
+  country = req.query.country ? ""
+  key = "proj_users_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{login}_#{company}_#{country}"
   utils.handleRequestCache res, req, key, getProjUsers, _ 
 
 getProjUsers = (req, _) ->  
@@ -36,6 +37,15 @@ getProjUsers = (req, _) ->
     company = utils.encodeStringCypher company
     qry += "AND u.company =~ /(?i)#{company}/\n"
     #params.company = ".*?" + company + ".*?"      
+
+  country = req.query['country']
+  
+  if (country)    
+    country = inj.sanitizeString country    
+    country = utils.encodeStringCypher country
+    qry += "AND u.location =~ /(?i)#{country}/\n"
+    #params.country = ".*?" + country + ".*?"      
+
 
   qry +=    "WITH distinct u as u, n as n
             MATCH p = shortestPath( n<-[*..#{utils.max_depth}]-u )
@@ -78,11 +88,28 @@ getProjUsers = (req, _) ->
 exports.projectUsersCompanies = (req, res, _) ->  
   key = "projectUsersCompanies_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, projectUsersCompaniesInternal, _ 
+
+exports.projectUsersCountries = (req, res, _) ->  
+  key = "projectUsersCountires_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
+  utils.handleRequestCache res, req, key, projectUsersCountriesInternal, _ 
   
 projectUsersCompaniesInternal = (req, _) ->   
+  projectUsersFilterDimentionInternal req, "company", _
+
+projectUsersCountriesInternal = (req, _) ->   
+  projectUsersFilterDimentionInternal req, "location", _
+
+
+projectUsersFilterDimentionInternal = (req, dimention, _) ->   
   prj_name = inj.sanitizeString req.params.project  
-  qry = "start n=node:node_auto_index(type='user') WHERE n.company<>'' 
-         return n.company, count(n) as count order by count DESC\n"
+  
+  #u.company should have at least one letter, to avoid just spcaes
+  qry = "START  n=node:node_auto_index(name='#{prj_name}')
+         MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)
+         WHERE u.#{dimention}<>''
+         WITH u as user, count(*) as tmp
+         RETURN user.#{dimention} as name, count(*) as count
+         ORDER BY count(*) DESC\n"
 
   params = {}
   
@@ -101,8 +128,9 @@ projectUsersCompaniesInternal = (req, _) ->
     
   start = utils.startTiming()  
   refs = db.query qry, params, _  
-  utils.endTiming(start, "projectUsersCompaniesInternal main query")  
+  utils.endTiming(start, "projectUsers#{dimention}Internal main query")  
   JSON.stringify(refs, null, 4)
+
 
 exports.projectUserCount = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "text/plain"}

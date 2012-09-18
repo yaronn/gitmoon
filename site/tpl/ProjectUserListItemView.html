@@ -2,60 +2,64 @@
 
 <div class="row"> 
     
-    <div class="span8">
+    
         
-        <div style="float:left">
+        <div style="float:left; margin-right: 25px;">
         <a href="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=200"><img src="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=90" /></a>
         </div>
 
-        <div style="float:left; margin-left: 25px; width: 500px;">
+        <div>
 
-        <div style="margin-bottom:5px">
-        <a  target="_blank" href="https://github.com/<%= login %>" style="font-size:18px; font-weight: bold;">
-			<% if (full_name) {%>
-			<%= full_name%> (<%= login %>)
-			<%} else {%>
-			<%= login %>
+	        <div style="margin-bottom:5px">
+	        <a  target="_blank" href="https://github.com/<%= login %>" style="font-size:18px; font-weight: bold;">
+				<% if (full_name) {%>
+				<%= full_name%> (<%= login %>)
+				<%} else {%>
+				<%= login %>
+				<%}%>
+			</a>
+			</div>
+			
+			<% if (location) {%>
+			<i class="icon-home"></i> lives in <%= location%><br />
 			<%}%>
-		</a>
-		</div>
-		
-		<% if (location) {%>
-		<i class="icon-home"></i> lives in <%= location%><br />
-		<%}%>
 
 
-		<% if (company) {%>
-		<i class="icon-briefcase"></i> works at <%= company%><br />
-		<%}%>
+			<% if (company) {%>
+			<i class="icon-briefcase"></i> works at <%= company%><br />
+			<%}%>
 
-		<% if (blog) {%>
-		<i class="icon-globe"></i> <a href="<%= blog%>"><%= blog%></a><br />
-		<%}%>
+			<% if (blog) {%>
+			<i class="icon-globe"></i> <a href="<%= blog%>"><%= blog%></a><br />
+			<%}%>
 
-		<i class="icon-eye-open"></i> watches 
-		<% for (i in dependency_path) {%>
+			<i class="icon-eye-open"></i> watches 
+			<% for (i in dependency_path) {%>
 
-		<a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
+			<a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
 
-		<%if (i<dependency_path.length-1) {%>
-		<i class="icon-arrow-right"></i>
-		<%}%>
+			<%if (i<dependency_path.length-1) {%>
+			<i class="icon-arrow-right"></i>
+			<%}%>
 
-		<%}%>
-		<br />
+			<%}%>
+			<br />
 
-		
-		</section>
+			
+			</section>
 
-		<% if (bio) {%>
-		<br />
-		<i><%= bio%></i><br />
-		<%}%>
+			<% if (bio) {%>
+			<br />
+			<i><%= bio%></i><br />
+			<%}%>
 
 		</div>
-    </div>
+
+
+
 
 </div>
 
-<hr />
+<div class="row">
+	<hr align="left" style="width: 100%; margin-left: 0px" />
+</div>

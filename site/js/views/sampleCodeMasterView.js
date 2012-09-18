@@ -38,6 +38,14 @@ window.SampleCodeMasterView = Backbone.View.extend({
         
     render:function () {
         var self = this 
+
+        if (!this.isLoaded) {
+            this.projectsList.fetch();
+            this.sampleCodeListView.filterByAllProjects()
+            this.sampleCodeListView.trackScroll(true)            
+        }
+        this.isLoaded = true
+        
         $('#code-samples', this.el).html(self.sampleCodeListView.el);        
         
         this.projectsView.render()
@@ -54,13 +62,5 @@ window.SampleCodeMasterView = Backbone.View.extend({
         this.sampleCodeListView.trackScroll(shouldTrack)
     },
 
-    tabVisible: function() {
-        if (!this.isLoaded) {
-            this.projectsList.fetch();
-            this.sampleCodeListView.filterByAllProjects()
-            this.sampleCodeListView.trackScroll(true)
-        }
-        this.isLoaded = true
-    }
 
 });

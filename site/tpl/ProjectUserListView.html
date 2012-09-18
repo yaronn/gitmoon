@@ -1,4 +1,6 @@
- 
+
+
+<div class="row"> 
     	<div class="control-group" style="margin-left: 1px">
           <div class="controls">
             <div class="input-prepend">
@@ -6,13 +8,21 @@
             </div>
           </div>
 	    </div>        
- 
+</div> 
 
-<hr />
 
-    
-        <div id="users-list"></div>        
+<!--workaround: only row within row gives the effect of HR spreading to all edges-->
+<div class="row">
+  <div class="row">
+    <hr align="left" style="width: 100%; margin-left: 0px" />
+  </div>
+</div>
+
+<div class="row">     
+  <div id="users-list"></div>        
+</div>
   
-	
+<div class="row"> 	
 		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+</div>
 

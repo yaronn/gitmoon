@@ -4,7 +4,7 @@ window.ListViewModel = window.PagedList.extend({
       this.getCountUrl = options.getCountUrl   
       window.PagedList.prototype.initialize.call(this, null, 
          {model: options.model, url: options.url, page_size: options.page_size})
-   },
+   },   
 
    getTotalCount: function(cbx)
    {
