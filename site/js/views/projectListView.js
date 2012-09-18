@@ -1,4 +1,5 @@
 
+
 window.ProjectListView = Backbone.View.extend({
 
     events: {
@@ -30,8 +31,8 @@ window.ProjectListView = Backbone.View.extend({
 
         $("#search", this.el).css("width",  this.mode=="side"?"80px":"200px")
         $("#search", this.el).attr("placeholder",  this.mode=="side"?"find project...":"find npm project...")
-
-        var span = this.mode=="side"?"span2":"span5"        
+                
+        $("#wrapper", this.el).attr("class", this.mode=="side"?"span2":"span5"  )  
         $("#divPager", this.el).attr("class",  this.mode=="side" ? "span2" : "span3" )
         $("#divList", this.el).attr("class",  this.mode=="side" ? "span2" : "span3" )        
         $("#divSearch", this.el).attr("class",  this.mode=="side" ? "span2" : "span5")
@@ -51,7 +52,7 @@ window.ProjectListView = Backbone.View.extend({
 
     render:function () {        
         this.list.empty()
-        
+       
         if (this.model.currentPage==0) $("#prev", this.el).css("visibility", "hidden")
         else $("#prev", this.el).css("visibility", "")     
        

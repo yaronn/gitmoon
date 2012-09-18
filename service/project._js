@@ -27,26 +27,26 @@ function getAllProjects(req, _) {
     qry = 'START n=node:node_auto_index("name_lower:*'+name+'*")\n'
   }
 
-  qry += 'WHERE HAS(n.type) and n.type="project"'
-  qry += "\n"  
-  qry +=    'RETURN ID(n) as id, n.name as name\n' +
-            'ORDER BY n.name_lower\n'
+  qry += 'WHERE HAS(n.type) and n.type="project"\n'
+  qry += 'WITH n.name as name, n.name_lower as name_lower, count(*) as count\n'
+  qry += 'RETURN name\n' +
+         'ORDER BY name_lower\n'
   
   var skip = req.query['$skip']
 
   if (skip) {
-    qry += "SKIP {_skip}\n"
+    qry += "SKIP " + skip + "\n"
     params._skip = parseInt(skip)
   }
 
   var top = req.query['$top']  
   if (top) {
-    qry += "LIMIT {top}\n"
+    qry += "LIMIT " + top + "\n"
     params.top = parseInt(top)
   }
-  
-  //console.log(qry)
-  //console.log(params)
+
+  console.log(qry)
+  console.log(params)
   
   var start = utils.startTiming()        
   results = db.query(qry, params, _)  
