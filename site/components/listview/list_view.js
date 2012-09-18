@@ -32,7 +32,7 @@ window.ListViewView = Backbone.View.extend({
 
         if (this.firstTime) $("#loading", this.el).css("visibility", "hidden")       
 
-        this.model.getTotalCount(function(count) {            
+        this.model.getTotalCount(function(count) {
             $("#all-items-count", self.el).text(count)    
         })
         

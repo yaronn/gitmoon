@@ -8,7 +8,9 @@ window.ListViewModel = window.PagedList.extend({
 
    getTotalCount: function(cbx)
    {
-      $.ajax({url: this.getCountUrl})
+
+      var url = this.getCountUrl
+      $.ajax({url: url})
                .done(function(res) {
                   cbx(res)
                })

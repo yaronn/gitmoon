@@ -83,5 +83,6 @@ getCodeSamples = (req, _) ->
 exports.getCount = (req, res, _) ->  
   prj_name = inj.sanitizeString req.params.project
   qry = "START c=node:node_auto_index(project_used_name='#{prj_name}') RETURN count(*) as count"
-  data = db.query qry, {}, _  
+  data = db.query qry, {}, _
+  res.writeHead 200, {"Content-Type": "text/plain"} 
   res.end data[0].count.toString()
