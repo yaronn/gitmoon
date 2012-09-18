@@ -79,10 +79,15 @@ getCodeSamples = (req, _) ->
   utils.endTiming(start, "getCodeSamples loop query")
   JSON.stringify(all_samples, null, 4)  
 
+exports.getCodeSamplesCount = (req, res, _) ->  
+  res.writeHead 200, {"Content-Type": "text/plain"}
+  key = "sample_code_#{req.params.project}_count"
+  utils.handleRequestCache res, req, key, getCodeSamplesCount, _ 
 
-exports.getCount = (req, res, _) ->  
+getCodeSamplesCount = (req, _) ->
   prj_name = inj.sanitizeString req.params.project
   qry = "START c=node:node_auto_index(project_used_name='#{prj_name}') RETURN count(*) as count"
-  data = db.query qry, {}, _
-  res.writeHead 200, {"Content-Type": "text/plain"} 
-  res.end data[0].count.toString()
+  start = utils.startTiming()  
+  data = db.query qry, {}, _  
+  utils.endTiming(start, "getCodeSamplesCount")
+  data[0].count.toString()

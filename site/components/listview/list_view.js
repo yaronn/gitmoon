@@ -16,6 +16,11 @@ window.ListViewView = Backbone.View.extend({
             
         this.model.bind("reset", function() { 
             $("#loading", this.el).css("visibility", "hidden")
+            
+            this.model.getTotalCount(function(count) {
+                $("#all-items-count", self.el).text(count)    
+            })
+            
             self.render()
         }, this);
 
@@ -30,13 +35,8 @@ window.ListViewView = Backbone.View.extend({
         
         $(this.el).html(this.template())        
 
-        if (this.firstTime) $("#loading", this.el).css("visibility", "hidden")       
-
-        this.model.getTotalCount(function(count) {
-            $("#all-items-count", self.el).text(count)    
-        })
+        //if (this.firstTime) $("#loading", this.el).css("visibility", "hidden")       
         
-
         this.list = $("#other-items", this.el)
     },
 
@@ -44,7 +44,7 @@ window.ListViewView = Backbone.View.extend({
     render:function () {   
         var self = this     
         this.list.empty()
-        
+                
         if (this.model.currentPage == undefined  || this.model.currentPage==0) 
             $("#prev", this.el).css("visibility", "hidden")
         else 

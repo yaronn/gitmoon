@@ -32,8 +32,7 @@ window.SampleCodeMasterView = Backbone.View.extend({
         this.projectsView.bind("allProjectsChosen", function() {
           self.sampleCodeListView.filterByAllProjects()          
         })
-              
-        this.projectsList.fetch();
+                      
       
     },
         
@@ -57,6 +56,7 @@ window.SampleCodeMasterView = Backbone.View.extend({
 
     tabVisible: function() {
         if (!this.isLoaded) {
+            this.projectsList.fetch();
             this.sampleCodeListView.filterByAllProjects()
             this.sampleCodeListView.trackScroll(true)
         }
