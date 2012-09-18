@@ -7,7 +7,7 @@ var async = require('async')
 
 exports.index = function(req, res, _) {
   name = req.query.$name ? req.query.$name : ""
-  key = "all_projects_" + req.query.$skip + "_"+req.query.$top + "_" + name
+  key = "all_projects_" + req.query.$skip + "_"+req.query.$top + "_" + name  
   utils.handleRequestCache(res, req, key, getAllProjects, _)
 }
 

@@ -21,7 +21,14 @@ sample_code_using_projects = app.resource 'sample_code_using_projects', require(
 proj.add sample_code_using_projects
 
 app.get '/projects/:project/sample_code/count', (req, res, _) ->		
-	require('./service/sample_code').getCodeSamplesCount req, res
+	require('./service/sample_code').getCodeSamplesCount req, res, _
+
+app.get '/projects/:project/users/companies', (req, res, _) ->		
+	require('./service/proj_users').projectUsersCompanies req, res, _
+
+app.get '/projects/:project/users/count', (req, res, _) ->		
+	require('./service/proj_users').projectUserCount req, res, _
+
 
 app.use express.static('./site', { maxAge: 60000*0.5 }) #half hour cache
 

@@ -32,6 +32,7 @@ exports.fillPathNodeNames = (node, _) ->
   path.slice(0, path.length-1).reverse()
 
 exports.answerFromCache = (response, key, _) ->    
+  key = module.exports.encodeMemcached key
   try    
     cache = mem.get key, _    
     if cache
@@ -45,6 +46,7 @@ exports.answerFromCache = (response, key, _) ->
   return false
 
 exports.insertCacheAndAnswer = (key, result, response, _) ->
+  key = module.exports.encodeMemcached key
   try
     #60*60*24 - a day, 0 - never expires
     mem.set key, result, 0, _
@@ -72,3 +74,6 @@ exports.endTiming = (start, title) ->
 
 exports.encodeStringCypher = (s) ->
   return s.replace /["]/g, ""
+
+exports.encodeMemcached = (s) ->
+  return s.replace /[ ]/g, ""  
