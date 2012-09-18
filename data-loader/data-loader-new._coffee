@@ -403,8 +403,7 @@ analyzeCodeFiles = (using_project, files, root, _) ->
 				iGlobalUsage++
 				console.log "end analyze usage #{iGlobalUsage}/#{totalUsage} for #{using_project.data.name}"
 
-setProjectRating = (_) ->
-	db = new neo4j.GraphDatabase 'http://localhost:7474'
+setProjectRating = (_) ->	
 	qry = "START u=node(*) WHERE u.type='user' WITH count(distinct u) as total_watchers
 	   START n=node(*) MATCH (n)<-[:watches]-(y) WITH count(*) as prj_watchers_count, n as n, 
 	   		total_watchers as total_watchers
@@ -429,9 +428,9 @@ init_config = (_) ->
 
 #makeAllStale _ #optional
 
-updateGithub 200, _
+#updateGithub 200, _
 
-#setProjectRating _
+setProjectRating _
 
 ###
 #delete everything without type property
