@@ -21,7 +21,7 @@ window.SampleCodeMasterView = Backbone.View.extend({
         this.projectsList = new ListViewModel(null, {model: ListItemModel, 
                 url: '/projects/'+options.projectName+'/sample_code_using_projects',
                 getCountUrl: '/projects/'+options.projectName+'/sample_code/count',
-                "page_size": 15});
+                "page_size": 20});
 
         this.projectsView = new ListViewView({model: this.projectsList})
 
