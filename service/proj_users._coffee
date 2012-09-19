@@ -48,7 +48,7 @@ getProjUsers = (req, _) ->
 
 
   qry +=    "WITH distinct u as u, n as n
-            MATCH p = shortestPath( n<-[*..#{utils.max_depth}]-u )
+            MATCH p = shortestPath( n<-[*..#{utils.max_depth+1}]-u )
             RETURN u as user, p as path, length(p) as len
             ORDER BY LENGTH(u.gravatar_id) DESC, u.login_lower\n"
   
