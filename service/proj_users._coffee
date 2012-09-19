@@ -6,7 +6,6 @@ db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
 
 exports.index = (req, res, _) ->
   
-  console.log "startGetProjectUsersIndex"
   login = req.query.$login ? ""
   company = req.query.company ? ""
   country = req.query.country ? ""
@@ -77,7 +76,7 @@ getProjUsers = (req, _) ->
   users.forEach_ _, (_, u) ->  
     if first then first = false 
     else result += ","
-    u.user.data.dependency_path = utils.fillPathNodeNames u, _    
+    u.user.data.dependency_path = []#utils.fillPathNodeNames u, _    
     u.user.data.id = u.user.id    
     result += JSON.stringify(u.user.data, null, 4) + "\n"
   utils.endTiming(start, "getProjUsers loop")
@@ -145,5 +144,4 @@ getProjectUserCountInternal = (req, _) ->
   start = utils.startTiming()  
   data = db.query qry, {}, _  
   utils.endTiming(start, "getProjectUserCountInternal")
-  console.log data[0]
   data[0].count.toString()

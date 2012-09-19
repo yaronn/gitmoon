@@ -12,7 +12,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         var self = this    
         $(this.el).html(this.template());                                            
         
-        this.currentDimention = "countries"
+        this.currentDimention = "country"
         this.projectUserList = new PagedList(null, 
             { "model": ProjectUser
             , "url": "/projects/" + options.projectName + "/users"
@@ -85,8 +85,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
     },
 
     clearDimentions: function(dimention) {
-        this.projectUserListView.clearDimentionFilter("country")          
-        this.projectUserListView.clearDimentionFilter("company")          
+        this.projectUserListView.clearDimentionFilter(["country", "company"])        
+        this.projectUserListView.refreshData()
     },
 
     initDimentionList: function(url_key) {
@@ -105,6 +105,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
         this.dimentionListView.bind("allItemsChosen", function() {
             self.projectUserListView.clearDimentionFilter(self.currentDimention)
+            self.projectUserListView.refreshData()
         })
         
         this.dimentionList.fetch()

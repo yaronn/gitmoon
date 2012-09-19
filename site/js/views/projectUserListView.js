@@ -11,12 +11,13 @@ window.ProjectUserListView = ListView.extend({
     filterByDimention: function(dimention, name) {              
        delete this.model.server_api[dimention]       
        this.model.server_api[dimention] = name
-       this.filterByDimentionInternal()
+       this.filterByDimentionInternal()       
     },
-
-    clearDimentionFilter: function(dimention) {      
-      delete this.model.server_api[dimention]
-      this.filterByDimentionInternal()
+   
+    clearDimentionFilter: function(dimentions) {      
+      for (i in dimentions) 
+        delete this.model.server_api[dimentions[i]]
+      this.filterByDimentionInternal()      
     },
 
     filterByDimentionInternal: function() {
@@ -24,7 +25,11 @@ window.ProjectUserListView = ListView.extend({
        self.list.empty()
        $("#loading", this.el).css("visibility", "")         
        self.model.currentPage = 0       
-       self.model.fetch()
+       this.refreshData()
+    },
+
+    refreshData: function() {
+       this.model.fetch()
     }
 
 });
