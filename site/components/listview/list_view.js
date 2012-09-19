@@ -5,7 +5,7 @@ window.ListViewView = Backbone.View.extend({
       "click #prev": "prev",      
       "click #next": "next",   
       "click #all-items": function(e) {
-        this.trigger("allProjectsChosen")                        
+        this.trigger("allItemsChosen")                        
         return false
       }         
     },
@@ -16,7 +16,7 @@ window.ListViewView = Backbone.View.extend({
 
         this.model.bind("reset", function() {             
             
-            $("#loading", this.el).css("visibility", "hidden")
+            $("#loading", this.el).hide()
             
             this.model.getTotalCount(function(count) {
                 $("#all-items-count", self.el).text(count)    
@@ -27,16 +27,16 @@ window.ListViewView = Backbone.View.extend({
 
         this.model.bind("add", function (item) {
             var itemView = new ListViewItemView({model:item})
-            itemView.bind("projectChosen", function(project)
+            itemView.bind("itemChosen", function(item)
             {
-                self.trigger("projectChosen", project)
+                self.trigger("itemChosen", item)
             })
             $(self.el).append(itemView.render().el);
         });        
         
         $(this.el).html(this.template())                
 
-        //if (this.firstTime) $("#loading", this.el).css("visibility", "hidden")       
+        //if (this.firstTime) $("#loading", this.el).hide()
         
         this.list = $("#other-items", this.el)
     },
@@ -47,18 +47,18 @@ window.ListViewView = Backbone.View.extend({
         this.list.empty()
                 
         if (this.model.currentPage == undefined  || this.model.currentPage==0) 
-            $("#prev", this.el).css("visibility", "hidden")
+            $("#prev", this.el).hide()
         else 
-            $("#prev", this.el).css("visibility", "")     
+            $("#prev", this.el).show()
        
-        if (this.model.models.length<this.model.paginator_ui.perPage ) $("#next", this.el).css("visibility", "hidden")
-        else $("#next", this.el).css("visibility", "")             
+        if (this.model.models.length<this.model.paginator_ui.perPage ) $("#next", this.el).hide()
+        else $("#next", this.el).show()
 
-        _.each(this.model.models, function (project) {
-            var itemView = new ListViewItemView({model:project})
-            itemView.bind("projectChosen", function(project)
+        _.each(this.model.models, function (item) {
+            var itemView = new ListViewItemView({model:item})
+            itemView.bind("itemChosen", function(item)
             {
-                self.trigger("projectChosen", project)
+                self.trigger("itemChosen", item)
             })
             this.list.append(itemView.render().el);
         }, this);
@@ -79,8 +79,8 @@ window.ListViewView = Backbone.View.extend({
         
     },
 
-    refreshData: function() {
-        $("#loading", this.el).css("visibility", "")         
+    refreshData: function() {        
+        $("#loading", this.el).show()        
         this.model.fetch()
     }
 

@@ -21,11 +21,11 @@ window.Router = Backbone.Router.extend({
 
       var v = new ListViewView({model: list})
 
-      v.bind("projectChosen", function(name) {
+      v.bind("itemChosen", function(name) {
         alert(name)
       })
 
-      v.bind("allProjectsChosen", function() {
+      v.bind("allItemsChosen", function() {
         alert("all")
       })
       

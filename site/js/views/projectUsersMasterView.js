@@ -2,14 +2,17 @@
 
 window.ProjectUsersMasterView = Backbone.View.extend({
 
-    events: {
-        "change #cbxDimention": "changeDimention"        
+    events: {        
+        "click #byCountry": "setCountryDimention",
+        "click #byCompany": "setCompanyDimention"
+
     },
 
     initialize: function(options) {                                   
         var self = this    
         $(this.el).html(this.template());                                            
         
+        this.currentDimention = "countries"
         this.projectUserList = new PagedList(null, 
             { "model": ProjectUser
             , "url": "/projects/" + options.projectName + "/users"
@@ -48,11 +51,23 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         this.projectUserListView.trackScroll(shouldTrack)
     },
 
-    changeDimention: function(e) {
-        this.clearDimention("country")                
-        this.clearDimention("company")                
-        if (e.target.value=="country") this.changeDimentionInternal("countries");
-        else this.changeDimentionInternal("companies");
+
+    setCountryDimention: function(e) {
+        this.clearDimentions()
+        $("#liCountry", this.el).attr("class", "active")
+        $("#liCompany", this.el).attr("class", "")
+        this.currentDimention = "country"
+        this.changeDimentionInternal("countries")
+        return false        
+    },
+
+    setCompanyDimention: function(e) {
+        this.clearDimentions()
+        $("#liCountry", this.el).attr("class", "")
+        $("#liCompany", this.el).attr("class", "active")
+        this.currentDimention = "company"
+        this.changeDimentionInternal("companies")
+        return false
     },
 
     changeDimentionInternal: function(url_key) {
@@ -69,8 +84,9 @@ window.ProjectUsersMasterView = Backbone.View.extend({
          this.dimentionListView.refreshData()                  
     },
 
-    clearDimention: function(dimention) {
-        this.projectUserListView.clearDimentionFilter(dimention)          
+    clearDimentions: function(dimention) {
+        this.projectUserListView.clearDimentionFilter("country")          
+        this.projectUserListView.clearDimentionFilter("company")          
     },
 
     initDimentionList: function(url_key) {
@@ -83,13 +99,12 @@ window.ProjectUsersMasterView = Backbone.View.extend({
                 
         this.dimentionListView = new ListViewView({model: this.dimentionList})
 
-        var cbx = $("#cbxDimention", this.el)
-        this.dimentionListView.bind("projectChosen", function(name) {             
-            self.projectUserListView.filterByDimention(cbx.val(), name)          
+        this.dimentionListView.bind("itemChosen", function(name) {            
+            self.projectUserListView.filterByDimention(self.currentDimention, name)          
         })
 
-        this.dimentionListView.bind("allProjectsChosen", function() {
-            self.projectUserListView.clearDimentionFilter(cbx.val())
+        this.dimentionListView.bind("allItemsChosen", function() {
+            self.projectUserListView.clearDimentionFilter(self.currentDimention)
         })
         
         this.dimentionList.fetch()

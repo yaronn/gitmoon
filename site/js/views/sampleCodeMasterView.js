@@ -25,11 +25,11 @@ window.SampleCodeMasterView = Backbone.View.extend({
 
         this.projectsView = new ListViewView({model: this.projectsList})
 
-        this.projectsView.bind("projectChosen", function(name) {
+        this.projectsView.bind("itemChosen", function(name) {
             self.sampleCodeListView.filterByProject(name)          
         })
 
-        this.projectsView.bind("allProjectsChosen", function() {
+        this.projectsView.bind("allItemsChosen", function() {
           self.sampleCodeListView.filterByAllProjects()          
         })
                       

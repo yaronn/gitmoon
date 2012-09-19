@@ -1,6 +1,6 @@
 neo4j = require 'neo4j'
 config = require '../common/config'
-db = new neo4j.GraphDatabase(config.neo4j)
+db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
 
 nMemcached = require( 'memcached' )
 mem = new nMemcached  config.memcached

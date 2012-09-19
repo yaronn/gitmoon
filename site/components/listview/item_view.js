@@ -12,8 +12,8 @@ window.ListViewItemView = Backbone.View.extend({
    },
 
    clicked: function(e) {      
-      var proj = $(e.currentTarget).attr("project")
-      this.trigger("projectChosen", proj)      
+      var proj = $(e.currentTarget).attr("item")
+      this.trigger("itemChosen", proj)      
       return false
    }
 
