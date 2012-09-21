@@ -42,7 +42,7 @@ getProjUsers = (req, _) ->
   if (country)    
     country = inj.sanitizeString country    
     country = utils.encodeStringCypher country
-    qry += "AND u.location =~ /(?i)#{country}/\n"
+    qry += "AND HAS(u.country) AND u.country =~ /(?i)#{country}/\n"
     #params.country = ".*?" + country + ".*?"      
 
 
@@ -76,7 +76,7 @@ getProjUsers = (req, _) ->
   users.forEach_ _, (_, u) ->  
     if first then first = false 
     else result += ","
-    u.user.data.dependency_path = []#utils.fillPathNodeNames u, _    
+    u.user.data.dependency_path = utils.fillPathNodeNames u, _    
     u.user.data.id = u.user.id    
     result += JSON.stringify(u.user.data, null, 4) + "\n"
   utils.endTiming(start, "getProjUsers loop")
@@ -96,7 +96,7 @@ projectUsersCompaniesInternal = (req, _) ->
   projectUsersFilterDimentionInternal req, "company", _
 
 projectUsersCountriesInternal = (req, _) ->   
-  projectUsersFilterDimentionInternal req, "location", _
+  projectUsersFilterDimentionInternal req, "country", _
 
 
 projectUsersFilterDimentionInternal = (req, dimention, _) ->   
@@ -105,7 +105,7 @@ projectUsersFilterDimentionInternal = (req, dimention, _) ->
   #u.company should have at least one letter, to avoid just spcaes
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)
-         WHERE u.#{dimention}<>''
+         WHERE HAS(u.#{dimention}) AND u.#{dimention}<>''
          WITH u as user, count(*) as tmp
          RETURN user.#{dimention} as name, count(*) as count
          ORDER BY count(*) DESC\n"

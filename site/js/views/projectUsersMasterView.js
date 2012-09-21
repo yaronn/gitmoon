@@ -12,7 +12,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         var self = this    
         $(this.el).html(this.template());                                            
         
-        this.currentDimention = "country"
+        this.currentDimention = new this.countriesDimention()
         this.projectUserList = new PagedList(null, 
             { "model": ProjectUser
             , "url": "/projects/" + options.projectName + "/users"
@@ -30,16 +30,17 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
         if (!this.isLoaded) {            
             this.initDimentionList("countries")
+            this.setCountryDimention()
+            this.currentDimention.showAllItems(self.el)
             this.projectUserList.fetch()
             this.projectUserListView.trackScroll(true)            
+            $('#users-list', this.el).html(self.projectUserListView.el);        
+            //this.dimentionListView.render()
+            $('#dimention-list', this.el).html(self.dimentionListView.el);
+
         }
         this.isLoaded = true
-
-        $('#users-list', this.el).html(self.projectUserListView.el);        
-
-        //this.dimentionListView.render()
-        $('#dimention-list', this.el).html(self.dimentionListView.el);        
-
+    
         return this;
     },
 
@@ -53,21 +54,30 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
 
     setCountryDimention: function(e) {
-        this.clearDimentions()
-        $("#liCountry", this.el).attr("class", "active")
-        $("#liCompany", this.el).attr("class", "")
-        this.currentDimention = "country"
-        this.changeDimentionInternal("countries")
-        return false        
+        this.currentDimention = new this.countriesDimention()
+        return this.changeDimention()
     },
 
+
     setCompanyDimention: function(e) {
+        this.currentDimention = new this.companiesDimention()
+        return this.changeDimention()
+    },
+
+    changeDimention: function() {
         this.clearDimentions()
-        $("#liCountry", this.el).attr("class", "")
-        $("#liCompany", this.el).attr("class", "active")
-        this.currentDimention = "company"
-        this.changeDimentionInternal("companies")
+        this.flipLinks(this.currentDimention.getName())                        
+        this.currentDimention.showAllItems()
+        this.changeDimentionInternal(this.currentDimention.getUrlKey())
         return false
+    },
+
+    flipLinks: function(name) {
+        var isCountry = name == "country"
+        $("#liCountry", this.el).attr("class", isCountry?"active":"")
+        $("#liCompany", this.el).attr("class", isCountry?"":"active")
+        $("#liGlobe", this.el).attr("class", "icon-globe"+(isCountry?" icon-white":""))
+        $("#liBriefcase", this.el).attr("class", "icon-briefcase"+(isCountry?"":" icon-white"))
     },
 
     changeDimentionInternal: function(url_key) {
@@ -99,16 +109,63 @@ window.ProjectUsersMasterView = Backbone.View.extend({
                 
         this.dimentionListView = new ListViewView({model: this.dimentionList})
 
-        this.dimentionListView.bind("itemChosen", function(name) {            
-            self.projectUserListView.filterByDimention(self.currentDimention, name)          
+        this.dimentionListView.bind("itemChosen", function(name) {                        
+            self.projectUserListView.filterByDimention(self.currentDimention.getName(), name)                      
+            self.currentDimention.showItem(name, self.el)
         })
 
         this.dimentionListView.bind("allItemsChosen", function() {
-            self.projectUserListView.clearDimentionFilter(self.currentDimention)
-            self.projectUserListView.refreshData()
+            self.projectUserListView.clearDimentionFilter(self.currentDimention.getName())            
+            self.currentDimention.showAllItems(self.el)
         })
         
-        this.dimentionList.fetch()
+        //this.dimentionList.fetch()
+    },
+
+    countriesDimention: function() {
+
+        this.getName = function() { return "country" }        
+        
+        this.getUrlKey = function() { return "countries" }        
+        
+        this.showItem = function(item, root) {
+            $("#item-name", root).text(item)          
+            var item_canonized = item
+            if (item_canonized.toLowerCase()=="united states")
+                item_canonized = "United States of America"
+
+            var encodedItem = item_canonized.replace(/[ ]/g, "_")            
+            url = "/img/flags/"+encodedItem+".png"
+            $("#item-image", root).attr("src", url)
+        }
+
+        this.showAllItems = function(root) {
+            $("#item-name", root).text("All Countries")
+            $("#item-image", root).attr("src", "http://www.flags.net/images/largeflags/FRAN0001.GIF")
+        }
+
+        return this
+    },
+
+    companiesDimention: function() {
+
+        this.getName = function() { return "company" }        
+        
+        this.getUrlKey = function() { return "companies" }        
+        
+        this.showItem = function(item, root) {
+            $("#item-name", root).text(item)                        
+            var name = item.toLowerCase().replace(/[!]/g, "")            
+            $("#item-image", root).attr("src", "/img/companies/"+name+".jpg")
+        }
+
+        this.showAllItems = function(root) {
+            $("#item-name", root).text("All Companies")            
+            $("#item-image", root).attr("src", "http://www.flags.net/images/largeflags/FRAN0001.GIF")
+        }
+
+        return this
     }
+
 
 });

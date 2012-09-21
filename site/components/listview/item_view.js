@@ -7,7 +7,9 @@ window.ListViewItemView = Backbone.View.extend({
    },
 
    render: function () {        
-       $(this.el).html(this.template(this.model.toJSON()));
+       var data = this.model.toJSON()
+       _.extend(data, viewHelpers);
+       $(this.el).html(this.template(data));
        return this;
    },
 
@@ -18,3 +20,13 @@ window.ListViewItemView = Backbone.View.extend({
    }
 
 })
+
+var viewHelpers = {
+
+  //ugly WA... need to have extensibility for it
+  canonize: function(name){    
+    if (name=="United States") return "US"
+    if (name=="United Kingdom") return "UK"
+    return name;
+  }
+}

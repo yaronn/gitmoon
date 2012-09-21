@@ -411,6 +411,45 @@ setProjectRating = (_) ->
 	   
 	db.query qry, _
 
+parseLocations = (_) ->	
+	qry = "START u=node(*) WHERE u.type='user' AND HAS(u.location) and u.location<>''
+		   and (not has(u.city)) and (not has(u.country)) and (not has(u.state))
+		   return u limit 10000"
+	   
+	i = 0
+	users = db.query qry, _	
+	users.forEach_ _, 5, (_, r) ->
+		try
+			info = request.get "http://where.yahooapis.com/geocode?location=#{r.u.data.location}&flags=J", _
+				
+			try
+				json = JSON.parse(info.body)
+			catch e
+				console.log info.body
+				throw e
+
+			if json.ResultSet.Found==0
+				console.log "no info found for #{r.u.data.location}"
+				r.u.data.location_parse = "fail"
+			else
+				#console.log r.u.data.location	
+				#console.log "-->"
+				#console.log "city:" + json.ResultSet.Results[0].city
+				#console.log "state:" + json.ResultSet.Results[0].state
+				#console.log "country:" + json.ResultSet.Results[0].country
+				r.u.data.city = json.ResultSet.Results[0].city
+				r.u.data.state = json.ResultSet.Results[0].state
+				r.u.data.country = json.ResultSet.Results[0].country
+			r.u.save _
+			i = i+1
+			console.log i
+			console.log r.u.data.country
+		catch e
+			console.log e
+			console.log r.u.data.location
+
+
+
 
 init_config = (_) ->
 	config = db.getIndexedNode 'node_auto_index', 'type', 'config', _				
@@ -431,6 +470,8 @@ init_config = (_) ->
 #updateGithub 200, _
 
 #setProjectRating _
+
+parseLocations _
 
 ###
 #delete everything without type property
