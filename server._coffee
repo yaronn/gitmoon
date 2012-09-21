@@ -29,6 +29,9 @@ app.get '/projects/:project/users/companies', (req, res, _) ->
 app.get '/projects/:project/users/countries', (req, res, _) ->		
 	require('./service/proj_users').projectUsersCountries req, res, _
 
+app.get '/projects/:project/users/us_states', (req, res, _) ->		
+	require('./service/proj_users').projectUsersUSStates req, res, _
+
 app.get '/projects/:project/users/count', (req, res, _) ->		
 	require('./service/proj_users').projectUserCount req, res, _
 

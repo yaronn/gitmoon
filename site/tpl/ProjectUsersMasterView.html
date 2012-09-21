@@ -1,13 +1,22 @@
 
 
-	<div>
-		<ul class="nav nav-pills">
+	<div class="row">
 
-		  <li id="liCountry" class="active">		  	
-		    <a href="#" id="byCountry"><i id="liGlobe" class="icon-globe icon-white"></i> By Country</a>
-		  </li>
-		  <li id="liCompany"><a href="#" id="byCompany"><i id="liBriefcase" class="icon-briefcase"></i> By Company</a></li>		  
-		</ul>
+		<div class="span6">
+			<ul class="nav nav-pills" style="margin: 0 0 0 0;">
+
+			  <li id="liCountry" class="active">		  	
+			    <a href="#" id="byCountry"><i id="liGlobe" class="icon-globe icon-white"></i> By Country</a>
+			  </li>
+			  <li id="liCompany"><a href="#" id="byCompany"><i id="liBriefcase" class="icon-briefcase"></i> By Company</a></li>		  
+			</ul>			
+
+		</div>		
+
+		<div class="span4" align="right">
+				<h3><span id="item-name"></span><img id="item-image" class="img-polaroid" style="border-width: 1px; border-color: Black; margin-left: 20px; height: 45px" /></h3>	 		 			
+		</div>
+	 	
 	</div>
 
 	<hr />
@@ -24,8 +33,25 @@
 
 
 	 <div  class="span4" style="text-align: center">
-	 	<h3><span id="item-name"></span></h3>
-	 	<img id="item-image" width="115">
+
+
+	 	<div id="extra-data">
+			
+	 		<div id="map-buttons" class="btn-group" data-toggle="buttons-radio">
+			  <button type="button" id="world" class="btn mapBtn active">World</button>
+			  <button type="button" id="US" class="btn mapBtn">US</button>
+			  <button type="button" id="europe" class="btn mapBtn">Europe</button>
+			  <button type="button" id="americas" class="btn mapBtn">Americas</button>
+			  <button type="button" id="africa" class="btn mapBtn">Africa</button>
+			  <button type="button" id="asia" class="btn mapBtn">Asia</button>
+			  <button type="button" id="oceania" class="btn mapBtn">Oceania</button>			  
+			</div>
+
+			 <div id="map-loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+
+	 		<div id="map" style="margin-top: 20px"></div>
+	 	</div>
+	 	
 	 </div>
 	
 	

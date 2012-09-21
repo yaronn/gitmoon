@@ -91,22 +91,30 @@ exports.projectUsersCompanies = (req, res, _) ->
 exports.projectUsersCountries = (req, res, _) ->  
   key = "projectUsersCountires_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, projectUsersCountriesInternal, _ 
+
+exports.projectUsersUSStates = (req, res, _) ->  
+  key = "projectUsersUSStates_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
+  utils.handleRequestCache res, req, key, projectUsersUSStatesInternal, _ 
   
+
 projectUsersCompaniesInternal = (req, _) ->   
-  projectUsersFilterDimentionInternal req, "company", _
+  projectUsersFilterDimentionInternal req, "company", "", _
 
 projectUsersCountriesInternal = (req, _) ->   
-  projectUsersFilterDimentionInternal req, "country", _
+  projectUsersFilterDimentionInternal req, "country", "", _
 
+projectUsersUSStatesInternal = (req, _) ->   
+  projectUsersFilterDimentionInternal req, "state", "AND HAS(u.country) AND u.country='United States'", _
 
-projectUsersFilterDimentionInternal = (req, dimention, _) ->   
+projectUsersFilterDimentionInternal = (req, dimention, filter, _) ->   
   prj_name = inj.sanitizeString req.params.project  
   
   #u.company should have at least one letter, to avoid just spcaes
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)
-         WHERE HAS(u.#{dimention}) AND u.#{dimention}<>''
-         WITH u as user, count(*) as tmp
+         WHERE HAS(u.#{dimention}) AND u.#{dimention}<>'' "
+  qry += filter
+  qry += " WITH u as user, count(*) as tmp
          RETURN user.#{dimention} as name, count(*) as count
          ORDER BY count(*) DESC\n"
 

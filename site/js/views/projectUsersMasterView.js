@@ -1,24 +1,29 @@
 
-
 window.ProjectUsersMasterView = Backbone.View.extend({
 
     events: {        
         "click #byCountry": "setCountryDimention",
-        "click #byCompany": "setCompanyDimention"
+        "click #byCompany": "setCompanyDimention",
 
     },
 
     initialize: function(options) {                                   
-        var self = this    
-        $(this.el).html(this.template());                                            
+        var self = this
         
-        this.currentDimention = new this.countriesDimention()
+        $(this.el).html(this.template());                                            
+
+        $("#item-image", this.el).error(function () {
+          self.imageNotFound()
+        });
+
+        this.projectName = options.projectName;
+
+        this.currentDimention = new this.countriesDimention(this.projectName)
         this.projectUserList = new PagedList(null, 
             { "model": ProjectUser
             , "url": "/projects/" + options.projectName + "/users"
             , "page_size": 7})      
 
-        this.projectName = options.projectName;
 
         this.projectUserListView = new ProjectUserListView({model: this.projectUserList})      
 
@@ -30,14 +35,13 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
         if (!this.isLoaded) {            
             this.initDimentionList("countries")
-            this.setCountryDimention()
-            this.currentDimention.showAllItems(self.el)
+            this.setCountryDimention()            
             this.projectUserList.fetch()
             this.projectUserListView.trackScroll(true)            
             $('#users-list', this.el).html(self.projectUserListView.el);        
             //this.dimentionListView.render()
             $('#dimention-list', this.el).html(self.dimentionListView.el);
-
+            
         }
         this.isLoaded = true
     
@@ -54,7 +58,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
 
     setCountryDimention: function(e) {
-        this.currentDimention = new this.countriesDimention()
+        this.currentDimention = new this.countriesDimention(this.projectName)
         return this.changeDimention()
     },
 
@@ -64,10 +68,10 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         return this.changeDimention()
     },
 
-    changeDimention: function() {
+    changeDimention: function() {        
         this.clearDimentions()
         this.flipLinks(this.currentDimention.getName())                        
-        this.currentDimention.showAllItems()
+        this.currentDimention.showAllItems(this.el)
         this.changeDimentionInternal(this.currentDimention.getUrlKey())
         return false
     },
@@ -122,7 +126,19 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         //this.dimentionList.fetch()
     },
 
-    countriesDimention: function() {
+    countriesDimention: function(projectName) {
+
+        this.initialize = function(projectName) {
+            var self = this
+
+            this.projectName = projectName
+            this.currentArea = "world"
+
+            $('#map-buttons', this.el).button()
+                $('#map-buttons', this.el).find('button').bind('click',function(e){              
+                  self.changeMap(e.currentTarget.id)
+            })
+        }
 
         this.getName = function() { return "country" }        
         
@@ -137,13 +153,90 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             var encodedItem = item_canonized.replace(/[ ]/g, "_")            
             url = "/img/flags/"+encodedItem+".png"
             $("#item-image", root).attr("src", url)
+            $("#extra-data", root).show()
         }
 
-        this.showAllItems = function(root) {
+        this.showAllItems = function(root) {            
+            $("#item-name", root).show()
+            $("#item-image", root).show()
             $("#item-name", root).text("All Countries")
-            $("#item-image", root).attr("src", "http://www.flags.net/images/largeflags/FRAN0001.GIF")
+            $("#item-image", root).attr("src", "/img/flags/default.png")
+            this.drawVisualization(root, this.currentArea)
+            $("#extra-data", root).show()
         }
 
+       this.drawVisualization = function(root, region) {
+            var self = this            
+            if (this.mapData) {                
+                this.drawVisualizationInternal(root, region)
+            }
+            else {                            
+             var url = "/projects/" + this.projectName + "/users/" 
+                       + (region=="US"?"us_states":"countries")                                           
+
+             $('#map-loading', root).show()
+             $('#map', root).hide()
+             $.get(url, function(data) {                
+                data = JSON.parse(data)                
+                var mapData = [['Location', 'Count']]
+                
+                data.forEach(function(d) {
+                    mapData.push([d.name, d.count])
+                })
+
+                self.mapData = google.visualization.arrayToDataTable(mapData)
+                self.drawVisualizationInternal(root, region)
+                $('#map-loading', root).hide()
+                $('#map', root).show()
+             })
+            }
+        }
+
+        this.drawVisualizationInternal = function(root, region) {
+               $('#map-loading', root).hide()
+               this.geomap = new google.visualization.GeoChart(
+                $('#map', root).get()[0]);
+                
+                var options = {
+                    legend: "none"
+                    , width: 350                    
+                    , keepAspectRatio: true}
+
+                if (region!="world") options.region = region
+                if (region=="US") options.resolution = "provinces"
+
+                this.geomap.draw(this.mapData, options)
+
+        }
+
+        this.changeMap = function(area) {
+            var region
+                      
+            //us requires different data
+            if ((area=='US' && this.currentArea!="US") 
+                || (this.currentArea=="US" && area!='US'))
+            {
+                this.mapData = null                
+            }
+
+            this.currentArea = area
+
+            if (area=="world") region="world"
+            else if (area=="US") region="US"     
+            else if (area=="europe") region="150"
+            else if (area=="americas") region="019"     
+            else if (area=="africa") region="002"     
+            else if (area=="asia") region="142"
+            else if (area=="oceania") region="009"
+
+            this.drawVisualization(this.el, region)
+        },
+
+        this.handleImageNotFound = function(root) {
+
+        }
+
+        this.initialize(projectName)
         return this
     },
 
@@ -154,18 +247,36 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         this.getUrlKey = function() { return "companies" }        
         
         this.showItem = function(item, root) {
+            $("#item-name", root).hide()
+            $("#item-image", root).show()
             $("#item-name", root).text(item)                        
             var name = item.toLowerCase().replace(/[!]/g, "")            
-            $("#item-image", root).attr("src", "/img/companies/"+name+".jpg")
+            var url = "/img/companies/"+name+".jpg"            
+            $("#item-image", root).attr("src", url)
+            $("#extra-data", root).hide()
         }
 
         this.showAllItems = function(root) {
+            $("#item-name", root).show()
+            $("#item-image", root).show()
             $("#item-name", root).text("All Companies")            
-            $("#item-image", root).attr("src", "http://www.flags.net/images/largeflags/FRAN0001.GIF")
+            $("#item-image", root).attr("src", "/img/companies/default.jpg")
+            $("#extra-data", root).hide()
+        },
+
+        this.drawVisualization = function(root, region) {
+        },
+
+        this.handleImageNotFound = function(root) {
+            $("#item-name", root).show()
+            $("#item-image", root).hide()
         }
 
         return this
-    }
+    },
 
+    imageNotFound: function() {        
+        this.currentDimention.handleImageNotFound(this.el)
+    }
 
 });
