@@ -448,7 +448,21 @@ parseLocations = (_) ->
 			console.log e
 			console.log r.u.data.location
 
+canonizeLocations = (_) ->
+	qry = 	"START  n=node(*) WHERE HAS(n.country) 
+			 AND n.country='The Netherlands'
+			 SET n.country='Netherlands'"
+	res = db.query qry, _
 
+	qry = 	"START  n=node(*) WHERE HAS(n.country) 
+			 AND n.country='Republic of Latvia'
+			 SET n.country='Latvia'"
+	res = db.query qry, _	
+
+	qry = 	"START  n=node(*) WHERE HAS(n.country) 
+			 AND n.country='Republic of Lithuania'
+			 SET n.country='Lithuania'"
+	res = db.query qry, _		
 
 
 init_config = (_) ->
@@ -471,7 +485,9 @@ init_config = (_) ->
 
 #setProjectRating _
 
-parseLocations _
+#parseLocations _
+
+canonizeLocations _
 
 ###
 #delete everything without type property

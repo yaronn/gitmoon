@@ -154,6 +154,9 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             url = "/img/flags/"+encodedItem+".png"
             $("#item-image", root).attr("src", url)
             $("#extra-data", root).show()
+
+            var region = utils.regionsMap[item]
+            if (region) $("#" + region, root).click()
         }
 
         this.showAllItems = function(root) {            
@@ -161,14 +164,15 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             $("#item-image", root).show()
             $("#item-name", root).text("All Countries")
             $("#item-image", root).attr("src", "/img/flags/default.png")
-            this.drawVisualization(root, this.currentArea)
+            //this.drawVisualization(root, this.currentArea)
             $("#extra-data", root).show()
+            $("#world", root).click()
         }
 
        this.drawVisualization = function(root, region) {
             var self = this            
             if (this.mapData) {                
-                this.drawVisualizationInternal(root, region)
+                this.drawVisualizationInternal(root, region)                
             }
             else {                            
              var url = "/projects/" + this.projectName + "/users/" 
@@ -187,12 +191,17 @@ window.ProjectUsersMasterView = Backbone.View.extend({
                 self.mapData = google.visualization.arrayToDataTable(mapData)
                 self.drawVisualizationInternal(root, region)
                 $('#map-loading', root).hide()
-                $('#map', root).show()
+                $('#map', root).show()                
              })
             }
         }
 
         this.drawVisualizationInternal = function(root, region) {
+               var self = this
+
+               $('#map', root).html("")
+               this.geomap = null;
+
                $('#map-loading', root).hide()
                this.geomap = new google.visualization.GeoChart(
                 $('#map', root).get()[0]);
@@ -206,10 +215,9 @@ window.ProjectUsersMasterView = Backbone.View.extend({
                 if (region=="US") options.resolution = "provinces"
 
                 this.geomap.draw(this.mapData, options)
-
         }
 
-        this.changeMap = function(area) {
+        this.changeMap = function(area) {            
             var region
                       
             //us requires different data
