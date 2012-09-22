@@ -180,8 +180,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
              $('#map-loading', root).show()
              $('#map', root).hide()
-             $.get(url, function(data) {                
-                data = JSON.parse(data)                
+             $.get(url, function(data) {  
+                //data = JSON.parse(data)                
                 var mapData = [['Location', 'Count']]
                 
                 data.forEach(function(d) {
@@ -208,7 +208,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
                 
                 var options = {
                     legend: "none"
-                    , width: 350                    
+                    , width: 360                    
                     , keepAspectRatio: true}
 
                 if (region!="world") options.region = region

@@ -462,7 +462,38 @@ canonizeLocations = (_) ->
 	qry = 	"START  n=node(*) WHERE HAS(n.country) 
 			 AND n.country='Republic of Lithuania'
 			 SET n.country='Lithuania'"
-	res = db.query qry, _		
+	res = db.query qry, _	
+
+canonizeCompanies = (_) ->
+	qry = 	"START  n=node(*) WHERE HAS(n.company) 
+			 AND (n.company='Yahoo! Inc.' OR n.company='Yahoo')
+			 SET n.company='Yahoo!'"
+
+	res = db.query qry, _	
+
+	qry = 	"START  n=node(*) WHERE HAS(n.company) 
+			 AND n.company='Mozilla Corporation'
+			 SET n.company='Mozilla'"
+			 
+	res = db.query qry, _	
+
+	qry = 	"START  n=node(*) WHERE HAS(n.company) 
+			 AND n.company='Twitter, Inc.'
+			 SET n.company='Twitter'"
+			 
+	res = db.query qry, _	
+
+	qry = 	"START  n=node(*) WHERE HAS(n.company) 
+			 AND n.company='Nodejitsu, Inc.'
+			 SET n.company='Nodejitsu'"
+			 
+	res = db.query qry, _
+
+	qry = 	"START  n=node(*) WHERE HAS(n.company) 
+			 AND n.company='GitHub, Inc.'
+			 SET n.company='GitHub'"
+			 
+	res = db.query qry, _
 
 
 init_config = (_) ->
@@ -487,7 +518,9 @@ init_config = (_) ->
 
 #parseLocations _
 
-canonizeLocations _
+#canonizeLocations _
+
+canonizeCompanies _
 
 ###
 #delete everything without type property

@@ -89,10 +89,12 @@ exports.projectUsersCompanies = (req, res, _) ->
   utils.handleRequestCache res, req, key, projectUsersCompaniesInternal, _ 
 
 exports.projectUsersCountries = (req, res, _) ->  
+  res.writeHead 200, {"Content-Type": "application/json"}
   key = "projectUsersCountires_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, projectUsersCountriesInternal, _ 
 
 exports.projectUsersUSStates = (req, res, _) ->  
+  res.writeHead 200, {"Content-Type": "application/json"}
   key = "projectUsersUSStates_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, projectUsersUSStatesInternal, _ 
   
@@ -100,10 +102,10 @@ exports.projectUsersUSStates = (req, res, _) ->
 projectUsersCompaniesInternal = (req, _) ->   
   projectUsersFilterDimentionInternal req, "company", "", _
 
-projectUsersCountriesInternal = (req, _) ->   
+projectUsersCountriesInternal = (req, _) ->     
   projectUsersFilterDimentionInternal req, "country", "", _
 
-projectUsersUSStatesInternal = (req, _) ->   
+projectUsersUSStatesInternal = (req, _) ->     
   projectUsersFilterDimentionInternal req, "state", "AND HAS(u.country) AND u.country='United States'", _
 
 projectUsersFilterDimentionInternal = (req, dimention, filter, _) ->   
