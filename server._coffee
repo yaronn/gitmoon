@@ -32,8 +32,12 @@ app.get '/projects/:project/users/countries', (req, res, _) ->
 app.get '/projects/:project/users/us_states', (req, res, _) ->		
 	require('./service/proj_users').projectUsersUSStates req, res, _
 
+app.get '/projects/:project/users/dep_projects', (req, res, _) ->		
+	require('./service/proj_users').projectUsersByDepProject req, res, _
+
 app.get '/projects/:project/users/count', (req, res, _) ->		
 	require('./service/proj_users').projectUserCount req, res, _
+
 
 
 app.use express.static('./site', { maxAge: 60000*0.5 }) #half hour cache

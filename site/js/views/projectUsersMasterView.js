@@ -4,6 +4,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
     events: {        
         "click #byCountry": "setCountryDimention",
         "click #byCompany": "setCompanyDimention",
+        "click #byProject": "setProjectDimention",
 
     },
 
@@ -68,6 +69,12 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         return this.changeDimention()
     },
 
+    setProjectDimention: function(e) {
+        this.currentDimention = new this.projectsDimention()
+        return this.changeDimention()
+    },
+
+
     changeDimention: function() {        
         this.clearDimentions()
         this.flipLinks(this.currentDimention.getName())                        
@@ -77,11 +84,14 @@ window.ProjectUsersMasterView = Backbone.View.extend({
     },
 
     flipLinks: function(name) {
-        var isCountry = name == "country"
-        $("#liCountry", this.el).attr("class", isCountry?"active":"")
-        $("#liCompany", this.el).attr("class", isCountry?"":"active")
-        $("#liGlobe", this.el).attr("class", "icon-globe"+(isCountry?" icon-white":""))
-        $("#liBriefcase", this.el).attr("class", "icon-briefcase"+(isCountry?"":" icon-white"))
+        var buttons = ["country", "company", "project"]
+        var icons = ["globe", "briefcase", "star"]
+        for (i in buttons) {
+            var current = buttons[i]
+            var selected = (current==name) 
+            $("#li_" + current, this.el).attr("class", selected?"active":"")
+            $("#icon_"+current, this.el).attr("class", "icon-"+icons[i]+(selected?" icon-white":""))
+        }
     },
 
     changeDimentionInternal: function(url_key) {
@@ -99,7 +109,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
     },
 
     clearDimentions: function(dimention) {
-        this.projectUserListView.clearDimentionFilter(["country", "company"])        
+        this.projectUserListView.clearDimentionFilter(["country", "company", "dependency"])        
         this.projectUserListView.refreshData()
     },
 
@@ -278,6 +288,37 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         this.handleImageNotFound = function(root) {
             $("#item-name", root).show()
             $("#item-image", root).hide()
+        }
+
+        return this
+    },
+
+    projectsDimention: function() {
+
+        this.getName = function() { return "project" }        
+        
+        this.getUrlKey = function() { return "dep_projects" }        
+        
+        this.showItem = function(item, root) {
+            $("#item-name", root).show()
+            $("#item-image", root).hide()
+            $("#item-name", root).text(item)                        
+            var name = item.toLowerCase().replace(/[!]/g, "")
+            $("#extra-data", root).hide()
+        }
+
+        this.showAllItems = function(root) {
+            $("#item-name", root).show()
+            $("#item-image", root).hide()
+            $("#item-name", root).text("All Projects")                        
+            $("#extra-data", root).hide()
+        },
+
+        this.drawVisualization = function(root, region) {
+        },
+
+        this.handleImageNotFound = function(root) {
+            
         }
 
         return this

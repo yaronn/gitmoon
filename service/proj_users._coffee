@@ -9,7 +9,8 @@ exports.index = (req, res, _) ->
   login = req.query.$login ? ""
   company = req.query.company ? ""
   country = req.query.country ? ""
-  key = "proj_users_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{login}_#{company}_#{country}"
+  dependency = req.query.dependency ? ""
+  key = "proj_users_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{login}_#{company}_#{country}_#{dependency}"
   utils.handleRequestCache res, req, key, getProjUsers, _ 
 
 getProjUsers = (req, _) ->  
@@ -43,7 +44,16 @@ getProjUsers = (req, _) ->
     country = inj.sanitizeString country    
     country = utils.encodeStringCypher country
     qry += "AND HAS(u.country) AND u.country =~ /(?i)#{country}/\n"
-    #params.country = ".*?" + country + ".*?"      
+    #params.country = ".*?" + country + ".*?"   
+
+
+  dependency = req.query['dependency']
+  
+  if (dependency)    
+    dependency = inj.sanitizeString dependency    
+    dependency = utils.encodeStringCypher dependency
+    qry += "AND HAS(x.name) AND x.name='#{dependency}'\n"
+    #params.country = ".*?" + country + ".*?"         
 
 
   qry +=    "WITH distinct u as u, n as n
@@ -138,6 +148,41 @@ projectUsersFilterDimentionInternal = (req, dimention, filter, _) ->
   start = utils.startTiming()  
   refs = db.query qry, params, _  
   utils.endTiming(start, "projectUsers#{dimention}Internal main query")  
+  JSON.stringify(refs, null, 4)
+
+exports.projectUsersByDepProject = (req, res, _) ->  
+  res.writeHead 200, {"Content-Type": "application/json"}
+  key = "projectUsersByDepProject_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
+  utils.handleRequestCache res, req, key, projectUsersByDepProjectInternal, _ 
+
+projectUsersByDepProjectInternal = (req, _) ->   
+  prj_name = inj.sanitizeString req.params.project  
+    
+  qry = "START  n=node:node_auto_index(name='#{prj_name}')
+         MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)  
+         WHERE HAS(x.name) AND n.name<>x.name
+         WITH u as user, x as dep, count(*) as tmp
+         RETURN dep.name as name, count(*) as count
+         ORDER BY count(*) DESC\n"
+
+  params = {}
+  
+  _skip = req.query['$skip']
+
+  if (_skip)
+    _skip = inj.ensureInt _skip
+    qry += "SKIP #{_skip}\n"
+    params._skip = parseInt(_skip)
+
+  top = req.query['$top']  
+  if (top)
+    top = inj.ensureInt top
+    qry += "LIMIT #{top}\n"
+    params.top = parseInt(top)
+    
+  start = utils.startTiming()  
+  refs = db.query qry, params, _  
+  utils.endTiming(start, "projectUsersByDepProjectInternal main query")  
   JSON.stringify(refs, null, 4)
 
 
