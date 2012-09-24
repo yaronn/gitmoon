@@ -1,11 +1,11 @@
 
+
 window.ProjectUsersMasterView = Backbone.View.extend({
 
     events: {        
         "click #byCountry": "setCountryDimention",
         "click #byCompany": "setCompanyDimention",
-        "click #byProject": "setProjectDimention",
-
+        "click #byDependency": "setDependencyDimention",
     },
 
     initialize: function(options) {                                   
@@ -36,11 +36,9 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
         if (!this.isLoaded) {            
             this.initDimentionList("countries")
-            this.setCountryDimention()            
-            this.projectUserList.fetch()
+            this.setCountryDimention()                        
             this.projectUserListView.trackScroll(true)            
-            $('#users-list', this.el).html(self.projectUserListView.el);        
-            //this.dimentionListView.render()
+            $('#users-list', this.el).html(self.projectUserListView.el);                    
             $('#dimention-list', this.el).html(self.dimentionListView.el);
             
         }
@@ -69,8 +67,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         return this.changeDimention()
     },
 
-    setProjectDimention: function(e) {
-        this.currentDimention = new this.projectsDimention()
+    setDependencyDimention: function(e) {
+        this.currentDimention = new this.dependencyDimention(this.projectName)
         return this.changeDimention()
     },
 
@@ -84,8 +82,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
     },
 
     flipLinks: function(name) {
-        var buttons = ["country", "company", "project"]
-        var icons = ["globe", "briefcase", "star"]
+        var buttons = ["country", "company", "dependency"]
+        var icons = ["globe", "briefcase", "th"]
         for (i in buttons) {
             var current = buttons[i]
             var selected = (current==name) 
@@ -110,7 +108,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
     clearDimentions: function(dimention) {
         this.projectUserListView.clearDimentionFilter(["country", "company", "dependency"])        
-        this.projectUserListView.refreshData()
+        //this.projectUserListView.refreshData()
     },
 
     initDimentionList: function(url_key) {
@@ -132,8 +130,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             self.projectUserListView.clearDimentionFilter(self.currentDimention.getName())            
             self.currentDimention.showAllItems(self.el)
         })
-        
-        //this.dimentionList.fetch()
+                
     },
 
     countriesDimention: function(projectName) {
@@ -163,7 +160,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             var encodedItem = item_canonized.replace(/[ ]/g, "_")            
             url = "/img/flags/"+encodedItem+".png"
             $("#item-image", root).attr("src", url)
-            $("#extra-data", root).show()
+            $("#extra-data-countries", root).show()
+            $("#extra-data-dependencies", root).hide()
 
             var region = utils.regionsMap[item]
             if (region) $("#" + region, root).click()
@@ -173,9 +171,9 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             $("#item-name", root).show()
             $("#item-image", root).show()
             $("#item-name", root).text("All Countries")
-            $("#item-image", root).attr("src", "/img/flags/default.png")
-            //this.drawVisualization(root, this.currentArea)
-            $("#extra-data", root).show()
+            $("#item-image", root).attr("src", "/img/flags/default.png")            
+            $("#extra-data-countries", root).show()
+            $("#extra-data-dependencies", root).hide()
             $("#world", root).click()
         }
 
@@ -271,7 +269,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             var name = item.toLowerCase().replace(/[!]/g, "")            
             var url = "/img/companies/"+name+".jpg"            
             $("#item-image", root).attr("src", url)
-            $("#extra-data", root).hide()
+            $("#extra-data-countries", root).hide()
+            $("#extra-data-dependencies", root).hide()
         }
 
         this.showAllItems = function(root) {
@@ -279,11 +278,9 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             $("#item-image", root).show()
             $("#item-name", root).text("All Companies")            
             $("#item-image", root).attr("src", "/img/companies/default.jpg")
-            $("#extra-data", root).hide()
-        },
-
-        this.drawVisualization = function(root, region) {
-        },
+            $("#extra-data-countries", root).hide()
+            $("#extra-data-dependencies", root).hide()
+        },        
 
         this.handleImageNotFound = function(root) {
             $("#item-name", root).show()
@@ -293,9 +290,14 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         return this
     },
 
-    projectsDimention: function() {
+    dependencyDimention: function(projectName) {
 
-        this.getName = function() { return "project" }        
+
+        this.initialize = function(projectName) {
+            this.projectName = projectName
+        }
+
+        this.getName = function() { return "dependency" }        
         
         this.getUrlKey = function() { return "dep_projects" }        
         
@@ -304,22 +306,58 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             $("#item-image", root).hide()
             $("#item-name", root).text(item)                        
             var name = item.toLowerCase().replace(/[!]/g, "")
-            $("#extra-data", root).hide()
+            $("#extra-data-countries", root).hide()
+            $("#extra-data-dependencies", root).show()
         }
 
         this.showAllItems = function(root) {
             $("#item-name", root).show()
             $("#item-image", root).hide()
-            $("#item-name", root).text("All Projects")                        
-            $("#extra-data", root).hide()
-        },
+            $("#item-name", root).text("All Dependencies")                        
+            $("#extra-data-countries", root).hide()
+            $("#extra-data-dependencies", root).show()
 
-        this.drawVisualization = function(root, region) {
-        },
+            this.drawVisualization(root);
+        },        
 
         this.handleImageNotFound = function(root) {
             
         }
+
+        this.drawVisualization = function(root) {
+            var self = this
+
+            var url = "/projects/" + this.projectName + "/users/dep_projects?$top=50"                       
+            $('#dependencies-bar-loading', root).css("visibility", "")
+            $.get(url, function(data) {                  
+                var mapData = [['Location', 'Count']]
+                
+                data.forEach(function(d) {
+                    mapData.push([d.name, d.count])
+                })
+
+                self.mapData = google.visualization.arrayToDataTable(mapData)
+                $('#dependencies-bar-loading', root).css("visibility", "hidden")
+                self.drawVisualizationInternal(root)
+                $('#dependencies-bar', root).show()                
+             })
+        }
+
+        this.drawVisualizationInternal = function(root) {              
+              var chart_area_height = this.mapData.D.length*30              
+              new google.visualization.BarChart($("#dependencies-bar", root).get()[0]).draw(this.mapData,
+                       { width: 300, height: chart_area_height + 60,
+                        legend: {position: "none"},
+                        colors: ["08C"], 
+                        //backgroundColor: "red",
+                        hAxis: {title: "Stars"},                                                 
+                        chartArea:{left:150,top:0,width:"60%",height: chart_area_height},
+                        fontSize: 14})
+
+        }
+
+        this.initialize(projectName)
+        
 
         return this
     },

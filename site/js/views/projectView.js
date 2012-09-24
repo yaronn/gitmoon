@@ -7,31 +7,17 @@ window.ProjectView = Backbone.View.extend({
 
     changeTab: function(e) { 
       this.projectUsersMasterView.trackScroll(false)
-      this.depProjectsListView.trackScroll(false)      
+      this.depProjectMasterView.trackScroll(false)      
       this.sampleCodeMasterView.trackScroll(false)
 
       if (e.target.href.indexOf('users')!=-1) this.projectUsersMasterView.render()
-      if (e.target.href.indexOf('projects')!=-1) this.changeTabHelper("depProjects")
+      if (e.target.href.indexOf('projects')!=-1) this.depProjectMasterView.render()
       if (e.target.href.indexOf('code')!=-1) this.sampleCodeMasterView.render()
-    },
-
-    changeTabHelper: function(name) {
-      var listView = this[name + 'ListView']
-      var list = this[name + 'List']
-      listView.trackScroll(true)
-        if (!this[name + 'Loaded']) {
-         list.fetch()
-         this[name + 'Loaded'] = true
-        }
-    },
+    },    
 
     initialize: function() {                     
       var self = this
-            
-      //this.projectUserLoaded = false
-      this.depProjectsLoaded = false
-      //this.sampleCodeLoaded = false
-      
+                  
       this.similarProjectList = new PagedList(null, 
         {model: SimilarProject
         , "url": "/projects/" + this.model.get("name") + "/similar_projects"
@@ -40,26 +26,17 @@ window.ProjectView = Backbone.View.extend({
       this.similarProjectsListView = new SimilarProjectListView({model: this.similarProjectList })
       this.similarProjectList.fetch()
 
-      this.depProjectsList = new PagedList(null, 
-        { "model": DepProject
-        , "url": "/projects/" + this.model.get("name") + "/dep_projects"
-        , "page_size": 7})           
-
-      this.depProjectsListView = new DepProjectListView({model: this.depProjectsList})            
-      //this.depProjectsList.fetch()
-
-      this.projectUsersMasterView = new ProjectUsersMasterView({projectName: this.model.get("name")})                  
-      //this.projectUserList.fetch()
+      this.depProjectMasterView = new DepProjectMasterView({projectName: this.model.get("name")})                  
       
+      this.projectUsersMasterView = new ProjectUsersMasterView({projectName: this.model.get("name")})                        
 
       this.sampleCodeMasterView = new SampleCodeMasterView({projectName: this.model.get("name")})                  
-      //this.sampleCodeList.fetch()       
 
     },
 
     close: function() {            
         this.unbind(); 
-        this.depProjectsListView.close()
+        this.depProjectMasterView.close()
         this.projectUsersMasterView.close()
         this.sampleCodeMasterView.close()
         this.similarProjectsListView.close()
@@ -82,8 +59,8 @@ window.ProjectView = Backbone.View.extend({
         //this.projectUsersMasterView.render()
         $("#user-tab", this.el).html(this.projectUsersMasterView.el);
 
-        this.depProjectsListView.render()
-        $("#dep-projects-list", this.el).html(this.depProjectsListView.el);
+        //this.depProjectsListView.render()
+        $("#dep-projects-tab", this.el).html(this.depProjectMasterView.el);
 
         //this.sampleCodeMasterView.render()
         $("#sample-code-tab", this.el).html(this.sampleCodeMasterView.el);

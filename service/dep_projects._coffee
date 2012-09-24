@@ -7,9 +7,9 @@ db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
 exports.index = (req, res, _) ->    
   name = req.query.$name ? ""
   key = "dep_projects_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{name}"
-  utils.handleRequestCache res, req, key, getDeps, _   
+  utils.handleRequestCache res, req, key, getDependantBy, _   
 
-getDeps = (req, _) ->    
+getDependantBy = (req, _) ->    
   result = ""
   prj_name = inj.sanitizeString req.params.project
   qry = "START  n=node:node_auto_index(name='#{prj_name}')\n
@@ -66,3 +66,29 @@ getDeps = (req, _) ->
   utils.endTiming(start, "getDeps loop")
   result += ']'
   result  
+
+exports.getDependsOn = (req, res, _) ->    
+  project = req.query.$project ? ""
+  key = "dependsOn_#{req.params.project}"
+  utils.handleRequestCache res, req, key, getDependsOnInternal, _   
+
+getDependsOnInternal = (req, _) ->    
+  nesting_level = 10
+  prj_name = inj.sanitizeString req.params.project
+  prj_name = utils.encodeStringCypher prj_name
+  qry = "START n=node:node_auto_index(name='#{prj_name}')
+         MATCH (n)-[:depends_on*0..#{nesting_level}]->(x),
+         (n)-[:depends_on*0..#{nesting_level}]->(y)
+         With x as x, y as y
+         MATCH z = x-[depends_on*1..1]->y
+         RETURN DISTINCT EXTRACT(n in nodes(z) : n.name) as link"
+  console.log qry
+  start = utils.startTiming()  
+  data = db.query qry, {}, _  
+  result = []
+  console.log data
+  data.forEach_ _, (_, p) ->      
+    result.push {source: p.link[0], target: p.link[1], type: 'depends_on'}
+
+  utils.endTiming(start, "getDependsOnInternal")  
+  JSON.stringify(result)

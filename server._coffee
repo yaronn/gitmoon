@@ -20,6 +20,9 @@ proj.add sample_code
 sample_code_using_projects = app.resource 'sample_code_using_projects', require('./service/sample_code_using_projects')
 proj.add sample_code_using_projects
 
+app.get '/projects/:project/depends_on', (req, res, _) ->		
+	require('./service/dep_projects').getDependsOn req, res, _
+
 app.get '/projects/:project/sample_code/count', (req, res, _) ->		
 	require('./service/sample_code').getCodeSamplesCount req, res, _
 
