@@ -82,11 +82,9 @@ getDependsOnInternal = (req, _) ->
          With x as x, y as y
          MATCH z = x-[depends_on*1..1]->y
          RETURN DISTINCT EXTRACT(n in nodes(z) : n.name) as link"
-  console.log qry
   start = utils.startTiming()  
   data = db.query qry, {}, _  
   result = []
-  console.log data
   data.forEach_ _, (_, p) ->      
     result.push {source: p.link[0], target: p.link[1], type: 'depends_on'}
 

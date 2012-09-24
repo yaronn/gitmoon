@@ -62,9 +62,16 @@ exports.show = function(req, res, _) {
 function getProject(req, _) {  
   var name = req.params.project  
   name = inj.sanitizeString(name)
+  
+  //var node = db.getIndexedNodes('node_auto_index', 'name', name, _)[0]  
+  var qry = "START n=node:node_auto_index(name='"+name+"') return n.name, n.description"  
+  console.log(qry)
   var start = utils.startTiming()        
-  var node = db.getIndexedNodes('node_auto_index', 'name', name, _)[0]  
+  var result = db.query(qry, _)
   utils.endTiming(start, "getProject query")
+  console.log(result)
+  var node = result[0]
+  
 
   if (node==null) {
     var msg = "no items found for project " + name
@@ -76,16 +83,11 @@ function getProject(req, _) {
   data.id = node.id
   
   var start = utils.startTiming()        
-  getDirectDeps(data, _)        
-  getTotalDeps(data, _)        
-  getDirectWatch(data, _)    
-
-  var start = utils.startTiming()          
-  utils.endTiming(start, "getSimilarProjectsByWatchers query")
-
-  
-  getTotalForks(data, _)
-  getTotalWatch(data, _)          
+  //getDirectDeps(data, _)        
+  //getTotalDeps(data, _)        
+  //getDirectWatch(data, _)      
+  //getTotalForks(data, _)
+  //getTotalWatch(data, _)          
   utils.endTiming(start, "getProject inner queries")
   var val = JSON.stringify(data, null, 4)        
   //console.log("val: " + val)
