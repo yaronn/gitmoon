@@ -44,7 +44,17 @@ utils.ignoreKeyForSearch = function(code) {
     return (code>=9 && code<=47 && code!=32)
 }
 
+utils.reportVisit = function(fragment) {  
+    if (window._gaq !== undefined) {        
+      window._gaq.push(['_trackPageview', fragment]);
+    }
+}
 
+utils.trackEvent = function(category, action, label) {
+    if (window._gaq !== undefined) {
+      _gaq.push(['_trackEvent', category, action, label])
+    }
+}
 
 
 utils.regionsMap = {

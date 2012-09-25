@@ -10,9 +10,22 @@ window.ProjectView = Backbone.View.extend({
       this.depProjectMasterView.trackScroll(false)      
       this.sampleCodeMasterView.trackScroll(false)
 
-      if (e.target.href.indexOf('users')!=-1) this.projectUsersMasterView.render()
-      if (e.target.href.indexOf('projects')!=-1) this.depProjectMasterView.render()
-      if (e.target.href.indexOf('code')!=-1) this.sampleCodeMasterView.render()
+      fragmant = '/project/' + this.model.get("name") + '/'
+      if (e.target.href.indexOf('users')!=-1) {
+        this.projectUsersMasterView.render()
+        utils.reportVisit(fragmant + "users")
+      }
+      else if (e.target.href.indexOf('projects')!=-1) {
+        this.depProjectMasterView.render()
+        utils.reportVisit(fragmant + "projects")
+      }
+      else if (e.target.href.indexOf('code')!=-1) {
+        this.sampleCodeMasterView.render()
+        utils.reportVisit(fragmant + "code")
+      }
+      else if (e.target.href.indexOf('general')!=-1) {
+        utils.reportVisit(fragmant + "general")
+      }
     },    
 
     initialize: function() {                     

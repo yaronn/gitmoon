@@ -87,7 +87,9 @@ window.ProjectListView = Backbone.View.extend({
 
     doSearch: function(self) {        
        $("#loading", this.el).css("visibility", "")
-       self.model.server_api.$name=$("#search", self.el).val()
+       var value = $("#search", self.el).val()
+       self.model.server_api.$name=value
+       utils.trackEvent("search", "search", value)
        self.model.currentPage = 0
        self.model.fetch({success: function(data) {
         self.trigger('hasSearchResult')

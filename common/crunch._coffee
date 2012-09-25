@@ -52,6 +52,7 @@ scripts = [
 	"lib/backbone.paginator.js",
 	"lib/bootstrap-tab.js",
 	"lib/bootstrap-tooltip.js",
+	"lib/bootstrap-button.js",
 	"js/utils.js",
 	"js/views/defaultView.js",
 	"js/views/header.js",
@@ -83,6 +84,7 @@ scripts = [
 	"components/listview/item_view.js",
 	"components/listview/list_model.js",
 	"components/listview/list_view.js"
+
 
 	##"js/main.js" not cruncing main.js b/c in ie8 for some reason if we crunch it 
 	##the app seems to work but once we enter the project page if we click on the home link it will stack

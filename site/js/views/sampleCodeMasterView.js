@@ -5,7 +5,9 @@ window.SampleCodeMasterView = Backbone.View.extend({
         var self = this    
         $(this.el).html(this.template());                                            
         
-        var baseCodeUrl = "/projects/" + options.projectName + "/sample_code"
+        this.projectName = options.projectName
+
+        var baseCodeUrl = "/projects/" + this.projectName + "/sample_code"
         this.sampleCodeList = new PagedList(null, 
             { "model": SampleCode
             , "url": baseCodeUrl
@@ -26,6 +28,7 @@ window.SampleCodeMasterView = Backbone.View.extend({
         this.projectsView = new ListViewView({model: this.projectsList})
 
         this.projectsView.bind("itemChosen", function(name) {
+            self.reportVisit("/project/" + self.projectName + "/code_samples/"+name)
             self.sampleCodeListView.filterByProject(name)          
         })
 
@@ -40,7 +43,7 @@ window.SampleCodeMasterView = Backbone.View.extend({
         var self = this 
 
         if (!this.isLoaded) {
-            this.projectsList.fetch();
+            this.projectsView.refreshData()
             this.sampleCodeListView.filterByAllProjects()
             this.sampleCodeListView.trackScroll(true)            
         }

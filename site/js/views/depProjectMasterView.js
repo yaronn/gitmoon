@@ -1,3 +1,4 @@
+
 window.DepProjectMasterView = Backbone.View.extend({
 
      events: {        
@@ -7,7 +8,8 @@ window.DepProjectMasterView = Backbone.View.extend({
 
     initialize: function(options) {                                   
         var self = this
-            
+        
+        self.isLoaded = false    
         this.projectName = options.projectName;
         this.isLoadedDependsOn = false
         this.isLoadedDependantBy = false
@@ -16,27 +18,34 @@ window.DepProjectMasterView = Backbone.View.extend({
             , "url": "/projects/" + options.projectName + "/dep_projects"
             , "page_size": 7})           
 
-        this.depProjectsListView = new DepProjectListView({model: this.depProjectsList})  
+        this.depProjectsListView = new DepProjectListView({model: this.depProjectsList})
 
         this.isLoaded = false                            
     },
         
     render:function () {
         var self = this 
-        
-        $(this.el).html(this.template())
-        this.setDependsOn()                  
+
+        if (!this.isLoaded) {
+            $(this.el).html(this.template())            
+            this.setDependsOn()  
+            this.isLoaded = true
+        }                
 
         return this
     },
 
-    setDependsOn: function() {
+    setDependsOn: function(e) {
+        var self = this
+
+        if (e) utils.reportVisit("/project/" + self.projectName + "/dependencies/depends_on")
         $("#depends-on-graph", this.el).show()
-        $("#dependant-by-list", this.el).hide()
+        $("#dependant-by-list", this.el).hide()        
 
         this.flipLinks("depends-on")
 
         if (!this.isLoadedDependsOn) {
+           $("#loading", this.el).show()
            this.drawVisualization()
            this.isLoadedDependsOn = true
         }
@@ -49,7 +58,19 @@ window.DepProjectMasterView = Backbone.View.extend({
 
         url = "/projects/"+this.projectName+"/depends_on"
         $.get(url, function(data) {  
-            self.drawVisualizationInternal(JSON.parse(data))   
+            var dataj = JSON.parse(data)
+            $("#loading", self.el).hide()
+            
+            if (dataj.length==0) {
+                $("#wrapper", self.el).hide()
+                $("#noDepends", self.el).show()
+            }
+            else {
+                $("#noDepends", self.el).hide()
+                $("#wrapper", self.el).show()
+            }
+
+            self.drawVisualizationInternal(dataj)   
         })
 
     },
@@ -66,19 +87,19 @@ window.DepProjectMasterView = Backbone.View.extend({
           link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
         });
 
-        var w = 960,
+        var w = 958,
             h = 500;
 
         var force = d3.layout.force()
-            .nodes(d3.values(nodes))
+            .nodes(d3.values(nodes))            
             .links(links)
             .size([w, h])
             .linkDistance(60)
-            .charge(-300)
+            .charge(-450)
             .on("tick", tick)
             .start();
 
-        var svg = d3.select("#depends-on-graph", this.el).append("svg:svg")
+        var svg = d3.select("#wrapper", this.el).append("svg:svg")
             .attr("width", w)
             .attr("height", h);
 
@@ -102,28 +123,34 @@ window.DepProjectMasterView = Backbone.View.extend({
             .attr("class", function(d) { return "link " + d.type; })
             .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
 
+        
+
         var circle = svg.append("svg:g").selectAll("circle")
             .data(force.nodes())
           .enter().append("svg:circle")
-            .attr("r", 6)            
-            .style("fill", function(d, i) {return d.name==self.projectName?"green":"#aaa"})
+            .attr("r", 6)                        
+            .style("fill", function(d, i) {return d.name==self.projectName?"#4E803B":"#aaa"})
             .call(force.drag);
         
         var text = svg.append("svg:g").selectAll("g")
             .data(force.nodes())
           .enter().append("svg:g");
 
+        var links = text.append("a").attr("xlink:href", "http://www.google.com/");
+
         // A copy of the text with a thick white stroke for legibility.
-        text.append("svg:text")
+        links.append("svg:text")
             .attr("x", 8)
             .attr("y", ".31em")
             .attr("class", "shadow")
-            .text(function(d) { return d.name; });
+            .text(function(d) { return d.name; })
+            //.on("click", function() {alert(1)})
 
-        text.append("svg:text")
+        links.append("svg:text")
             .attr("x", 8)
             .attr("y", ".31em")
-            .text(function(d) { return d.name; });
+            .text(function(d) { return d.name; })
+            //.on("click", function() {alert(2)})
 
         // Use elliptical arc path segments to doubly-encode directionality.
         function tick() {
@@ -133,6 +160,7 @@ window.DepProjectMasterView = Backbone.View.extend({
                 dr = Math.sqrt(dx * dx + dy * dy);
             return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
           });
+         
 
           circle.attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ")";
@@ -144,20 +172,27 @@ window.DepProjectMasterView = Backbone.View.extend({
         }
     },
 
-    setDependantBy: function() {
+    setDependantBy: function(e) {
         
+        var self = this
+        
+        if (e) utils.reportVisit("/project/" + self.projectName + "/dependencies/dependant_by")
+
         $("#depends-on-graph", this.el).hide()
         $("#dependant-by-list", this.el).show()        
 
         this.flipLinks("dependant-by")    
         
-        if (!this.isLoadedDependantBy) {
-           this.depProjectsList.fetch()
+        if (!this.isLoadedDependantBy) {           
+           $('#dependant-by-list', self.el).html(self.depProjectsListView.el);
+           this.depProjectsList.fetch({success: function(data) {
+            
+           }})
            this.isLoadedDependantBy = true
+
         }
 
-        this.depProjectsListView.trackScroll(true)
-        $('#dependant-by-list', this.el).html(this.depProjectsListView.el);        
+        this.depProjectsListView.trackScroll(true)        
 
         return false;
     },

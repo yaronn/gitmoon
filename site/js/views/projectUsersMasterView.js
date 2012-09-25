@@ -56,18 +56,21 @@ window.ProjectUsersMasterView = Backbone.View.extend({
     },
 
 
-    setCountryDimention: function(e) {
+    setCountryDimention: function(e) {        
+        if (e) utils.reportVisit("/project/" + this.projectName + "/users/countries")
         this.currentDimention = new this.countriesDimention(this.projectName)
         return this.changeDimention()
     },
 
 
     setCompanyDimention: function(e) {
+        if (e) utils.reportVisit("/project/" + this.projectName + "/users/companies")
         this.currentDimention = new this.companiesDimention()
         return this.changeDimention()
     },
 
     setDependencyDimention: function(e) {
+        if (e) utils.reportVisit("/project/" + this.projectName + "/users/dependencies")
         this.currentDimention = new this.dependencyDimention(this.projectName)
         return this.changeDimention()
     },
@@ -144,6 +147,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             $('#map-buttons', this.el).button()
                 $('#map-buttons', this.el).find('button').bind('click',function(e){              
                   self.changeMap(e.currentTarget.id)
+                  utils.reportVisit("/project/" + self.projectName + "/users/countries/map/" + e.currentTarget.id)
             })
         }
 
@@ -152,6 +156,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         this.getUrlKey = function() { return "countries" }        
         
         this.showItem = function(item, root) {
+            utils.reportVisit("/project/" + this.projectName + "/users/countries/" + item)
             $("#item-name", root).text(item)          
             var item_canonized = item
             if (item_canonized.toLowerCase()=="united states")
@@ -263,6 +268,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         this.getUrlKey = function() { return "companies" }        
         
         this.showItem = function(item, root) {
+            utils.reportVisit("/project/" + this.projectName + "/users/companies/" + item)
             $("#item-name", root).hide()
             $("#item-image", root).show()
             $("#item-name", root).text(item)                        
@@ -302,6 +308,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         this.getUrlKey = function() { return "dep_projects" }        
         
         this.showItem = function(item, root) {
+            utils.reportVisit("/project/" + this.projectName + "/users/dependencies/" + item)
+
             $("#item-name", root).show()
             $("#item-image", root).hide()
             $("#item-name", root).text(item)                        

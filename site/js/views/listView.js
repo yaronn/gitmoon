@@ -1,3 +1,4 @@
+
 var dispatcher = _.clone(Backbone.Events)
 
 window.ListView = Backbone.View.extend({
@@ -7,24 +8,26 @@ window.ListView = Backbone.View.extend({
     },
 
 	initialize:function () {        
-        this.is_searching = false        
-        this.shouldTrack = false
         var self = this
+
+        this.is_searching = false        
+        this.shouldTrack = false        
         this.isLoading = false
 
         this.scrollhandler = function(e) {
             self.scrolled.call(self, e)
         } 
 
-        $(window).bind("scroll", this.scrollhandler);        
-        this.model.bind("reset", function() {
-            this.isLoading=false
-            $("#loading", this.el).css("visibility", "hidden")          
-            this.render()
-        }, this)
+        $(window).bind("scroll", this.scrollhandler); 
+        
+        self.model.bind("reset", function() {                
+            self.isLoading=false
+            $("#loading", self.el).css("visibility", "hidden")                      
+            self.render()
+        }, self)
                 
-        $(this.el).html(this.template())                
-        this.list = $(this.options.list_id, this.el)        
+        $(this.el).html(this.template())
+        this.list = $(this.options.list_id, this.el)          
     },    
 
     close: function() {        
@@ -36,13 +39,15 @@ window.ListView = Backbone.View.extend({
         this.shouldTrack = shouldTrack    
     },
 
-    render:function () {  
-        var word = $("#search", this.el).val()    
-        _.each(this.model.models, function (m) {
-            m.set("searchWord", word)                         
-            this.list.append(new this.options.Model({model:m}).render().el);
-        }, this);
-        return this;
+    render:function () {           
+        var self = this
+        
+        var word = $("#search", self.el).val()            
+        _.each(self.model.models, function (m) {
+            m.set("searchWord", word)                        
+            self.list.append(new self.options.Model({model:m}).render().el);
+        }, self);
+        return self;
     },   
 
     search: function(e) { 
@@ -73,6 +78,8 @@ window.ListView = Backbone.View.extend({
         
         //check if we are already loading
         if (this.isLoading) return
+
+        utils.trackEvent("scroll", "scroll", this.model.url)
 
         //if we are 200px from the bottom let's load more items
         if($(document).height() - 200 < $(document).scrollTop() + $(window).height())

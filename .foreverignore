@@ -1,2 +1,5 @@
 crunch.*
 error.log
+*.html
+*.js
+package.json

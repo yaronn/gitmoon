@@ -9,7 +9,7 @@ exports.index = (req, res, _) ->
   using_project_name = req.query.using_project_name ? ""
   key = "sample_code_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{code}_#{using_project_name}"
   utils.handleRequestCache res, req, key, getCodeSamples, _ 
-  
+
 getCodeSamples = (req, _) ->   
   result = ""  
   prj_name = inj.sanitizeString req.params.project

@@ -68,6 +68,7 @@ getDependantBy = (req, _) ->
   result  
 
 exports.getDependsOn = (req, res, _) ->    
+  res.writeHead 200, {"Content-Type": "text/plain"} 
   project = req.query.$project ? ""
   key = "dependsOn_#{req.params.project}"
   utils.handleRequestCache res, req, key, getDependsOnInternal, _   

@@ -20,7 +20,7 @@ window.HomeView = Backbone.View.extend({
     },
 
     close:function() {
-        
+          
     }
 
 });

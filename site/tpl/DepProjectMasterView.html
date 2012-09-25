@@ -12,7 +12,14 @@
 			  <li id="li_dependant-by"><a href="#" id="byDependantBy"><i id="icon_dependant-by" class="icon-share"></i> Dependant By</a></li>		  
 			  
 			</ul>			
-		</div>	
+		</div>
+
+		<div class="span1 offset3" style="font-size:x-large; text-align: right; margin-top: 10px">			
+		      <div >
+		                <span id="help" class="graphHelp" title="The 'Depends On' diagram show all projects the current project depends on directly or indirectly. The 'Dependant By' diagram shows all projects that depend on this project directly or indirectly.">[?]</span>
+		      </div>      
+		</div>
+
 	</div>
 
 	<hr />
@@ -22,5 +29,17 @@
 	</div>
 
 	<div id="depends-on-graph">
+
+		<div id="loading">
+			<img src="/img/wait.gif" /> loading...
+		</div>
 		
+		<div id="wrapper" style="border: 1px solid #DEDEDE; margin: 0px; padding: 0px; width:963px; height: 505px;">
+			
+		</div>
+		
+		<div id="noDepends" style="display:none">
+			This project has no dependencies. Please try a different project.
+		</div>
+
 	</div>
