@@ -74,8 +74,16 @@ scripts = [
 	"js/models/projectUser.js",
 	"js/models/depProject.js",
 	"js/models/pagedList.js",
-	"js/models/codeSample.js"
-	"js/models/similarProject.js"
+	"js/models/codeSample.js",
+	"js/models/similarProject.js",
+	"js/views/sampleCodeMasterView.js",
+	"js/views/projectUsersMasterView.js",
+	"js/views/depProjectMasterView.js",
+	"components/listview/item_model.js",
+	"components/listview/item_view.js",
+	"components/listview/list_model.js",
+	"components/listview/list_view.js"
+
 	##"js/main.js" not cruncing main.js b/c in ie8 for some reason if we crunch it 
 	##the app seems to work but once we enter the project page if we click on the home link it will stack
 ]

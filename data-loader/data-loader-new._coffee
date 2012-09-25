@@ -466,7 +466,7 @@ canonizeLocations = (_) ->
 
 canonizeCompanies = (_) ->
 	qry = 	"START  n=node(*) WHERE HAS(n.company) 
-			 AND (n.company='Yahoo! Inc.' OR n.company='Yahoo')
+			 AND (n.company='Yahoo! Inc.' OR n.company='Yahoo' OR n.company='yahoo')
 			 SET n.company='Yahoo!'"
 
 	res = db.query qry, _	
@@ -495,6 +495,25 @@ canonizeCompanies = (_) ->
 			 
 	res = db.query qry, _
 
+	qry = 	"START  n=node(*) WHERE HAS(n.company) 
+			 AND n.company='Github'
+			 SET n.company='GitHub'"
+			 
+	res = db.query qry, _	
+
+canonizeCompaniesCaps = (_) ->	
+	qry = 	"START  n=node(*) WHERE HAS(n.company) 
+			 AND n.company =~ /(?i)nodejitsu/
+			 SET n.company='Nodejitsu'"
+			 
+	res = db.query qry, _	
+
+	qry = 	"START  n=node(*) WHERE HAS(n.company) 
+			 AND n.company='hp'
+			 SET n.company='HP'"
+			 
+	res = db.query qry, _	
+
 
 init_config = (_) ->
 	config = db.getIndexedNode 'node_auto_index', 'type', 'config', _				
@@ -521,6 +540,8 @@ init_config = (_) ->
 #canonizeLocations _
 
 canonizeCompanies _
+
+canonizeCompaniesCaps _
 
 ###
 #delete everything without type property

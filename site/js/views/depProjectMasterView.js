@@ -9,7 +9,8 @@ window.DepProjectMasterView = Backbone.View.extend({
         var self = this
             
         this.projectName = options.projectName;
-
+        this.isLoadedDependsOn = false
+        this.isLoadedDependantBy = false
         this.depProjectsList = new PagedList(null, 
             { "model": DepProject
             , "url": "/projects/" + options.projectName + "/dep_projects"
@@ -35,7 +36,10 @@ window.DepProjectMasterView = Backbone.View.extend({
 
         this.flipLinks("depends-on")
 
-        this.drawVisualization()
+        if (!this.isLoadedDependsOn) {
+           this.drawVisualization()
+           this.isLoadedDependsOn = true
+        }
         return false;
     },
 
@@ -147,7 +151,11 @@ window.DepProjectMasterView = Backbone.View.extend({
 
         this.flipLinks("dependant-by")    
         
-        this.depProjectsList.fetch()
+        if (!this.isLoadedDependantBy) {
+           this.depProjectsList.fetch()
+           this.isLoadedDependantBy = true
+        }
+
         this.depProjectsListView.trackScroll(true)
         $('#dependant-by-list', this.el).html(this.depProjectsListView.el);        
 
@@ -169,7 +177,7 @@ window.DepProjectMasterView = Backbone.View.extend({
         this.depProjectsListView.close()
     },
 
-    trackScroll: function(shouldTrack) {
+    trackScroll: function(shouldTrack) {        
         this.depProjectsListView.trackScroll(shouldTrack)
     }
 
