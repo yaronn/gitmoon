@@ -2,7 +2,7 @@ utils = require './utils'
 inj = require './injection'
 neo4j = require 'neo4j'
 config = require '../common/config'
-db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
+db = utils.db
 
 exports.index = (req, res, _) ->    
   name = req.query.$name ? ""
@@ -81,7 +81,8 @@ getDependsOnInternal = (req, _) ->
          (n)-[:depends_on*0..#{nesting_level}]->(y)
          With x as x, y as y
          MATCH z = x-[depends_on*1..1]->y
-         RETURN DISTINCT EXTRACT(n in nodes(z) : n.name) as link"
+         RETURN DISTINCT EXTRACT(n in nodes(z) : n.name) as link
+         LIMIT 100"
   start = utils.startTiming()  
   data = db.query qry, {}, _  
   result = []

@@ -2,8 +2,10 @@ neo4j = require 'neo4j'
 config = require '../common/config'
 db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
 
+exports.db = db
+
 nMemcached = require( 'memcached' )
-mem = new nMemcached  config.memcached
+mem = if config.memcached then new nMemcached else null
 
 exports.max_depth = 2
 
@@ -33,26 +35,28 @@ exports.fillPathNodeNames = (node, _) ->
   path.slice(0, path.length-1).reverse()
 
 exports.answerFromCache = (response, key, _) ->    
-  key = module.exports.encodeMemcached key
-  try    
-    cache = mem.get key, _    
-    if cache
-       #console.log "cache hit #{key}"
-       response.end cache
-       return true  
-  catch e    
-    #console.log e
+  if mem
+    key = module.exports.encodeMemcached key
+    try    
+      cache = mem.get key, _    
+      if cache
+         #console.log "cache hit #{key}"
+         response.end cache
+         return true  
+    catch e    
+      #console.log e
     
   #console.log "cache miss #{key}"
   return false
 
 exports.insertCacheAndAnswer = (key, result, response, _) ->
-  key = module.exports.encodeMemcached key
-  try
-    #60*60*24 - a day, 0 - never expires
-    mem.set key, result, 0, _
-  catch e
-    console.log e
+  if mem
+    key = module.exports.encodeMemcached key
+    try
+      #60*60*24 - a day, 0 - never expires
+      mem.set key, result, 0, _
+    catch e
+      console.log e
 
   response.end(result)
   

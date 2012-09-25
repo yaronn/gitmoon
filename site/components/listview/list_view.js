@@ -16,14 +16,11 @@ window.ListViewView = Backbone.View.extend({
 
         this.model.bind("reset", function() {             
             
-            $("#loading", this.el).hide()
-            
-            this.model.getTotalCount(function(count) {
-                $("#all-items-count", self.el).text(count)    
-            })
+            $("#loading", this.el).hide()           
             
             self.render()
         }, this);
+
 
         this.model.bind("add", function (item) {
             var itemView = new ListViewItemView({model:item})
@@ -62,6 +59,7 @@ window.ListViewView = Backbone.View.extend({
             })
             this.list.append(itemView.render().el);
         }, this);
+
         return this;
     },
 
@@ -79,7 +77,11 @@ window.ListViewView = Backbone.View.extend({
         
     },
 
-    refreshData: function() {        
+    refreshData: function() {         
+        this.model.getTotalCount(function(count) {   
+            $("#all-items-count", self.el).text(count)    
+        })
+
         $("#loading", this.el).show()        
         this.model.fetch()
     }

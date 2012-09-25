@@ -1,12 +1,12 @@
 var terminal = require('child_process').exec('npm run-script build; production=true node server.js')
 
 terminal.stdout.on('data', function (data) {
-    console.log('stdout: ' + data);
+    console.log(data);
 });
 
 
 terminal.stderr.on('data', function (data) {
-    console.log('stderr: ' + data);
+    console.log(data);
 });
 
  

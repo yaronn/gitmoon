@@ -2,8 +2,10 @@ var utils = require('./utils')
 var inj = require('./injection')
 var neo4j = require('neo4j');
 var config = require('../common/config')
-var db = new neo4j.GraphDatabase({url: config.neo4j, proxy: config.proxy})
+var db = utils.db
 var async = require('async')
+var request = require('request')
+
 
 exports.index = function(req, res, _) {
   name = req.query.$name ? req.query.$name : ""
@@ -45,8 +47,8 @@ function getAllProjects(req, _) {
     params.top = parseInt(top)
   }
 
-  console.log(qry)
-  console.log(params)
+  //console.log(qry)
+  //console.log(params)
   
   var start = utils.startTiming()        
   results = db.query(qry, params, _)  
@@ -77,15 +79,10 @@ function getProject(req, _) {
   
   var start = utils.startTiming()        
   getDirectDeps(data, _)        
-  getTotalDeps(data, _)        
+  getTotalDeps(data, _)
   getDirectWatch(data, _)    
-
-  var start = utils.startTiming()          
-  utils.endTiming(start, "getSimilarProjectsByWatchers query")
-
-  
   getTotalForks(data, _)
-  getTotalWatch(data, _)          
+  getTotalWatch(data, _)              
   utils.endTiming(start, "getProject inner queries")
   var val = JSON.stringify(data, null, 4)        
   //console.log("val: " + val)

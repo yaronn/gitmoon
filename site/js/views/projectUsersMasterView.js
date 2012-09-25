@@ -127,8 +127,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         })
 
         this.dimentionListView.bind("allItemsChosen", function() {
-            self.projectUserListView.clearDimentionFilter(self.currentDimention.getName())            
-            self.currentDimention.showAllItems(self.el)
+            self.projectUserListView.clearDimentionFilter([self.currentDimention.getName()])
+            self.currentDimention.showAllItems(self.el)            
         })
                 
     },

@@ -2,7 +2,7 @@ utils = require './utils'
 inj = require './injection'
 neo4j = require 'neo4j'
 config = require '../common/config'
-db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
+db = utils.db
 
 exports.index = (req, res, _) ->  
   key = "sample_code_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"

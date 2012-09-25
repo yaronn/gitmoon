@@ -2,7 +2,7 @@ var utils = require('./utils')
 var inj = require('./injection')
 var neo4j = require('neo4j');
 var config = require('../common/config')
-var db = new neo4j.GraphDatabase({url: config.neo4j, proxy: config.proxy})
+var db = utils.db
 var async = require('async')
 
 exports.index = function(req, res, _) {
