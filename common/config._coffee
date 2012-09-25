@@ -2,5 +2,5 @@ exports.neo4j = if process.env.production then 'http://10.252.129.197:7474/' els
 exports.proxy = ''#http://web-proxy.israel.hp.com:8080/'
 console.log "neo4j db: #{module.exports.neo4j}"
 #exports.neo4j = 'http://localhost:7474/'
-exports.memcached = '127.0.0.1:11211'
+exports.memcached = '127.0.0.1:99999'#'127.0.0.1:11211'
 exports.port = 3001
