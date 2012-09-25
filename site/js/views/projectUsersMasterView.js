@@ -65,7 +65,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
     setCompanyDimention: function(e) {
         if (e) utils.reportVisit("/project/" + this.projectName + "/users/companies")
-        this.currentDimention = new this.companiesDimention()
+        this.currentDimention = new this.companiesDimention(this.projectName)
         return this.changeDimention()
     },
 
@@ -261,7 +261,11 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         return this
     },
 
-    companiesDimention: function() {
+    companiesDimention: function(projectName) {
+
+        this.initialize = function(projectName) {
+            this.projectName = projectName
+        }
 
         this.getName = function() { return "company" }        
         
@@ -293,6 +297,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             $("#item-image", root).hide()
         }
 
+        this.initialize(projectName)
         return this
     },
 

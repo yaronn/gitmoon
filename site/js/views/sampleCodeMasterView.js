@@ -28,7 +28,7 @@ window.SampleCodeMasterView = Backbone.View.extend({
         this.projectsView = new ListViewView({model: this.projectsList})
 
         this.projectsView.bind("itemChosen", function(name) {
-            self.reportVisit("/project/" + self.projectName + "/code_samples/"+name)
+            utils.reportVisit("/project/" + self.projectName + "/code_samples/"+name)
             self.sampleCodeListView.filterByProject(name)          
         })
 
