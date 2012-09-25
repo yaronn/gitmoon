@@ -56,7 +56,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
     },
 
 
-    setCountryDimention: function(e) {        
+    setCountryDimention: function(e) {               
         if (e) utils.reportVisit("/project/" + this.projectName + "/users/countries")
         this.currentDimention = new this.countriesDimention(this.projectName)
         return this.changeDimention()
@@ -147,7 +147,9 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             $('#map-buttons', this.el).button()
                 $('#map-buttons', this.el).find('button').bind('click',function(e){              
                   self.changeMap(e.currentTarget.id)
-                  utils.reportVisit("/project/" + self.projectName + "/users/countries/map/" + e.currentTarget.id)
+
+                  //if (e), so we do not track non interactive clicks
+                  if (e) utils.reportVisit("/project/" + self.projectName + "/users/countries/map/" + e.currentTarget.id)
             })
         }
 
