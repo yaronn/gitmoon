@@ -74,7 +74,7 @@ getProjUsers = (req, _) ->
     qry += "LIMIT #{top}\n"
     params.top = parseInt(top)
     
-  #console.log(qry)
+  #zzconsole.log(qry)
   #console.log(params)
 
   start = utils.startTiming()  
