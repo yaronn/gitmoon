@@ -51,7 +51,6 @@ app.error (err, req, res, next) ->
     fs.appendFileSync("error.log", "#{date}: error in #{req.url}: #{err}\n")
     res.end("error")
 
-#port = config.port || 3000
-port = process.argv[2]
+port = config.port || 3000
 app.listen port
 console.log "listening on port #{port}"
