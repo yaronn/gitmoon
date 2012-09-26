@@ -27,11 +27,13 @@ window.Router = Backbone.Router.extend({
     },
 
     home: function () {              
+       $("#body").css("background-image", "url(/img/back.svg)")
        this.homeView = new HomeView();       
        window.controller.showView(this.homeView, $("#content"))
     },
 
     project: function(name) {    
+        $("#body").css("background-image", "none")
         document.title = "GitMoon - " + name                                                                 
         
         if (!this.projectMasterView) {

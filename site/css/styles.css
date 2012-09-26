@@ -117,6 +117,15 @@ text {
 
 text.shadow {
   stroke: #fff;
-  stroke-width: 3px;
-  stroke-opacity: .8;
+  stroke-width: 0.5px;
+}
+
+
+body {
+    background-image: url(/img/back.svg);
+	-o-background-size: 50% 50%;	
+	-webkit-background-size: 50% 50%;
+	background-repeat: no-repeat;
+	background-position: right top;
+	background-size: auto, cover;
 }
