@@ -78,13 +78,12 @@ window.ListView = Backbone.View.extend({
         
         //check if we are already loading
         if (this.isLoading) return
-
-        utils.trackEvent("scroll", "scroll", this.model.url)
-
+        
         //if we are 200px from the bottom let's load more items
         if($(document).height() - 200 < $(document).scrollTop() + $(window).height())
         {            
             var self = this
+            utils.trackEvent("scroll", "scroll", self.model.url)
             this.isLoading = true
             $("#loading", this.el).css("visibility", "")          
             this.model.requestNextPage()
