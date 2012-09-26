@@ -17,7 +17,7 @@ window.ProjectListView = Backbone.View.extend({
 
         this.is_searching = false
         this.model.bind("reset", function() { 
-            $("#loading", this.el).css("visibility", "hidden")
+            $("#loading_list", this.el).css("visibility", "hidden")
             self.render()
         }, this);
         this.model.bind("add", function (project) {
@@ -26,7 +26,7 @@ window.ProjectListView = Backbone.View.extend({
         
         $(this.el).html(this.template())        
 
-       if (this.firstTime) $("#loading", this.el).css("visibility", "hidden")
+       if (this.firstTime) $("#loading_list", this.el).css("visibility", "hidden")
        this.showControls(this.firstTime)        
 
         $("#search", this.el).css("width",  this.mode=="side"?"80px":"200px")
@@ -86,7 +86,7 @@ window.ProjectListView = Backbone.View.extend({
     }, 
 
     doSearch: function(self) {        
-       $("#loading", this.el).css("visibility", "")
+       $("#loading_list", this.el).css("visibility", "")
        var value = $("#search", self.el).val()
        self.model.server_api.$name=value
        utils.trackEvent("search", "search", value)
