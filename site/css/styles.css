@@ -139,6 +139,8 @@ body {
 	.homeFeaturedList {margin-left:280px;}
 	.homeName {margin-bottom:25px; margin-left:140px; margin-top:10px;}
 	.tweetHome { margin-right:410px }
+	.homeImageGroup { right:20px; }
+	.homeFeature4 {right:20px; }
 }
 
 @media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
@@ -149,6 +151,8 @@ body {
   .homeFeaturedList {margin-left:240px;}
   .homeName {margin-bottom:5px; margin-left:120px;}
   .tweetHome { margin-right:490px }
+  .homeImageGroup {left: 750px;}
+  .homeFeature4 {left: 20px;}
 }
 @media all and (device-width: 768px) and (device-height: 1024px) and (orientation:landscape) {
   .hideIPad {display: none;}
@@ -158,4 +162,6 @@ body {
   .homeFeaturedList {margin-left:240px;}
   .homeName {margin-bottom:5px; margin-left:120px;}
   .tweetHome { margin-right:490px }
+  .homeImageGroup {left: 750px;}
+  .homeFeature4 {left: 20px;}
 }
