@@ -318,7 +318,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             utils.reportVisit("/project/" + this.projectName + "/users/dependencies/" + item)
 
             $("#item-name", root).show()
-            $("#item-image", root).hide()
+            //$("#item-image", root).hide()
             $("#item-name", root).text(item)                        
             var name = item.toLowerCase().replace(/[!]/g, "")
             $("#extra-data-countries", root).hide()
@@ -327,7 +327,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
         this.showAllItems = function(root) {
             $("#item-name", root).show()
-            $("#item-image", root).hide()
+            $("#item-image", root).attr("src", "/img/projects/default.png")
             $("#item-name", root).text("All Dependencies")                        
             $("#extra-data-countries", root).hide()
             $("#extra-data-dependencies", root).show()
@@ -349,10 +349,15 @@ window.ProjectUsersMasterView = Backbone.View.extend({
                 
                 data.forEach(function(d) {
                     mapData.push([d.name, d.count])
-                })
+                })                
 
-                self.mapData = google.visualization.arrayToDataTable(mapData)
+                self.mapData = google.visualization.arrayToDataTable(mapData)                
+
                 $('#dependencies-bar-loading', root).css("visibility", "hidden")
+
+                //no visualization if no projects
+                if (mapData.length==1) return
+                    
                 self.drawVisualizationInternal(root)
                 $('#dependencies-bar', root).show()                
              })

@@ -123,8 +123,9 @@ projectUsersFilterDimentionInternal = (req, dimention, filter, _) ->
   
   #u.company should have at least one letter, to avoid just spcaes
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
-         MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)
-         WHERE HAS(u.#{dimention}) AND u.#{dimention}<>'' "
+         MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)         
+         WHERE HAS(u.#{dimention}) AND u.#{dimention}<>'' 
+         AND HAS(x.name) AND x.name<>'hoarders' "
   qry += filter
   qry += " WITH u as user, count(*) as tmp
          RETURN user.#{dimention} as name, count(*) as count
@@ -160,7 +161,7 @@ projectUsersByDepProjectInternal = (req, _) ->
     
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)  
-         WHERE HAS(x.name) AND n.name<>x.name
+         WHERE HAS(x.name) AND n.name<>x.name and x.name<>'hoarders'
          WITH u as user, x as dep, count(*) as tmp
          RETURN dep.name as name, count(*) as count
          ORDER BY count(*) DESC\n"

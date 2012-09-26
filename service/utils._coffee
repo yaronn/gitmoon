@@ -12,7 +12,7 @@ exports.max_depth = 2
 exports.getProjectUsers = (db, projectId, _) ->
   #return []
   qry = "START n=node(#{projectId})
-        MATCH (n)<-[depends_on*0..#{module.exports.max_depth}]-(x)<-[:watches]-(u)
+        MATCH (n)<-[:watches]-(u)
         RETURN u.login as login, ID(u) as id, u.gravatar_id? as gravatar_id, count(*) as count
         ORDER BY gravatar_id DESC
         LIMIT 4"
