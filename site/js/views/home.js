@@ -19,9 +19,10 @@ window.HomeView = Backbone.View.extend({
 
         var supportsSvg = supportsSVG()
 
-        if (!supportsSvg) {
+        if (!supportsSvg) {            
             $("#feature1", this.el).hide()
-            $("#feature4", this.el).hide()
+            $("#feature4", this.el).hide()            
+            $("#homeImageGroup", this.el).css("marginTop", "100px")
         }
 
         return this;
