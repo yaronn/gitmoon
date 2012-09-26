@@ -129,3 +129,33 @@ body {
 	background-position: right top;
 	background-size: auto, cover;
 }
+
+
+@media not screen and (min-device-width: 320px) and (max-device-width: 1024px)
+{
+	.hero {margin-top:50px;}
+	.motoHeader {margin-left:200px; }
+	.homeProjectList {margin-left:260px;}
+	.homeFeaturedList {margin-left:280px;}
+	.homeName {margin-bottom:25px; margin-left:140px;}
+	.tweetHome { margin-right:410px }
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+  .hideIPad {display: none;}
+  .hero {margin-top:0px;}
+  .motoHeader {margin-left:120px; }
+  .homeProjectList {margin-left:220px;}
+  .homeFeaturedList {margin-left:240px;}
+  .homeName {margin-bottom:5px; margin-left:120px;}
+  .tweetHome { margin-right:490px }
+}
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:landscape) {
+  .hideIPad {display: none;}
+  .hero {margin-top:0px;}
+  .motoHeader {margin-left:120px; }
+  .homeProjectList {margin-left:220px;}
+  .homeFeaturedList {margin-left:240px;}
+  .homeName {margin-bottom:5px; margin-left:120px;}
+  .tweetHome { margin-right:490px }
+}
