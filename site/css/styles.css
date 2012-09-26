@@ -137,7 +137,7 @@ body {
 	.motoHeader {margin-left:200px; }
 	.homeProjectList {margin-left:260px;}
 	.homeFeaturedList {margin-left:280px;}
-	.homeName {margin-bottom:25px; margin-left:140px;}
+	.homeName {margin-bottom:25px; margin-left:140px; margin-top:10px;}
 	.tweetHome { margin-right:410px }
 }
 
