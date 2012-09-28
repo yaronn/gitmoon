@@ -24,8 +24,7 @@ window.ProjectMasterView = Backbone.View.extend({
         this.project = new Project({name: options.name});        
         this.project.fetch({success: function(data) {                
             $("#loading", self.el).hide()
-            $("#project-view", self.el).show()
-            
+            $("#project-view", self.el).show()            
             self.projectView = new ProjectView({model: data})  
             self.projectView.render()              
             $('#project-view').html(self.projectView.el);

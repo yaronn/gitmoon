@@ -1,5 +1,4 @@
 
-
 window.ProjectUsersMasterView = Backbone.View.extend({
 
     events: {        
@@ -12,19 +11,17 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         var self = this
         
         $(this.el).html(this.template());                                            
-
+        
         $("#item-image", this.el).error(function () {
           self.imageNotFound()
         });
 
         this.projectName = options.projectName;
 
-        this.currentDimention = new this.countriesDimention(this.projectName)
         this.projectUserList = new PagedList(null, 
             { "model": ProjectUser
             , "url": "/projects/" + options.projectName + "/users"
             , "page_size": 7})      
-
 
         this.projectUserListView = new ProjectUserListView({model: this.projectUserList})      
 
@@ -33,13 +30,13 @@ window.ProjectUsersMasterView = Backbone.View.extend({
         
     render:function () {
         var self = this 
-
+        
         if (!this.isLoaded) {            
             this.initDimentionList("countries")
-            this.setCountryDimention()                        
+            this.setCountryDimention()
             this.projectUserListView.trackScroll(true)            
             $('#users-list', this.el).html(self.projectUserListView.el);                    
-            $('#dimention-list', this.el).html(self.dimentionListView.el);
+            $('#dimention-list', this.el).html(self.dimentionListView.el);            
             
         }
         this.isLoaded = true
@@ -58,7 +55,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
     setCountryDimention: function(e) {               
         if (e) utils.reportVisit("/project/" + this.projectName + "/users/countries")
-        this.currentDimention = new this.countriesDimention(this.projectName)
+        this.currentDimention = new this.countriesDimention(this.projectName, this.el)
         return this.changeDimention()
     },
 
@@ -78,9 +75,9 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
     changeDimention: function() {        
         this.clearDimentions()
-        this.flipLinks(this.currentDimention.getName())                        
+        this.flipLinks(this.currentDimention.getName())                                
         this.currentDimention.showAllItems(this.el)
-        this.changeDimentionInternal(this.currentDimention.getUrlKey())
+        this.changeDimentionInternal(this.currentDimention.getUrlKey())        
         return false
     },
 
@@ -136,28 +133,29 @@ window.ProjectUsersMasterView = Backbone.View.extend({
                 
     },
 
-    countriesDimention: function(projectName) {
+    countriesDimention: function(projectName, root) {
 
-        this.initialize = function(projectName) {
+        this.initialize = function(projectName, root) {
             var self = this
 
             this.projectName = projectName
             this.currentArea = "world"
+            
+            $('#map-buttons', root).button()            
 
-            $('#map-buttons', this.el).button()
-                $('#map-buttons', this.el).find('button').bind('click',function(e){              
-                  self.changeMap(e.currentTarget.id)
-
-                  //if (e), so we do not track non interactive clicks
-                  if (e) utils.reportVisit("/project/" + self.projectName + "/users/countries/map/" + e.currentTarget.id)
-            })
+            $('#map-buttons', root).find('button').bind('click',function(e){                                              
+                self.changeMap(e.currentTarget.id)                
+                
+                //workaround, e.which only has value in interactive click. otherwise we should not track.
+                if (e.which) utils.reportVisit("/project/" + self.projectName + "/users/countries/map/" + e.currentTarget.id)
+            })            
         }
 
         this.getName = function() { return "country" }        
         
         this.getUrlKey = function() { return "countries" }        
         
-        this.showItem = function(item, root) {
+        this.showItem = function(item, root) {            
             utils.reportVisit("/project/" + this.projectName + "/users/countries/" + item)
             $("#item-name", root).text(item)          
             var item_canonized = item
@@ -174,17 +172,19 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             if (region) $("#" + region, root).click()
         }
 
-        this.showAllItems = function(root) {            
+        this.showAllItems = function(root) { 
+
             $("#item-name", root).show()
             $("#item-image", root).show()
             $("#item-name", root).text("All Countries")
             $("#item-image", root).attr("src", "/img/flags/default.png")            
             $("#extra-data-countries", root).show()
-            $("#extra-data-dependencies", root).hide()
+            $("#extra-data-dependencies", root).hide()                                    
             $("#world", root).click()
         }
 
        this.drawVisualization = function(root, region) {
+
             var self = this            
             if (this.mapData) {                
                 this.drawVisualizationInternal(root, region)                
@@ -259,7 +259,8 @@ window.ProjectUsersMasterView = Backbone.View.extend({
 
         }
 
-        this.initialize(projectName)
+        this.initialize(projectName, root)
+
         return this
     },
 

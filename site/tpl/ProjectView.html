@@ -7,17 +7,6 @@
 <%= name%>
 </div>
 
-
-<div style="float:right; text-align: right;">
-	<iframe id="tweet" allowtransparency="true" frameborder="0" scrolling="no"
-	        src=""
-	        style="width:130px; height:21px;"></iframe>
-
-	<iframe id="like" src="" scrolling="no" frameborder="0" style="border:none; width:150px; height:20px;" allowTransparency="true"></iframe>
-</div>
-
-
-
 <div style="clear:both;" />
 
 <br />
@@ -37,15 +26,23 @@
 <div class="row">  
 <div class="span10">
 
-<ul id="myTab" class="nav nav-tabs">
-    <li class="active"><a href="#general" data-toggle="tab">General</a></li>
-    <li><a href="#users" data-toggle="tab">Users</a></li>
+<ul id="myTab" class="nav nav-tabs">    
+    <li class="active"><a href="#users" data-toggle="tab">Users</a></li>    
     <li><a href="#projects" data-toggle="tab">Projects</a></li>
+    <li><a href="#general" data-toggle="tab">Traction</a></li>
     <li><a href="#code" data-toggle="tab">CodeBack</a></li>            
 </ul>
 
- <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade in active" id="general">
+ 		<div id="myTabContent" class="tab-content">
+
+ 			<div class="tab-pane fade in active" id="users">              
+            	<div class="row"> 
+						<div id="user-tab" class="span10" />
+				</div>
+
+            </div>
+
+            <div class="tab-pane fade" id="general">
 				
 	             	<div class="span4" style="margin-bottom: 5px">
 	             		<h3>Traction</h3><br />
@@ -68,13 +65,7 @@
 					
 				
 
-            </div>
-            <div class="tab-pane fade" id="users">              
-            	<div class="row"> 
-						<div id="user-tab" class="span10" />
-				</div>
-
-            </div>
+            </div>            
 
             <div class="tab-pane fade" id="projects">
             	<div class="row"> 

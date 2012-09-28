@@ -11,26 +11,28 @@ window.ProjectView = Backbone.View.extend({
       this.sampleCodeMasterView.trackScroll(false)
 
       fragmant = '/project/' + this.model.get("name") + '/'
-      if (e.target.href.indexOf('users')!=-1) {
-        this.projectUsersMasterView.render()
+      if (e.target.href.indexOf('users')!=-1) {        
         utils.reportVisit(fragmant + "users")
       }
       else if (e.target.href.indexOf('projects')!=-1) {
+        $("#dep-projects-tab", this.el).html(this.depProjectMasterView.el);
         this.depProjectMasterView.render()
         utils.reportVisit(fragmant + "projects")
       }
       else if (e.target.href.indexOf('code')!=-1) {
+        $("#sample-code-tab", this.el).html(this.sampleCodeMasterView.el);
         this.sampleCodeMasterView.render()
         utils.reportVisit(fragmant + "code")
       }
-      else if (e.target.href.indexOf('general')!=-1) {
+      else if (e.target.href.indexOf('general')!=-1) {        
+        this.activateGeneralTab()
         utils.reportVisit(fragmant + "general")
       }
     },    
 
-    initialize: function() {                     
+    activateGeneralTab: function() {
       var self = this
-                  
+
       this.similarProjectList = new PagedList(null, 
         {model: SimilarProject
         , "url": "/projects/" + this.model.get("name") + "/similar_projects"
@@ -39,11 +41,34 @@ window.ProjectView = Backbone.View.extend({
       this.similarProjectsListView = new SimilarProjectListView({model: this.similarProjectList })
       this.similarProjectList.fetch()
 
-      this.depProjectMasterView = new DepProjectMasterView({projectName: this.model.get("name")})                  
+      $("#similar-projects", this.el).html(this.similarProjectsListView.el)
       
-      this.projectUsersMasterView = new ProjectUsersMasterView({projectName: this.model.get("name")})                        
+      window.setTimeout(function() {
+          self.drawDepends(self, "direct_deps", "total_deps", 
+                          "#depends", "Dependent Projects", 
+                          "projects can depend on this project directly or depend on one of its dependencies (network)")
+          }, 0)
 
-      this.sampleCodeMasterView = new SampleCodeMasterView({projectName: this.model.get("name")})                  
+      window.setTimeout(function() {
+          self.drawDepends(self, "direct_watch", "total_watch", 
+                          "#watches", "Github Stars", 
+                          "users can star this project directly or star one of its dependencies (network)")
+          }, 0)
+
+      window.setTimeout(function() {
+          self.drawDepends(self, "forks", "total_forks", 
+                          "#forks", "Forks", 
+                          "forks can be for this project or for its dependencies (network)")
+          }, 0)
+
+    },
+
+    initialize: function() {
+      var self = this
+                        
+      this.depProjectMasterView = new DepProjectMasterView({projectName: this.model.get("name")})                        
+      this.projectUsersMasterView = new ProjectUsersMasterView({projectName: this.model.get("name")})                        
+      this.sampleCodeMasterView = new SampleCodeMasterView({projectName: this.model.get("name")})                        
 
     },
 
@@ -61,48 +86,13 @@ window.ProjectView = Backbone.View.extend({
         var url = encodeURIComponent(window.location.href)        
         var url_no_hash = encodeURIComponent(window.location.href.replace(/#/g, "?"))        
         var text = "Check out " + this.model.get("name")      
-
-        $("#tweet", this.el).attr('src',
-          "//platform.twitter.com/widgets/tweet_button.html?counturl="+url_no_hash+"&url="+url_no_hash+"&text=" + 
-          text)
-        
-        $("#like", this.el).attr('src', //$("#like", this.el).attr('src')+'')
-          "//www.facebook.com/plugins/like.php?href=" + url + "&send=false&layout=button_count&width=450&show_faces=false&action=like&colorscheme=light&font&height=21")
-        
-        //this.projectUsersMasterView.render()
-        $("#user-tab", this.el).html(this.projectUsersMasterView.el);
-
-        //this.depProjectsListView.render()
-        $("#dep-projects-tab", this.el).html(this.depProjectMasterView.el);
-
-        //this.sampleCodeMasterView.render()
-        $("#sample-code-tab", this.el).html(this.sampleCodeMasterView.el);
-        
+                      
+        $("#user-tab", this.el).html(this.projectUsersMasterView.el);        
+        this.projectUsersMasterView.render()
+          
         $('#myTab a[href="#users"]', this.el).text("Users ("+this.model.get("total_watch")+")")        
-        $('#myTab a[href="#projects"]', this.el).text("Projects ("+this.model.get("total_deps")+")")
-        
-        $("#similar-projects", this.el).html(this.similarProjectsListView.el)        
-
-        var self = this
-        
-        window.setTimeout(function() {
-            self.drawDepends(self, "direct_deps", "total_deps", 
-                            "#depends", "Dependent Projects", 
-                            "projects can depend on this project directly or depend on one of its dependencies (network)")
-            }, 0)
-
-        window.setTimeout(function() {
-            self.drawDepends(self, "direct_watch", "total_watch", 
-                            "#watches", "Github Stars", 
-                            "users can star this project directly or star one of its dependencies (network)")
-            }, 0)
-
-        window.setTimeout(function() {
-            self.drawDepends(self, "forks", "total_forks", 
-                            "#forks", "Forks", 
-                            "forks can be for this project or for its dependencies (network)")
-            }, 0)
-
+        $('#myTab a[href="#projects"]', this.el).text("Projects ("+this.model.get("total_deps")+")")              
+      
         return this;
     },
 
