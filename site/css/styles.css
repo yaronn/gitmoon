@@ -126,10 +126,10 @@ text.shadow {
 	.hero {margin-top:50px;}
 	.motoHeader {margin-left:200px; }
 	.homeProjectList {margin-left:260px;}
-	.homeFeaturedList {margin-left:280px;}
+	.homeFeaturedList {margin-left:310px;}
 	.homeName {margin-bottom:25px; margin-left:140px; margin-top:10px;}		
 }
-
+/*
 @media all and (max-device-width: 768px) and (max-device-height: 1024px) and (orientation:portrait) {
   .hideIPad {display: none;}
   .hero {margin-top:0px;}
@@ -152,3 +152,4 @@ text.shadow {
   .homeImageGroup {left: 750px;}
   .homeFeature4 {left: 20px;}
 }
+*/
