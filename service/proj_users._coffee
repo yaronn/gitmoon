@@ -110,46 +110,21 @@ exports.projectUsersUSStates = (req, res, _) ->
   
 
 projectUsersCompaniesInternal = (req, _) ->   
-  projectUsersFilterDimentionInternal req, "company", "", _
+  utils.projectUsersFilterDimentionInternal req, 
+    { name: req.param.project
+    , dimention: "company"}, _
 
 projectUsersCountriesInternal = (req, _) ->     
-  projectUsersFilterDimentionInternal req, "country", "", _
+  utils.projectUsersFilterDimentionInternal req, 
+  { name: req.param.project
+  , dimention: "country"}, _
 
 projectUsersUSStatesInternal = (req, _) ->     
-  projectUsersFilterDimentionInternal req, "state", "AND HAS(u.country) AND u.country='United States'", _
-
-projectUsersFilterDimentionInternal = (req, dimention, filter, _) ->   
-  prj_name = inj.sanitizeString req.params.project  
-  
-  #u.company should have at least one letter, to avoid just spcaes
-  qry = "START  n=node:node_auto_index(name='#{prj_name}')
-         MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)         
-         WHERE HAS(u.#{dimention}) AND u.#{dimention}<>'' 
-         AND HAS(x.name) AND x.name<>'hoarders' "
-  qry += filter
-  qry += " WITH u as user, count(*) as tmp
-         RETURN user.#{dimention} as name, count(*) as count
-         ORDER BY count(*) DESC\n"
-
-  params = {}
-  
-  _skip = req.query['$skip']
-
-  if (_skip)
-    _skip = inj.ensureInt _skip
-    qry += "SKIP #{_skip}\n"
-    params._skip = parseInt(_skip)
-
-  top = req.query['$top']  
-  if (top)
-    top = inj.ensureInt top
-    qry += "LIMIT #{top}\n"
-    params.top = parseInt(top)
-    
-  start = utils.startTiming()  
-  refs = db.query qry, params, _  
-  utils.endTiming(start, "projectUsers#{dimention}Internal main query")  
-  JSON.stringify(refs, null, 4)
+  utils.projectUsersFilterDimentionInternal req, 
+    { name: req.param.project
+    , dimnetion: "state"
+    , filter: "AND HAS(u.country) AND u.country='United States'"}
+    , _
 
 exports.projectUsersByDepProject = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "application/json"}
@@ -185,7 +160,6 @@ projectUsersByDepProjectInternal = (req, _) ->
   refs = db.query qry, params, _  
   utils.endTiming(start, "projectUsersByDepProjectInternal main query")  
   JSON.stringify(refs, null, 4)
-
 
 exports.projectUserCount = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "text/plain"}

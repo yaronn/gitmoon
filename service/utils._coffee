@@ -1,6 +1,7 @@
 neo4j = require 'neo4j'
 config = require '../common/config'
 db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
+inj = require './injection'
 
 exports.db = db
 
@@ -49,6 +50,20 @@ exports.answerFromCache = (response, key, _) ->
   #console.log "cache miss #{key}"
   return false
 
+exports.getCache = (key, _) ->
+  if mem
+    key = module.exports.encodeMemcached key
+    cache = mem.get key, _    
+    if cache
+       return cache
+    
+  return null
+
+exports.addCache = (key, value, _) ->
+  if mem
+    key = module.exports.encodeMemcached key
+    mem.set key, value, 0, _
+
 exports.insertCacheAndAnswer = (key, result, response, _) ->
   if mem
     key = module.exports.encodeMemcached key
@@ -82,3 +97,43 @@ exports.encodeStringCypher = (s) ->
 
 exports.encodeMemcached = (s) ->
   return s.replace /[ ]/g, ""  
+
+
+exports.projectUsersFilterDimentionInternal = (req, options, _) ->   
+  prj_name = inj.sanitizeString options.name
+  
+  #u.company should have at least one letter, to avoid just spcaes
+  qry = "START  n=node:node_auto_index(name='#{prj_name}')
+         MATCH (n)<-"
+  if !options.direct_only
+    qry += "[depends_on*0..2]-(x)<-"
+  qry += "[:watches]-(u)         
+         WHERE HAS(u.#{options.dimention}) AND u.#{options.dimention}<>''"
+         
+  if !options.direct_only
+         qry += " AND HAS(x.name) AND x.name<>'hoarders' "
+         
+  if options.filter then qry += options.filter
+  qry += " WITH u as user, count(*) as tmp
+         RETURN user.#{options.dimention} as name, count(*) as count
+         ORDER BY count(*) DESC\n"
+
+  params = {}
+  
+  _skip = req.query['$skip']
+
+  if (_skip)
+    _skip = inj.ensureInt _skip
+    qry += "SKIP #{_skip}\n"
+    params._skip = parseInt(_skip)
+
+  top = req.query['$top']  
+  if (top)
+    top = inj.ensureInt top
+    qry += "LIMIT #{top}\n"
+    params.top = parseInt(top)
+    
+  start = module.exports.startTiming()  
+  refs = db.query qry, params, _  
+  module.exports.endTiming(start, "projectUsers#{options.dimention}Internal main query")  
+  JSON.stringify(refs, null, 4)

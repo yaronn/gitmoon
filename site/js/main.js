@@ -18,7 +18,8 @@ window.Router = Backbone.Router.extend({
 
     routes: {
         "": "home",
-        "project/:id": "project"
+        "project/:id": "project",
+        "compare": "compare"
     },
 
     initialize: function () {    
@@ -26,7 +27,7 @@ window.Router = Backbone.Router.extend({
         $('.header').html(this.headerView.render().el);     
     },
 
-    home: function () {                     
+    home: function () {
        this.homeView = new HomeView();       
        window.controller.showView(this.homeView, $("#content"))
     },
@@ -42,7 +43,13 @@ window.Router = Backbone.Router.extend({
         else {
             this.projectMasterView.show({name: name})
         }
+    },
+
+    compare: function() {      
+      this.compareView = new CompareView()
+      window.controller.showView(this.compareView, $("#content"))
     }
+
 });
 
 function startApp() {
@@ -57,8 +64,9 @@ templateLoader.load(["HomeView", "HeaderView", "ProjectMasterView", "ProjectList
                      "DepProjectListItemView", "SampleCodeListView", "SampleCodeListItemView",
                      "SimilarProjectListItemView", "SimilarProjectListView", "ProjectUsersMasterView",
                      "SampleCodeMasterView", ["ListViewItemView", "../components/listview/"], 
-                     ["ListViewView", "../components/listview/"], "DepProjectMasterView"],
-    function () {                    
+                     ["ListViewView", "../components/listview/"], "DepProjectMasterView",
+                     ["CompareView", "../compare/"],["DiagramView", "../compare/"]],
+    function () {
             $('#wait').css("display", "none")            
             app = new Router();            
             Backbone.history.start();                   

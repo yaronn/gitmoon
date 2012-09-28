@@ -129,6 +129,7 @@ window.DepProjectMasterView = Backbone.View.extend({
             .data(force.nodes())
           .enter().append("svg:circle")
             .attr("r", 6)                        
+            .attr("class", "directed")
             .style("fill", function(d, i) {return d.name==self.projectName?"#4E803B":"#aaa"})
             .call(force.drag);
         

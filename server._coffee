@@ -41,6 +41,12 @@ app.get '/projects/:project/users/dep_projects', (req, res, _) ->
 app.get '/projects/:project/users/count', (req, res, _) ->		
 	require('./service/proj_users').projectUserCount req, res, _
 
+app.get '/projects_compare/users_overlap', (req, res, _) ->		
+	require('./service/compare').projectsUsersOverlap req, res, _
+
+app.get '/projects_compare/countries_overlap', (req, res, _) ->		
+	require('./service/compare').projectsCountriesOverlap req, res, _
+
 
 
 app.use express.static('./site', { maxAge: 60000*0.5 }) #half hour cache

@@ -9,7 +9,8 @@ var request = require('request')
 
 exports.index = function(req, res, _) {
   name = req.query.$name ? req.query.$name : ""
-  key = "all_projects_" + req.query.$skip + "_"+req.query.$top + "_" + name  
+  mode = req.query.$mode ? req.query.$mode : ""
+  key = "all_projects_" + req.query.$skip + "_"+req.query.$top + "_" + name  + "_" + mode
   utils.handleRequestCache(res, req, key, getAllProjects, _)
 }
 
@@ -26,7 +27,13 @@ function getAllProjects(req, _) {
     name = name.toLowerCase()
     name = inj.sanitizeString(name)
     name = utils.encodeStringCypher(name)
-    qry = 'START n=node:node_auto_index("name_lower:*'+name+'*")\n'
+  
+    var mode = req.query['$mode']    
+
+    var filter = name+"*"
+    if (mode=="starts") filter="*" + filter
+
+    qry = 'START n=node:node_auto_index("name_lower:'+filter+'")\n'
   }
 
   qry += 'WHERE HAS(n.type) and n.type="project"\n'

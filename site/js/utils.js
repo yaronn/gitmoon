@@ -18,14 +18,15 @@ window.templateLoader = {
                path = ""
             }
 
-            if (window[name]) {
-                var url = 'tpl/' + path + name + '.html'                
-                deferreds.push($.get(url, function(data) {                   
-                    window[name].prototype.template = _.template(data);
+            window.templates = {}
+
+            var url = 'tpl/' + path + name + '.html'                
+                deferreds.push($.get(url, function(data) {
+                    if (window[name]) window[name].prototype.template = _.template(data);
+                    else window.templates[name] = _.template(data);                    
                 }, 'html'));                
-            } else {
-                alert(name + " not found");
-            }
+
+            
         });
 
         $.when.apply(null, deferreds).done(callback);
