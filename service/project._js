@@ -54,7 +54,7 @@ function getAllProjects(req, _) {
     params.top = parseInt(top)
   }
 
-  //console.log(qry)
+  console.log(qry)
   //console.log(params)
   
   var start = utils.startTiming()        
@@ -63,8 +63,10 @@ function getAllProjects(req, _) {
   return JSON.stringify(results)
 }
 
-exports.show = function(req, res, _) {
-  key = "show_project_" + req.params.project
+exports.show = function(req, res, _) {  
+  var getStat = req.query.include_stat=="true"?"stat":"no_stat"
+  var getUsers = req.query.include_users=="true"?"users":"no_users"
+  var key = "show_project_" + req.params.project + "_" + getStat + "_" + getUsers
   utils.handleRequestCache(res, req, key, getProject, _)
 }
 
@@ -84,13 +86,22 @@ function getProject(req, _) {
   var data = node.data
   data.id = node.id
   
+  if (req.query.include_users=="true")
+    data.users = utils.getProjectUsers(node.id, 8, _)
+
+
+  var getStat = req.query.include_stat=="true"
+  if (getStat) {
   var start = utils.startTiming()        
-  getDirectDeps(data, _)        
-  getTotalDeps(data, _)
-  getDirectWatch(data, _)    
-  getTotalForks(data, _)
-  getTotalWatch(data, _)              
-  utils.endTiming(start, "getProject inner queries")
+    getDirectDeps(data, _)        
+    getTotalDeps(data, _)
+    getDirectWatch(data, _)    
+    getTotalForks(data, _)
+    getTotalWatch(data, _)              
+    utils.endTiming(start, "getProject inner queries")
+  }
+
+
   var val = JSON.stringify(data, null, 4)        
   //console.log("val: " + val)
   return val  

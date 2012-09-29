@@ -11,7 +11,7 @@ window.templateLoader = {
 
             if (view instanceof Array) {                
                 name = view[0]
-                path=view[1]
+                path=view[1]                
             }
             else {
                name = view
@@ -21,7 +21,7 @@ window.templateLoader = {
             window.templates = {}
 
             var url = 'tpl/' + path + name + '.html'                
-                deferreds.push($.get(url, function(data) {
+                deferreds.push($.get(url, function(data) {                    
                     if (window[name]) window[name].prototype.template = _.template(data);
                     else window.templates[name] = _.template(data);                    
                 }, 'html'));                

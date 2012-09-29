@@ -111,17 +111,17 @@ exports.projectUsersUSStates = (req, res, _) ->
 
 projectUsersCompaniesInternal = (req, _) ->   
   utils.projectUsersFilterDimentionInternal req, 
-    { name: req.param.project
+    { name: req.params.project
     , dimention: "company"}, _
 
-projectUsersCountriesInternal = (req, _) ->     
+projectUsersCountriesInternal = (req, _) ->  
   utils.projectUsersFilterDimentionInternal req, 
-  { name: req.param.project
+  { name: req.params.project
   , dimention: "country"}, _
 
 projectUsersUSStatesInternal = (req, _) ->     
   utils.projectUsersFilterDimentionInternal req, 
-    { name: req.param.project
+    { name: req.params.project
     , dimnetion: "state"
     , filter: "AND HAS(u.country) AND u.country='United States'"}
     , _

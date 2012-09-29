@@ -42,7 +42,7 @@ function getSimilarProjects(req, cbx, _) {
               }
 
           //fetch users per project    
-          utils.getProjectUsers(db, item.id, function(err, users) {   
+          utils.getProjectUsers(item.id, 4, function(err, users) {   
             similar_project.users = users 
             projects.push(similar_project)             
             callback()

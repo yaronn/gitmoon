@@ -4,7 +4,7 @@ window.CompareView = Backbone.View.extend({
     initialize: function(options) {                 
         var self = this
         this.project1 = null
-        this.project2 = null
+        this.project2 = null        
 
         this.reports = []
     },
@@ -13,27 +13,44 @@ window.CompareView = Backbone.View.extend({
         var self = this
         $(this.el).html(this.template());                                            
 
-        this.addTypeahead("project1", "project2")
-        this.addTypeahead("project2", "project1")        
-        
-        setTimeout(function() {$("#project1", self.el).focus()}, 0)        
+        this.addTypeahead("project1", "project2", "red")
+        this.addTypeahead("project2", "project1", "blue")                    
+
+        setTimeout(function() {$("#project1", self.el).focus()}, 0)
 
         return self;
     },
 
-    addTypeahead: function(current, other) {
+    addTypeahead: function(current, other, color) {
         var self = this
         $('#' + current, this.el).typeahead({
             source: searchProjects,
-            updater: function(obj) {
-                self[current] = obj
-                $("#name_" + current, self.el).text(obj)
-                $("#" + other, self.el).focus()
-                self.tryLoadReport()
-                return obj;},
+            updater: function(project) {               
+                self.chooseProject(current, other, color, project)
+                $("#" + other, self.el).focus()                
+                return project;
+            },
             items: 8})
 
     },
+
+    chooseProject: function(current, other, color, project) {        
+        var self = this
+        $("#featured", self.el).hide()
+        self[current] = project            
+        self[current + "Model"] = new Project({name: project, color: color})
+        self[current + "Model"].query = "include_stat=false&include_users=true"                
+        self[current + "Model"].fetch()
+        self[current + "MiniView"] = new ProjectMiniView({model: self[current + "Model"]})
+        $("#" + current + "_div").html(self[current + "MiniView"].el)
+        self.tryLoadReport()
+    },
+
+    showProjects: function(project1, project2) {
+        this.chooseProject("project1", "project2", "red", project1)
+        this.chooseProject("project2", "project1", "blue", project2)
+    },
+
 
     tryLoadReport: function() {        
         if (!this.project1 || !this.project2) return;

@@ -18,8 +18,9 @@ window.Router = Backbone.Router.extend({
 
     routes: {
         "": "home",
-        "project/:id": "project",
-        "compare": "compare"
+        "project/:id": "project",  
+        "compare/": "compare",
+        "compare/:id1/:id2": "compare"
     },
 
     initialize: function () {    
@@ -43,11 +44,13 @@ window.Router = Backbone.Router.extend({
         else {
             this.projectMasterView.show({name: name})
         }
-    },
+    },  
 
-    compare: function() {      
+    compare: function(project1, project2) {               
       this.compareView = new CompareView()
-      window.controller.showView(this.compareView, $("#content"))
+      window.controller.showView(this.compareView, $("#content"))    
+      if (project1 && project1!="" && project2 && project2!="")
+        this.compareView.showProjects(project1, project2)
     }
 
 });
@@ -66,7 +69,7 @@ templateLoader.load(["HomeView", "HeaderView", "ProjectMasterView", "ProjectList
                      "SampleCodeMasterView", ["ListViewItemView", "../components/listview/"], 
                      ["ListViewView", "../components/listview/"], "DepProjectMasterView",
                      ["CompareView", "../compare/"],["DiagramView", "../compare/"],
-                     ["MapView", "../components/map/"]],
+                     ["MapView", "../components/map/"], ["ProjectMiniView", "../compare/"]],
     function () {
             $('#wait').css("display", "none")            
             app = new Router();            

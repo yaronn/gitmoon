@@ -2,43 +2,64 @@
 
 <div class="row">
 
-<span class="span6 offset2" style="font-weight: bold;">
-
-	<div style="float:left; margin-left: 100px">
-		Choose project I:<br />
-		<input id="project1" type="text" data-provide="typeahead" placeholder="search npm project..." />
+<span class="span12" style="font-weight: bold; background-color: black; color: white; text-align: center; -moz-border-radius: 15px; border-radius: 15px;">
+	<div style="float: left; width: 150px; margin-top: 10px">
+		<img src="img/gitmoon.png" height="30" />
+	</div>
+	<div style="float: left; margin-left: 150px">
+		Choose red project:<br />
+		<input style="margin-top: 7px" id="project1" type="text" data-provide="typeahead" placeholder="search npm project..." />
 	</div>
 
 
-	<div style="float:right">
-		Choose project II:<br />
-		<input id="project2" type="text" data-provide="typeahead" placeholder="search npm project..." />
+	<div style="float: left; margin-left: 50px">
+		Choose blue project:<br />
+		<input style="margin-top: 7px" id="project2" type="text" data-provide="typeahead" placeholder="search npm project..." />
 	</div>
 
 <span>
 
 </div>
 
+<div class="row" id="featured">
+
+<span class="span4 offset4" style="margin-top: 100px; font-size: medium">
+
+	<b>Search projects or choose featured:</b> <br /><br /><br />
+
+	<div style="margin-left: 20px;">
+		<a href="/#compare/jade/haml"><b>jade</b> vs. <b>haml</b></a><br /><br />
+		<a href="/#compare/mongodb/mongoose"><b>mongodb</b> vs. <b>mongoose</b></a><br /><br />
+		<a href="/#compare/express/railway"><b>express</b> vs. <b>RailwayJS</b></a><br /><br />	
+		<a href="/#compare/less/stylus"><b>less </b> vs. <b>stylus</b></a><br /><br />
+		<a href="/#compare/async/step"><b>async</b> vs. <b>step</b></a><br /><br />
+		<a href="/#compare/jitsu/azure"><b>jitsu</b> vs. <b>azure</b></a><br /><br />	
+		<a href="/#compare/xml2js/libxmljs"><b>xml2js</b> vs. <b>libxmljs</b></a><br /><br />
+		<a href="/#compare/mocha/vows"><b>mocha</b> vs. <b>vows</b></a><br /><br />
+	</div>
+</span>
+
+
+</div>
 
 
 <div class="row">
 
-<span class="span9 offset1">
+<span class="offset1">
 
-	<div style="float:left">
-		<h2><span id="name_project1" /></h2>
+	<div style="float:left; width: 250px" id="project1_div" class="span2">	
+			
+	</div>	
+
+	<div id="report_results" class="span6">
+
 	</div>
 
-
-	<div style="float:right">
-		<h2><span id="name_project2" /></h2>
+	<div style="float:right; width: 250px" id="project2_div" class="span2">
+		
 	</div>
 	
 <span>
 
 </div>
 
-
-<div id="report_results">
-
-</div>

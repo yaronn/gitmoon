@@ -58,7 +58,7 @@ getDependantBy = (req, _) ->
     if first then first = false 
     else result += (",")
     
-    p.project.data.users = utils.getProjectUsers db, p.project.id, _
+    p.project.data.users = utils.getProjectUsers p.project.id, 4, _
     p.project.data.dependency_path = utils.fillPathNodeNames p, _        
     
     p.project.data.id = p.project.id

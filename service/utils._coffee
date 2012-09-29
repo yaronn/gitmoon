@@ -10,15 +10,15 @@ mem = if config.memcached then new nMemcached else null
 
 exports.max_depth = 2
 
-exports.getProjectUsers = (db, projectId, _) ->
+exports.getProjectUsers = (projectId, limit, _) ->
   #return []
   qry = "START n=node(#{projectId})
         MATCH (n)<-[:watches]-(u)
         RETURN u.login as login, ID(u) as id, u.gravatar_id? as gravatar_id, count(*) as count
         ORDER BY gravatar_id DESC
-        LIMIT 4"
+        LIMIT #{limit}"
   
-  results = db.query qry, _
+  results = module.exports.db.query qry, _
   users = []
   for n in results
     users.push

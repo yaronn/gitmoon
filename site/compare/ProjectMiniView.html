@@ -1,0 +1,19 @@
+
+  <h2 style="color: <%= color%>"><%=name%></h2>
+
+  <img id="loading" src='/img/wait.gif' />
+
+  <div style="margin-top: 10px;">
+  	<%=description%>
+  </div>
+
+  <div style="margin-top: 20px">
+	<%for (j in users) {%>
+	<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />
+	<%if (j==3) {%>
+		</div>
+		<div>	
+	<%}%>
+
+	<%}%>
+  </div>
