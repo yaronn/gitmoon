@@ -57,7 +57,7 @@ window.CompareView = Backbone.View.extend({
         view.render()
 
         $("#report_results", this.el).append(view.el)        
-        $("#report_results", this.el).append("<div style='margin-bottom:20px' />")        
+        $("#report_results", this.el).append("<div style='margin-bottom:30px' />")        
     },
 
     close: function() {

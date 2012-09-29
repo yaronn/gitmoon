@@ -16,7 +16,7 @@ window.VennView = BaseView.extend({
             labels: [ self.project1 + " (" + data.project1 + " users)"
                     , self.project2 + " (" + data.project2 + " users)"],
             overlapLabel: "overlap ("+data.overlap+")",
-            overlap: data.get("overlap")
+            overlap: data.overlap
       }, 120);
  }
 

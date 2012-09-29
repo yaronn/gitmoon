@@ -4,7 +4,7 @@ window.BaseView = Backbone.View.extend({
     initialize: function (options) {
        this.project1 = options.project1
        this.project2 = options.project2       
-    this.url = options.url       
+       this.url = options.url       
     },
 
     render: function () {     
@@ -15,10 +15,10 @@ window.BaseView = Backbone.View.extend({
         $("#title", self.el).text(this.title)
         $("#loading", self.el).show()
 
-        $.get(url, function(data) {
+        $.get(this.url, function(data) {
 
             $("#loading", self.el).hide()
-            data = JSON.stringify(data)
+            data = JSON.parse(data)
             self.showData(data)
 
         })

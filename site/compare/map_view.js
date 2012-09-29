@@ -15,8 +15,13 @@ window.MapView = BaseView.extend({
       data = google.visualization.arrayToDataTable(data)
 
       var geochart = new google.visualization.GeoChart(
-        $('#diagram')[0]);
-      geochart.draw(data, {width: 556, height: 347, colors: ["red", "blue"]});
+        $('#diagram', self.el)[0]);
+      geochart.draw(data, 
+          { width: 556
+          , height: 347         
+          , colors: ["red", "blue"]
+          , enableRegionInteractivity: false
+          , legend: "none"});
 
     }
 

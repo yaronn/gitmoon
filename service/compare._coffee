@@ -47,27 +47,21 @@ getWatchersCount = (project, _) ->
   data[0].count
 
 exports.projectsCountriesOverlap = (req, res, _) ->      
+  console.log "start projectsCountriesOverlap"
+  res.writeHead 200, {"Content-Type": "application/json"}
   project1 = req.query.project1 ? ""
   project2 = req.query.project2 ? ""
-  key = "projects_countries_overlap_#{project1}_#{project2}"
+  by_us_states = req.query.by_us_states ? "false"
+  key = "projects_countries_overlap_#{project1}_#{project2}_#{by_us_states}"
   utils.handleRequestCache res, req, key, projectsCountriesOverlapInternal, _ 
 
-projectsCountriesOverlapInternal = (req, _) ->
+projectsCountriesOverlapInternal = (req, _) ->  
+
   project1 = inj.sanitizeString req.query.project1
   project2 = inj.sanitizeString req.query.project2
   
-  countries1 = utils.projectUsersFilterDimentionInternal req, 
-    { dimention: "country"
-    , name: req.query.project1
-    , direct_only: true}, _
-  countries1 = JSON.parse(countries1)
-
-  countries2 = utils.projectUsersFilterDimentionInternal req, 
-    { dimention: "country"
-    , name: req.query.project2
-    , direct_only: true}, _
-  countries2 = JSON.parse(countries2)
-
+  countries1 = getCountries req.query.project1, req, _
+  countries2 = getCountries req.query.project2, req, _
 
   c1_hash = []
   countries1.forEach (c) -> c1_hash[c.name] = c.count
@@ -82,14 +76,9 @@ projectsCountriesOverlapInternal = (req, _) ->
   TIE = 2
   COUNTRY2_WINS = 3
   addCountries = (list, other, win, loose) ->    
-    console.log "in add countries"
-    console.log list
-    console.log other  
     for curr of list
-      console.log "curr: #{curr}"   
       if !used_countries[curr]
         used_countries[curr] = true
-        console.log "in condition"
         if !other[curr]
           intensity_value = win
         else        
@@ -104,3 +93,16 @@ projectsCountriesOverlapInternal = (req, _) ->
   addCountries c1_hash, c2_hash, COUNTRY1_WINS, COUNTRY2_WINS
   addCountries c2_hash, c1_hash, COUNTRY2_WINS, COUNTRY1_WINS
   JSON.stringify(res)
+
+getCountries = (name, req, _) ->
+  options =  { dimention: "country"
+    , name: name
+    , direct_only: true} 
+
+  if req.query.by_us_states=="true"
+    options.dimention = "state"
+    options.filter = "AND HAS(u.country) AND u.country='United States'"
+
+  countries = utils.projectUsersFilterDimentionInternal req, options, _  
+  countries = JSON.parse(countries)
+

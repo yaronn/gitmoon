@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link href="/css/bootstrap.css" rel="stylesheet">
+
+<script src="/lib/jquery-1.7.2.min.js"></script>
+<script src="/lib/underscore-min.js"></script>
+<script src="/lib/backbone-min.js"></script>
+<script src="/lib/backbone.analytics.js"></script>
+<script src="/lib/backbone.paginator.js"></script>
+<script src="/lib/bootstrap-button.js"></script>
+
+
+
+<script src="map_model.js"></script>
+<script src="map_view.js"></script>
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+<script type="text/javascript">
+    google.load('visualization', '1', {packages: ['corechart']});
+    google.load('visualization', '1', {packages: ['geomap']});
+</script>
+
+</head>
+
+<body id="body" style="margin: 10px;">
+
+start
+<br /><br /><br /><br />
+
+<div class="row" style="margin:10px;">
+<div id="root" class="span8"></div>
+</div>
+
+<br /><br /><br /><br />
+end
+
+
+<script src="main.js"></script>
+
+
+</body>
+</html>
+
+
