@@ -6,7 +6,7 @@ window.MapView = Backbone.View.extend({
        var self = this
 
        this.mapModel = options.mapModel
-
+       
        $(this.el).html(this.template())       
        this.currentRegion = "world"
 
@@ -25,7 +25,7 @@ window.MapView = Backbone.View.extend({
 
     },
 
-    render: function () {                       
+    render: function () {        
         var data = this.mapModel.getMapData()               
         $("#loading", this.el).hide()
         

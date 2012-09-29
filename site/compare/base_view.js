@@ -14,13 +14,11 @@ window.BaseView = Backbone.View.extend({
 
         $("#title", self.el).text(this.title)
         $("#loading", self.el).show()
-
-        $.get(this.url, function(data) {
-
-            $("#loading", self.el).hide()
-            data = JSON.parse(data)
+        
+        $.get(this.url, function(data) {        
+            $("#loading", self.el).hide()            
+            //data = JSON.parse(data)            
             self.showData(data)
-
         })
 
         return this;

@@ -5,6 +5,7 @@ config = require '../common/config'
 db = utils.db
 
 exports.projectsUsersOverlap = (req, res, _) ->      
+  res.writeHead 200, {"Content-Type": "application/json"}
   project1 = req.query.project1 ? ""
   project2 = req.query.project2 ? ""
   key = "projects_users_overlap_#{project1}_#{project2}"
@@ -46,8 +47,7 @@ getWatchersCount = (project, _) ->
   utils.endTiming(start, "getWatchersCount")
   data[0].count
 
-exports.projectsCountriesOverlap = (req, res, _) ->      
-  console.log "start projectsCountriesOverlap"
+exports.projectsCountriesOverlap = (req, res, _) ->        
   res.writeHead 200, {"Content-Type": "application/json"}
   project1 = req.query.project1 ? ""
   project2 = req.query.project2 ? ""

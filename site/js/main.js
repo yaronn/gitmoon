@@ -65,7 +65,8 @@ templateLoader.load(["HomeView", "HeaderView", "ProjectMasterView", "ProjectList
                      "SimilarProjectListItemView", "SimilarProjectListView", "ProjectUsersMasterView",
                      "SampleCodeMasterView", ["ListViewItemView", "../components/listview/"], 
                      ["ListViewView", "../components/listview/"], "DepProjectMasterView",
-                     ["CompareView", "../compare/"],["DiagramView", "../compare/"]],
+                     ["CompareView", "../compare/"],["DiagramView", "../compare/"],
+                     ["MapView", "../components/map/"]],
     function () {
             $('#wait').css("display", "none")            
             app = new Router();            

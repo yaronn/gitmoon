@@ -43,11 +43,13 @@ window.CompareView = Backbone.View.extend({
         var venn_url = "/projects_compare/users_overlap?project1="+this.project1+"&project2="+this.project2                
         this.addView(VennView, venn_url)
 
-        var map_url = "/projects_compare/countries_overlap?project1="+this.project1+"&project2="+this.project2                
-        this.addView(MapView, map_url)    
+        
+        var map_url = "/projects_compare/countries_overlap?project1="+this.project1+"&project2="+this.project2                        
+        this.addView(MyMapView, map_url)    
     },
 
     addView: function(view, url) {
+
         var view = new view(
             { url: url
             , project1: this.project1
