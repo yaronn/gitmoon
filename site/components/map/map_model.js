@@ -25,7 +25,7 @@ var MapModel = function(options) {
                if (this.is_us) url+="&by_us_states=true"
                
                $.get(url, function(data) {                                    
-                  data.splice(0, 0, ["country", "count"])                                                       
+                  data.splice(0, 0, ["country", ""])                                                       
                   if (self.is_us) self.USData = data
                   else self.worldData = data                        
 

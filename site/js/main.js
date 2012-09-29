@@ -18,8 +18,9 @@ window.Router = Backbone.Router.extend({
 
     routes: {
         "": "home",
-        "project/:id": "project",  
+        "project/:id": "project",          
         "compare/": "compare",
+        "compare": "compare",
         "compare/:id1/:id2": "compare"
     },
 

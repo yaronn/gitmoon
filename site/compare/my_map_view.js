@@ -3,7 +3,8 @@
 window.MyMapView = BaseView.extend({
 
     initialize: function (options) {
-       this.title="MapView"       
+       this.title="World dominance"
+       this.help = "This map shows which project has more users across the globe"       
        BaseView.prototype.initialize.call(this, options)
     },
 

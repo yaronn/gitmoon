@@ -1,6 +1,7 @@
 
 window.CompareView = Backbone.View.extend({    
 
+  
     initialize: function(options) {                 
         var self = this
         this.project1 = null
@@ -32,7 +33,7 @@ window.CompareView = Backbone.View.extend({
             },
             items: 8})
 
-    },
+    },   
 
     chooseProject: function(current, other, color, project) {        
         var self = this

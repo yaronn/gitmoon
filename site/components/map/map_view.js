@@ -32,10 +32,10 @@ window.MapView = Backbone.View.extend({
         data = google.visualization.arrayToDataTable(data)
 
         var options = 
-              { width: 556
-              , height: 347         
+              { width: 475
+              , height: 297
               , colors: ["red", "blue"]
-              , enableRegionInteractivity: false
+              , enableRegionInteractivity: true
               , legend: "none"}
         if ( this.currentRegion!="world") options.region = this.Regions[this.currentRegion]
         if ( this.currentRegion=="US") options.resolution = "provinces"
