@@ -14,8 +14,8 @@
 
   <div style="margin-top: 20px">
 	<%for (j in users) {%>
-	<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />
-	<%if (j==3) {%>
+	<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />  
+	<%if ((j%4)==3) {%>
 		</div>
 		<div>	
 	<%}%>

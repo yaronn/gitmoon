@@ -99,7 +99,8 @@ window.DepProjectMasterView = Backbone.View.extend({
             .on("tick", tick)
             .start();
 
-        var svg = d3.select("#wrapper", this.el).append("svg:svg")
+        var root = $("#wrapper", this.el)[0]
+        var svg = d3.select(root).append("svg:svg")
             .attr("width", w)
             .attr("height", h);
 

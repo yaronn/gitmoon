@@ -5,6 +5,7 @@ window.BaseView = Backbone.View.extend({
        this.project1 = options.project1
        this.project2 = options.project2       
        this.url = options.url       
+       this.span = options.span
     },
 
     render: function () {     
@@ -14,13 +15,20 @@ window.BaseView = Backbone.View.extend({
 
         $("#title", self.el).text(this.title)
         $("#help", self.el).attr("title", this.help)
+        $("#wrapper", self.el).attr("class", this.span)
         $("#loading", self.el).show()
-        
-        $.get(this.url, function(data) {        
-            $("#loading", self.el).hide()            
-            //data = JSON.parse(data)            
-            self.showData(data)
-        })
+                
+        if (this.url) {
+            $.get(this.url, function(data) {        
+                $("#loading", self.el).hide()                        
+                self.showData(data)
+            })
+        }
+        else {
+            $("#loading", self.el).hide()
+            self.showData()
+        }
+
 
         return this;
     },

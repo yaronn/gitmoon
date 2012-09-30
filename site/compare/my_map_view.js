@@ -8,11 +8,8 @@ window.MyMapView = BaseView.extend({
        BaseView.prototype.initialize.call(this, options)
     },
 
-    showData: function (data) {        
+    showData: function () {        
       var self = this      
-      data.splice(0,0,["country", "value"])      
-
-      data = google.visualization.arrayToDataTable(data)
 
       var mapModel = new MapModel({url: "/projects_compare/countries_overlap"})
       mapModel.project1 = this.project1

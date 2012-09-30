@@ -47,6 +47,8 @@ app.get '/projects_compare/users_overlap', (req, res, _) ->
 app.get '/projects_compare/countries_overlap', (req, res, _) ->		
 	require('./service/compare').projectsCountriesOverlap req, res, _
 
+app.get '/projects_compare/mutual_depends_on', (req, res, _) ->		
+	require('./service/dep_projects').getMutualDependsOn req, res, _
 
 
 app.use express.static('./site', { maxAge: 60000*0.5 }) #half hour cache

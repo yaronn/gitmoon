@@ -27,7 +27,7 @@ projectsUsersOverlapInternal = (req, _) ->
 
     start = utils.startTiming()  
     data = db.query qry, {}, _  
-    utils.endTiming(start, "getOverlap")
+    utils.endTiming(start, "projectsUsersOverlapInternal")
     overlap = data[0].count
   else
     overlap = p1count

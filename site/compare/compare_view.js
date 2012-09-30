@@ -48,6 +48,8 @@ window.CompareView = Backbone.View.extend({
     },
 
     showProjects: function(project1, project2) {
+        $('#project1', this.el).val(project1)
+        $('#project2', this.el).val(project2)
         this.chooseProject("project1", "project2", "red", project1)
         this.chooseProject("project2", "project1", "blue", project2)
     },
@@ -56,28 +58,36 @@ window.CompareView = Backbone.View.extend({
     tryLoadReport: function() {        
         if (!this.project1 || !this.project2) return;
         
+        Backbone.history.navigate("/compare/"+this.project1 + "/" + this.project2)
+
         $("#report_results", this.el).html("")
 
-        var venn_url = "/projects_compare/users_overlap?project1="+this.project1+"&project2="+this.project2                
-        this.addView(VennView, venn_url)
+        var query = "?project1="+this.project1+"&project2="+this.project2
 
-        
-        var map_url = "/projects_compare/countries_overlap?project1="+this.project1+"&project2="+this.project2                        
-        this.addView(MyMapView, map_url)    
+        var venn_url = "/projects_compare/users_overlap" + query
+        this.addView(VennView, venn_url, "span7 offset2")
+
+           
+        this.addView(MyMapView, null, "span7 offset2")
+
+        var depends_url = "/projects_compare/mutual_depends_on" + query
+        this.addView(DependsView, depends_url, "span7 offset2")
+
     },
 
-    addView: function(view, url) {
+    addView: function(view, url, span) {
 
         var view = new view(
             { url: url
             , project1: this.project1
-            , project2: this.project2});
+            , project2: this.project2
+            , span: span});
 
 
         view.render()
 
         $("#report_results", this.el).append(view.el)        
-        $("#report_results", this.el).append("<div style='margin-bottom:30px' />")        
+        $("#report_results", this.el).append("<div style='clear: both; margin-bottom:30px' />")        
     },
 
     close: function() {

@@ -73,9 +73,14 @@ exports.getDependsOn = (req, res, _) ->
   key = "dependsOn_#{req.params.project}"
   utils.handleRequestCache res, req, key, getDependsOnInternal, _   
 
-getDependsOnInternal = (req, _) ->    
-  nesting_level = 10
-  prj_name = inj.sanitizeString req.params.project
+getDependsOnInternal = (req, _) ->      
+  result = getDependsOn req.params.project
+  utils.endTiming(start, "getDependsOnInternal")  
+  JSON.stringify(result)
+
+getDependsOn = (project, _) ->
+  nesting_level = 2
+  prj_name = inj.sanitizeString project
   prj_name = utils.encodeStringCypher prj_name
   qry = "START n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)-[:depends_on*0..#{nesting_level}]->(x),
@@ -84,11 +89,23 @@ getDependsOnInternal = (req, _) ->
          MATCH z = x-[depends_on*1..1]->y
          RETURN DISTINCT EXTRACT(n in nodes(z) : n.name) as link
          LIMIT 100"
+  console.log qry
   start = utils.startTiming()  
   data = db.query qry, {}, _  
   result = []
   data.forEach_ _, (_, p) ->      
     result.push {source: p.link[0], target: p.link[1], type: 'depends_on'}
+  result
 
-  utils.endTiming(start, "getDependsOnInternal")  
-  JSON.stringify(result)
+exports.getMutualDependsOn = (req, res, _) ->      
+  res.writeHead 200, {"Content-Type": "application/json"} 
+  project1 = req.query.project1 ? ""
+  project2 = req.query.project2 ? ""
+  key = "dependsOn_#{project1}_#{project2}"
+  utils.handleRequestCache res, req, key, getMutualDependsOnInternal, _   
+
+getMutualDependsOnInternal = (req, _) ->      
+  results1 = getDependsOn req.query.project1, _
+  results2 = getDependsOn req.query.project2, _    
+  result = results1.concat results2
+  JSON.stringify result

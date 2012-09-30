@@ -54,7 +54,7 @@ function getAllProjects(req, _) {
     params.top = parseInt(top)
   }
 
-  console.log(qry)
+  //console.log(qry)
   //console.log(params)
   
   var start = utils.startTiming()        

@@ -14,7 +14,7 @@ window.MapView = Backbone.View.extend({
 
         $('#map-buttons', this.el).find('button').bind('click',function(e) {
             $("#map", self.el).hide()
-            $("#loading", self.el).show()
+            $("#map_loading", self.el).show()
 
             self.currentRegion = e.currentTarget.id
 
@@ -27,7 +27,7 @@ window.MapView = Backbone.View.extend({
 
     render: function () {        
         var data = this.mapModel.getMapData()               
-        $("#loading", this.el).hide()
+        $("#map_loading", this.el).hide()
         
         data = google.visualization.arrayToDataTable(data)
 
