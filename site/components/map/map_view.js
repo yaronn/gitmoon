@@ -31,12 +31,16 @@ window.MapView = Backbone.View.extend({
         
         data = google.visualization.arrayToDataTable(data)
 
+        var project1_wins = 1
+        var project2_wins = 3
+
         var options = 
               { width: 475
               , height: 297
               , colors: ["red", "blue"]
               , enableRegionInteractivity: true
-              , legend: "none"}
+              , legend: "none"
+              , colorAxis: {minValue: project1_wins, maxValue: project2_wins}}
         if ( this.currentRegion!="world") options.region = this.Regions[this.currentRegion]
         if ( this.currentRegion=="US") options.resolution = "provinces"
 
