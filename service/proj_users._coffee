@@ -167,11 +167,42 @@ exports.projectUserCount = (req, res, _) ->
   utils.handleRequestCache res, req, key, getProjectUserCountInternal, _ 
 
 getProjectUserCountInternal = (req, _) ->
-  prj_name = inj.sanitizeString req.params.project
+  (getProjectUserCountInternalByProject req.params.project, "network").toString()
+
+getProjectUserCountInternalByProject = (project, mode, _) ->
+  prj_name = inj.sanitizeString project
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
-         MATCH (n)<-[depends_on*0..#{utils.max_depth}]-(x)<-[:watches]-(u)
+         MATCH (n)<-"
+  if mode=="network"
+    qry += "[depends_on*0..#{utils.max_depth}]-(x)<-"
+  qry += "[:watches]-(u)
          RETURN count(distinct u) as count\n"
+  
   start = utils.startTiming()  
   data = db.query qry, {}, _  
-  utils.endTiming(start, "getProjectUserCountInternal")
-  data[0].count.toString()
+  utils.endTiming(start, "getProjectUserCountInternalByProject")
+  data[0].count
+
+exports.projectRandomUsers = (req, res, _) ->  
+  res.writeHead 200, {"Content-Type": "application/json"}
+  random = utils.random 4
+  key = "project_random_user_#{req.params.project}_#{random}"
+  utils.handleRequestCache res, req, key, projectRandomUsersInternal, _ 
+
+projectRandomUsersInternal = (req, _) ->  
+  prj_name = inj.sanitizeString req.params.project
+  count = getProjectUserCountInternalByProject prj_name, "direct", _  
+  
+  rnd = utils.random count-1
+
+  qry = "START  n=node:node_auto_index(name='#{prj_name}')
+         MATCH (n)<-[:watches]-(u)
+         WHERE HAS(u.gravatar_id) and LENGTH(u.gravatar_id)>0
+         RETURN u.login as login, u.full_name as full_name, u.gravatar_id as gravatar_id,
+                u.location as location, u.blog as blog, u.company as company , u.bio as bio
+         SKIP #{rnd} LIMIT #{req.query.limit}"  
+
+  start = utils.startTiming()  
+  data = db.query qry, {}, _  
+  utils.endTiming(start, "projectRandomUsersInternal")
+  JSON.stringify data

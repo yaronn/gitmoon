@@ -1,0 +1,11 @@
+
+<% users_text = is_first?" users":"" %>
+
+<tr>
+  <td style="text-align: center; color: red"><%= project1_count%><%= users_text %></td>
+  <td style="text-align: center"><div><span><h2><%= name%></h2></span>
+      <img onerror="$(this).hide()" onload="$($(this).parent().children()[0]).hide()"
+      height="40" src="/img/companies/<%= canonizedName%>.jpg" /></div>
+  </td>
+  <td style="text-align: center; color: blue"><%= project2_count%><%= users_text %></td>
+</tr>

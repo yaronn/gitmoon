@@ -41,6 +41,10 @@ app.get '/projects/:project/users/dep_projects', (req, res, _) ->
 app.get '/projects/:project/users/count', (req, res, _) ->		
 	require('./service/proj_users').projectUserCount req, res, _
 
+app.get '/projects/:project/users/random', (req, res, _) ->		
+	require('./service/proj_users').projectRandomUsers req, res, _
+
+
 app.get '/projects_compare/users_overlap', (req, res, _) ->		
 	require('./service/compare').projectsUsersOverlap req, res, _
 
@@ -52,6 +56,10 @@ app.get '/projects_compare/mutual_depends_on', (req, res, _) ->
 
 app.get '/projects_compare/code/random_samples', (req, res, _) ->		
 	require('./service/sample_code').getRandomCodeSamples req, res, _
+
+app.get '/projects_compare/companies_overlap', (req, res, _) ->		
+	require('./service/compare').projectsCompaniesOverlap req, res, _
+
 
 
 

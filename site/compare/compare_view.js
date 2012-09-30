@@ -72,10 +72,16 @@ window.CompareView = Backbone.View.extend({
         var depends_url = "/projects_compare/mutual_depends_on" + query
         this.addView(DependsView, depends_url)
 
+        this.addView(RandomUserView, null)
+
+        var companies_url = "/projects_compare/companies_overlap" + query
+        this.addView(CompaniesView, companies_url)
+        
         this.addView(TotalNetworkView, null)
 
         var randomCodeUri = "/projects_compare/code/random_samples" + query
         this.addView(RandomCodeView, randomCodeUri)
+       
 
     },
 

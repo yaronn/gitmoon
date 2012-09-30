@@ -24,7 +24,7 @@ window.templateLoader = {
                 deferreds.push($.get(url, function(data) {                    
                     if (window[name]) window[name].prototype.template = _.template(data);
                     else window.templates[name] = _.template(data);                    
-                }, 'html'));                
+                }, 'html').error(function() {alert("could not load template " + name)}));                
 
             
         });
@@ -228,4 +228,8 @@ utils.regionsMap = {
     'Brunei': 'africa',
     'Angola': 'africa',
 
+}
+
+utils.getCanonizedCompany = function(c) {
+    return c.toLowerCase().replace(/[!]/g, "")            
 }

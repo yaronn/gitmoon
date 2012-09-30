@@ -17,7 +17,10 @@ window.RandomCodeView = BaseView.extend({
         addHtml(data.project1sample, this.project1, '255,0,0')
       if (data.project2sample)
         addHtml(data.project2sample, this.project2, '0,0,255')
-        
+
+      if (!data.project1sample && !data.project2sample)
+        html = 'no code samples available'
+
       $("#diagram", this.el).html(html)
 
       cbx()

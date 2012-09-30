@@ -279,7 +279,7 @@ window.ProjectUsersMasterView = Backbone.View.extend({
             $("#item-name", root).hide()
             $("#item-image", root).show()
             $("#item-name", root).text(item)                        
-            var name = item.toLowerCase().replace(/[!]/g, "")            
+            var name = utils.getCanonizedCompany(item)
             var url = "/img/companies/"+name+".jpg"            
             $("#item-image", root).attr("src", url)
             $("#extra-data-countries", root).hide()

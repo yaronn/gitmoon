@@ -75,6 +75,7 @@ projectsCountriesOverlapInternal = (req, _) ->
   COUNTRY1_WINS = 1
   TIE = 2
   COUNTRY2_WINS = 3
+
   addCountries = (list, other, win, loose) ->    
     for curr of list
       if !used_countries[curr]
@@ -106,3 +107,91 @@ getCountries = (name, req, _) ->
   countries = utils.projectUsersFilterDimentionInternal req, options, _  
   countries = JSON.parse(countries)
 
+exports.projectsCompaniesOverlap = (req, res, _) ->      
+  res.writeHead 200, {"Content-Type": "application/json"}
+  project1 = req.query.project1 ? ""
+  project2 = req.query.project2 ? ""
+  key = "projects_companies_overlap_#{project1}_#{project2}"
+  utils.handleRequestCache res, req, key, projectsCompaniesOverlapInternal, _ 
+
+projectsCompaniesOverlapInternal = (req, _) ->
+  project1 = inj.sanitizeString req.query.project1
+  project2 = inj.sanitizeString req.query.project2
+  
+  params1 = {"query": {"$top": "10"}}
+
+  ###
+  companies array is
+
+  [
+    {name: "company1", count: 12}
+  ]
+  ###
+  companies1 = utils.projectUsersFilterDimentionInternal params1, 
+    { name: req.query.project1
+    , dimention: "company"
+    , direct_only: true }, _
+  companies1 = JSON.parse companies1
+  companies2 = utils.projectUsersFilterDimentionInternal params1, 
+    { name: req.query.project2
+    , dimention: "company"
+    , direct_only: true }, _
+  companies2 = JSON.parse companies2
+
+  ###
+  res is this hash:
+    
+    {
+      "[company1_name]": {project1: 10, project2: 3},
+      "[company2_name]": {project1: 10},
+    }
+
+  ###  
+  projects_hash = {}
+  push companies1, "project1", projects_hash
+  push companies2, "project2", projects_hash
+  ###
+    project_array is this:
+
+    [
+      {
+        company_name: "[company1]", project1_count: 12, project2_count: 8
+      },
+      {
+        company_name: "[company2]", project1_count: 12
+      }
+    ]
+  ###
+  projects_array = (arrayify projects_hash).sort sort
+  max_results = 8  
+  return JSON.stringify(projects_array.reverse().slice(0, max_results))
+
+push = (list, list_name, hash) ->      
+  for company in list
+    if !hash[company.name] then hash[company.name] = {}
+    hash[company.name][list_name] = company.count        
+
+arrayify = (hash) ->
+  companies = []
+  for h of hash
+    companies.push { 
+        "name": h
+      , "project1_count": hash[h].project1
+      , "project2_count": hash[h].project2}
+  companies
+
+count = (count) ->  
+  return 0 if !count
+  count
+
+sort = (a,b) ->
+  #only company a has form both project
+  if (a["project1_count"] && a["project2_count"]) && (!b["project1_count"] || !b["project2_count"])
+    return 1
+  #only company b has form both project    
+  else if (b["project1_count"] && b["project2_count"]) && (!a["project1_count"] || !a["project2_count"])
+    return -1
+  #both projects have only one company - return where there are max users
+  else 
+    sum = count(a["project1_count"]) + count(a["project2_count"]) - count(b["project1_count"]) - count(b["project2_count"]) 
+    return sum

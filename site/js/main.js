@@ -70,7 +70,9 @@ templateLoader.load(["HomeView", "HeaderView", "ProjectMasterView", "ProjectList
                      "SampleCodeMasterView", ["ListViewItemView", "../components/listview/"], 
                      ["ListViewView", "../components/listview/"], "DepProjectMasterView",
                      ["CompareView", "../compare/"],["DiagramView", "../compare/"],
-                     ["MapView", "../components/map/"], ["ProjectMiniView", "../compare/"]],
+                     ["MapView", "../components/map/"], ["ProjectMiniView", "../compare/"],
+                     ["RandomUserView", "../compare/"],["UserView", "../compare/"],
+                     ["CompanyOverlapView", "../compare/"],],
     function () {
             $('#wait').css("display", "none")            
             app = new Router();            
