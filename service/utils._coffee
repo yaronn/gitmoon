@@ -137,3 +137,6 @@ exports.projectUsersFilterDimentionInternal = (req, options, _) ->
   refs = db.query qry, params, _  
   module.exports.endTiming(start, "projectUsers#{options.dimention}Internal main query")  
   JSON.stringify(refs, null, 4)
+
+exports.random = (max) ->
+  Math.floor(Math.random()*(max+1))

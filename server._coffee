@@ -50,6 +50,10 @@ app.get '/projects_compare/countries_overlap', (req, res, _) ->
 app.get '/projects_compare/mutual_depends_on', (req, res, _) ->		
 	require('./service/dep_projects').getMutualDependsOn req, res, _
 
+app.get '/projects_compare/code/random_samples', (req, res, _) ->		
+	require('./service/sample_code').getRandomCodeSamples req, res, _
+
+
 
 app.use express.static('./site', { maxAge: 60000*0.5 }) #half hour cache
 

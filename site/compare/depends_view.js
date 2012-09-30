@@ -8,8 +8,9 @@ window.DependsView = BaseView.extend({
        BaseView.prototype.initialize.call(this, options)
     },
 
-    showData: function (data) {              
+    showData: function (data, cbx) {              
       this.drawVisualizationInternal(data)
+      cbx()
     },
 
    drawVisualizationInternal: function(links) {
@@ -28,7 +29,7 @@ window.DependsView = BaseView.extend({
       if (!nodes[this.project2]) nodes[this.project2] = {name: this.project2}
 
       var w = 600,
-          h = Math.min(600, 200 + links.length*15)
+          h = Math.min(600, 200 + links.length*7)
 
       var force = d3.layout.force()
           .nodes(d3.values(nodes))            

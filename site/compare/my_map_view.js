@@ -8,8 +8,9 @@ window.MyMapView = BaseView.extend({
        BaseView.prototype.initialize.call(this, options)
     },
 
-    showData: function () {        
+    showData: function (data, cbx) {        
       var self = this      
+      cbx()
 
       var mapModel = new MapModel({url: "/projects_compare/countries_overlap"})
       mapModel.project1 = this.project1

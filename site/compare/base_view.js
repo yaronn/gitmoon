@@ -14,19 +14,20 @@ window.BaseView = Backbone.View.extend({
         $(this.el).html(window.templates.DiagramView)        
 
         $("#title", self.el).text(this.title)
-        $("#help", self.el).attr("title", this.help)
-        $("#wrapper", self.el).attr("class", this.span)
+        $("#help", self.el).attr("title", this.help)        
         $("#loading", self.el).show()
                 
         if (this.url) {
-            $.get(this.url, function(data) {        
-                $("#loading", self.el).hide()                        
-                self.showData(data)
+            $.get(this.url, function(data) {
+                self.showData(data, function() {
+                    $("#loading", self.el).hide()        
+                })
             })
         }
-        else {
-            $("#loading", self.el).hide()
-            self.showData()
+        else {            
+            self.showData(null, function() {
+                $("#loading", self.el).hide()        
+            })
         }
 
 

@@ -7,11 +7,13 @@ window.VennView = BaseView.extend({
        BaseView.prototype.initialize.call(this, options)
     },
 
-   showData: function (data) {     
+   showData: function (data, cbx) {     
       
       var self = this
 
-      //wa for venn infinite loop on zeros
+      cbx()
+      
+      //workaround for venn infinite loop on zeros
       if (data.project1==0) data.project1=1
       if (data.project2==0) data.project2=1
 

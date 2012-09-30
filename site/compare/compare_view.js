@@ -65,13 +65,17 @@ window.CompareView = Backbone.View.extend({
         var query = "?project1="+this.project1+"&project2="+this.project2
 
         var venn_url = "/projects_compare/users_overlap" + query
-        this.addView(VennView, venn_url, "span7 offset2")
-
-           
-        this.addView(MyMapView, null, "span7 offset2")
+        this.addView(VennView, venn_url)
+        
+        this.addView(MyMapView, null)
 
         var depends_url = "/projects_compare/mutual_depends_on" + query
-        this.addView(DependsView, depends_url, "span7 offset2")
+        this.addView(DependsView, depends_url)
+
+        this.addView(TotalNetworkView, null)
+
+        var randomCodeUri = "/projects_compare/code/random_samples" + query
+        this.addView(RandomCodeView, randomCodeUri)
 
     },
 

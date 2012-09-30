@@ -89,7 +89,7 @@ getDependsOn = (project, _) ->
          MATCH z = x-[depends_on*1..1]->y
          RETURN DISTINCT EXTRACT(n in nodes(z) : n.name) as link
          LIMIT 100"
-  console.log qry
+  
   start = utils.startTiming()  
   data = db.query qry, {}, _  
   result = []

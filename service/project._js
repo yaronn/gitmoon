@@ -64,6 +64,7 @@ function getAllProjects(req, _) {
 }
 
 exports.show = function(req, res, _) {  
+  res.writeHead(200, {"Content-Type": "application/json"})
   var getStat = req.query.include_stat=="true"?"stat":"no_stat"
   var getUsers = req.query.include_users=="true"?"users":"no_users"
   var key = "show_project_" + req.params.project + "_" + getStat + "_" + getUsers

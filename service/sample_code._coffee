@@ -82,12 +82,40 @@ getCodeSamples = (req, _) ->
 exports.getCodeSamplesCount = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "text/plain"}
   key = "sample_code_#{req.params.project}_count"
-  utils.handleRequestCache res, req, key, getCodeSamplesCount, _ 
+  utils.handleRequestCache res, req, key, getCodeSamplesCountInternal, _ 
 
-getCodeSamplesCount = (req, _) ->
-  prj_name = inj.sanitizeString req.params.project
+getCodeSamplesCountInternal = (req, _) ->
+  getCodeSamplesCountInternalByProject(req.params.project).toString()
+
+getCodeSamplesCountInternalByProject = (project, _) ->
+  prj_name = inj.sanitizeString project
   qry = "START c=node:node_auto_index(project_used_name='#{prj_name}') RETURN count(*) as count"
   start = utils.startTiming()  
   data = db.query qry, {}, _  
-  utils.endTiming(start, "getCodeSamplesCount")
-  data[0].count.toString()
+  utils.endTiming(start, "getCodeSamplesCountInternal")
+  data[0].count
+
+exports.getRandomCodeSamples = (req, res, _) ->  
+  res.writeHead 200, {"Content-Type": "application/json"}
+  random = utils.random 4
+  key = "random_code_#{req.query.project1}_#{req.query.project2}_#{random}"
+  utils.handleRequestCache res, req, key, getRandomCodeSamplesInternal, _ 
+
+
+getRandomCodeSamplesInternal = (req, _) ->
+  sample1 = getRandomCodeSampleForProject req.query.project1, _
+  sample2 = getRandomCodeSampleForProject req.query.project2, _
+  JSON.stringify {project1sample: sample1, project2sample: sample2}
+
+getRandomCodeSampleForProject = (project, _) ->
+  prj_name = inj.sanitizeString project
+  count = getCodeSamplesCountInternalByProject project, _  
+  if count>0
+    i = utils.random count-1
+    qry = "START c=node:node_auto_index(project_used_name='#{project}')
+           RETURN c.var_name as var_name, c.project_using_name as project_using_name, c.code as code
+           SKIP #{i} LIMIT 1"
+    start = utils.startTiming()  
+    data = db.query qry, {}, _  
+    utils.endTiming(start, "getCodeSamplesCountInternalByProject")
+    data[0]
