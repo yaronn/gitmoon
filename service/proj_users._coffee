@@ -18,7 +18,7 @@ getProjUsers = (req, _) ->
   prj_name = inj.sanitizeString req.params.project
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
         MATCH (n)<-[depends_on*0..#{utils.max_depth}]-(x)<-[:watches]-(u)
-        WHERE 1=1\n"
+        WHERE HAS(x.name) AND x.name<>'hoarders'\n"
 
   params = {}
   login = req.query['$login']
@@ -167,20 +167,22 @@ exports.projectUserCount = (req, res, _) ->
   utils.handleRequestCache res, req, key, getProjectUserCountInternal, _ 
 
 getProjectUserCountInternal = (req, _) ->
-  (getProjectUserCountInternalByProject req.params.project, "network").toString()
+  (getProjectUserCountInternalByProject req.params.project, "network", _).toString()  
 
-getProjectUserCountInternalByProject = (project, mode, _) ->
+getProjectUserCountInternalByProject = (project, mode, _) ->  
   prj_name = inj.sanitizeString project
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)<-"
   if mode=="network"
     qry += "[depends_on*0..#{utils.max_depth}]-(x)<-"
-  qry += "[:watches]-(u)
-         RETURN count(distinct u) as count\n"
+  qry += "[:watches]-(u)\n"
+  if mode=="network"
+    qry += "WHERE HAS(x.name) AND x.name<>'hoarders'\n"
+  qry += "RETURN count(distinct u) as count\n"
   
   start = utils.startTiming()  
   data = db.query qry, {}, _  
-  utils.endTiming(start, "getProjectUserCountInternalByProject")
+  utils.endTiming(start, "getProjectUserCountInternalByProject")  
   data[0].count
 
 exports.projectRandomUsers = (req, res, _) ->  

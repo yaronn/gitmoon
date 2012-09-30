@@ -176,6 +176,7 @@ function getTotalWatch(node, cbx)
 
   var qry = 'START n=node(' + node.id + ')\n' +
             'MATCH (n)<-[:depends_on*0..'+utils.max_depth+']-(x)<-[:watches]-(y)\n' +
+            'WHERE HAS(x.name) AND x.name<>"hoarders"\n' +
             'RETURN count(distinct y) as count'
 
   db.query(qry, function (err, results) {   

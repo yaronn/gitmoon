@@ -18,7 +18,7 @@ window.RandomUserView = BaseView.extend({
         $.get(url2, function(users2) {                          
              if (users1.length==0 && users2.length==0)
              {
-               $("#diagram", self.el).html("Information on users not available")
+               $("#diagram", self.el).html("Information on users is not available")
              }
              else {
                 var html = self.template()             

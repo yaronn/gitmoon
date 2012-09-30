@@ -14,6 +14,8 @@ window.CompareView = Backbone.View.extend({
         var self = this
         $(this.el).html(this.template());                                            
 
+        $("#featured-left", self.el).hide()
+
         this.addTypeahead("project1", "project2", "red")
         this.addTypeahead("project2", "project1", "blue")                    
 
@@ -38,6 +40,7 @@ window.CompareView = Backbone.View.extend({
     chooseProject: function(current, other, color, project) {        
         var self = this
         $("#featured", self.el).hide()
+        $("#featured-left", self.el).show()
         self[current] = project            
         self[current + "Model"] = new Project({name: project, color: color})
         self[current + "Model"].query = "include_stat=false&include_users=true"                
@@ -70,12 +73,12 @@ window.CompareView = Backbone.View.extend({
         this.addView(MyMapView, null)
 
         var depends_url = "/projects_compare/mutual_depends_on" + query
-        this.addView(DependsView, depends_url)
-
-        this.addView(RandomUserView, null)
+        this.addView(DependsView, depends_url)        
 
         var companies_url = "/projects_compare/companies_overlap" + query
         this.addView(CompaniesView, companies_url)
+
+        this.addView(RandomUserView, null)
         
         this.addView(TotalNetworkView, null)
 

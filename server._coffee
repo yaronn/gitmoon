@@ -44,7 +44,6 @@ app.get '/projects/:project/users/count', (req, res, _) ->
 app.get '/projects/:project/users/random', (req, res, _) ->		
 	require('./service/proj_users').projectRandomUsers req, res, _
 
-
 app.get '/projects_compare/users_overlap', (req, res, _) ->		
 	require('./service/compare').projectsUsersOverlap req, res, _
 

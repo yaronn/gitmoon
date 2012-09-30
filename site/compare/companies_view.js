@@ -2,7 +2,7 @@
 window.CompaniesView = BaseView.extend({
 
    initialize: function (options) {
-       this.title="Users count in top companies"
+       this.title="Users in top companies"
        this.help = "Here you can see the project users according to their companies"
        BaseView.prototype.initialize.call(this, options)
     },

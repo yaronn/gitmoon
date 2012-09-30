@@ -1,3 +1,4 @@
+
 window.ListViewModel = window.PagedList.extend({
 
    initialize: function(models, options) {   
@@ -11,10 +12,10 @@ window.ListViewModel = window.PagedList.extend({
    {
 
       var url = this.getCountUrl
-      $.ajax({url: url})
-               .done(function(res) {
-                  cbx(res)
-               })
+      $.get(url, 
+         function(data) {                              
+                  cbx(data)
+         })
    }
 
 })

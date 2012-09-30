@@ -78,7 +78,7 @@ window.ListViewView = Backbone.View.extend({
     },
 
     refreshData: function() {         
-        this.model.getTotalCount(function(count) {   
+        this.model.getTotalCount(function(count) {             
             $("#all-items-count", self.el).text(count)    
         })
 

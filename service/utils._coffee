@@ -77,8 +77,8 @@ exports.insertCacheAndAnswer = (key, result, response, _) ->
   
 exports.handleRequestCache = (response, request, key, handler, _) ->  
   isCache = module.exports.answerFromCache response, key, _    
-  if isCache then return      
-  output = handler request, _  
+  if isCache then return        
+  output = handler request, _    
   module.exports.insertCacheAndAnswer key, output, response, _ 
 
 exports.startTiming = () ->

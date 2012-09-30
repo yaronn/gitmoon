@@ -68,15 +68,13 @@ getDependantBy = (req, _) ->
   result  
 
 exports.getDependsOn = (req, res, _) ->    
-  res.writeHead 200, {"Content-Type": "text/plain"} 
+  res.writeHead 200, {"Content-Type": "application/json"} 
   project = req.query.$project ? ""
   key = "dependsOn_#{req.params.project}"
   utils.handleRequestCache res, req, key, getDependsOnInternal, _   
 
 getDependsOnInternal = (req, _) ->      
-  result = getDependsOn req.params.project
-  utils.endTiming(start, "getDependsOnInternal")  
-  JSON.stringify(result)
+  JSON.stringify(getDependsOn req.params.project, _)
 
 getDependsOn = (project, _) ->
   nesting_level = 2
@@ -90,11 +88,12 @@ getDependsOn = (project, _) ->
          RETURN DISTINCT EXTRACT(n in nodes(z) : n.name) as link
          LIMIT 100"
   
-  start = utils.startTiming()  
-  data = db.query qry, {}, _  
-  result = []
+  start = utils.startTiming()    
+  data = db.query qry, {}, _
+  utils.endTiming(start, "getDependsOn")  
+  result = []  
   data.forEach_ _, (_, p) ->      
-    result.push {source: p.link[0], target: p.link[1], type: 'depends_on'}
+    result.push {source: p.link[0], target: p.link[1], type: 'depends_on'}  
   result
 
 exports.getMutualDependsOn = (req, res, _) ->      
