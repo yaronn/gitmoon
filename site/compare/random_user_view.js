@@ -23,7 +23,7 @@ window.RandomUserView = BaseView.extend({
              else {
                 var html = self.template()             
                 $("#diagram", self.el).html(html)
-                self.fillUsers(users1, "#project1users", "red", self.project1)
+                self.fillUsers(users1, "#project1users", "red", self.project1)                
                 self.fillUsers(users2, "#project2users", "blue", self.project2)                 
              }
              cbx()
@@ -32,12 +32,13 @@ window.RandomUserView = BaseView.extend({
    },
 
    fillUsers: function(data, container, color, project_name) {
-      var el = $(container, this.el)
+      var el = $(container, this.el)      
       for (i in data) {
         data[i].color = color
         data[i].project_name = project_name
-        var html = window.templates.UserView(data[i])        
-        el.append("<div style='width: 80%; padding: 25px; '>" + html + "</div>")
+        var html = window.templates.UserView(data[i])
+        if (i==0) html = html + "<hr />"
+        el.append("<div style='width: 80%; padding-left: 30px; '>" + html + "</div>")
       }      
    }
 
