@@ -1,256 +1,5 @@
 
 
-<!-- ====CompanyOverlapView.html==== -->
-
-
-
-<script type='text/template' id='tpl_CompanyOverlapView'>
-
-<% users_text = is_first?" users":"" %>
-
-<tr>
-  <td style="text-align: center; color: red"><%= project1_count%><%= users_text %></td>
-  <td style="text-align: center"><div><span><h2><%= name%></h2></span>
-      <img onerror="$(this).hide()" onload="$($(this).parent().children()[0]).hide()"
-      height="35" src="/img/companies/<%= canonizedName%>.jpg" /></div>
-  </td>
-  <td style="text-align: center; color: blue"><%= project2_count%><%= users_text %></td>
-</tr>
-
-</script>
-
-<!-- ====CompareView.html==== -->
-
-
-
-<script type='text/template' id='tpl_CompareView'>
-
-
-<div class="row" style="z-index: 100; position: fixed; left: 275px; right: 0px; top: 42px; background-color: white; height: 90px;  ">
-
-<span class="span6" style="font-weight: bold; background-color: black; color: white; text-align: center; -moz-border-radius: 15px; border-radius: 15px; margin-top: 10px; width: 660px; padding-bottom: 10px">	
-
-	<div style="float: left; margin-left: 90px">
-		Choose <span style="color: #FF001F">red</span> project:<br />
-		<input style="margin-top: 7px" id="project1" type="text" data-provide="typeahead" placeholder="search npm project..." />
-	</div>
-
-
-	<div style="float: left; margin-left: 50px">
-		Choose <span style="color: #9DD0FF">blue</span> project:<br />
-		<input style="margin-top: 7px" id="project2" type="text" data-provide="typeahead" placeholder="search npm project..." />
-	</div>
-
-<span>
-
-</div>
-
-<div class="row" style="height: 70px;"></div>
-
-<div class="row" id="featured">
-
-<span class="span6 offset2" style="margin-top: 100px; font-size: medium; background: url('/img/moon_45_small.png') no-repeat; background-position: 110px 160px; min-height: 600px;">
-
-	<div style="margin-left: 250px">
-		<b>Search projects or choose featured:</b> <br /><br /><br />
-
-		<div style="margin-left: 50px;">
-			<a href="/#compare/jade/ejs"><b>jade</b> vs. <b>ejs</b></a><br /><br />
-			<a href="/#compare/mongodb/mongoose"><b>mongodb</b> vs. <b>mongoose</b></a><br /><br />
-			<a href="/#compare/express/railway"><b>express</b> vs. <b>RailwayJS</b></a><br /><br />	
-			<a href="/#compare/async/step"><b>async</b> vs. <b>step</b></a><br /><br />
-			<a href="/#compare/jitsu/azure"><b>jitsu</b> vs. <b>azure</b></a><br /><br />	
-			<a href="/#compare/xml2js/libxmljs"><b>xml2js</b> vs. <b>libxmljs</b></a><br /><br />
-			<a href="/#compare/mocha/nodeunit"><b>mocha</b> vs. <b>nodeunit</b></a><br /><br />
-		</div>
-	</div>
-</span>
-
-
-</div>
-
-
-<div class="row">
-
-<span>
-
-	<div style="z-index: 1500; position: fixed; left: 20px; top: 85px; background-color: white; width: 220px" class="span2">	
-			<div id="project1_div">
-			</div>
-
-			<div style="margin-top: 100px;" id="featured-left">
-				<span style="font-size: medium"><b>Featured Projects</b></span> <br /><br />
-
-				<div style="margin-left: 10px;">
-					<a href="/#compare/jade/ejs"><b>jade</b> vs. <b>ejs</b></a><br />
-					<a href="/#compare/mongodb/mongoose"><b>mongodb</b> vs. <b>mongoose</b></a><br />
-					<a href="/#compare/express/railway"><b>express</b> vs. <b>RailwayJS</b></a><br />
-					<a href="/#compare/async/step"><b>async</b> vs. <b>step</b></a><br />
-					<a href="/#compare/jitsu/azure"><b>jitsu</b> vs. <b>azure</b></a><br />
-					<a href="/#compare/xml2js/libxmljs"><b>xml2js</b> vs. <b>libxmljs</b></a><br />
-					<a href="/#compare/mocha/nodeunit"><b>mocha</b> vs. <b>nodeunit</b></a><br />
-				</div>
-			</div>
-	</div>
-
-	<div style="z-index: 1500; position: fixed; right: 30px; top: 85px; background-color: white; width: 220px" id="project2_div" class="span2">	
-		
-	</div>
-
-	
-<span>
-
-</div>
-
-
-<div class="row">
-
-	<div id="report_results" class="span12" style="margin-top: 10px">
-
-	</div>
-	
-<span>
-
-</div>
-
-</script>
-
-<!-- ====ProjectMiniView.html==== -->
-
-
-
-<script type='text/template' id='tpl_ProjectMiniView'>
-
-  <h2 style="color: <%= color%>"><%=name%></h2>
-
-  <img id="loading" src='/img/wait.gif' />
-
-
-  <div style="color: red; display: none" id="error">
-  	
-  </div>
-
-  <div style="margin-top: 10px;">
-  	<%=description%> <a target="_blank" href="/#project/<%=name%>">more graphs...</a>
-  </div>
-
-  <div style="margin-top: 20px">
-	<%for (j in users) {%>
-	<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />  
-	<%if ((j%4)==3) {%>
-		</div>
-		<div>	
-	<%}%>
-
-	<%}%>
-  </div>
-</script>
-
-<!-- ====UserView.html==== -->
-
-
-
-<script type='text/template' id='tpl_UserView'>
-
-
-<div class="row" > 
-    
-        <div style="float:left; margin-right: 25px;">
-        <a href="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=200"><img src="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=90" /></a>
-        </div>
-
-        <div>
-
-	        <div style="margin-bottom:5px;">
-	        <a  target="_blank" href="https://github.com/<%= login %>" style="font-size:18px; font-weight: bold; color: <%= color%>">
-				<% if (full_name) {%>
-				<%= full_name%> (<%= login %>)
-				<%} else {%>
-				<%= login %>
-				<%}%>
-			</a>
-			</div>
-			
-			<% if (location) {%>
-			<i class="icon-home"></i> lives in <%= location%><br />
-			<%}%>
-
-
-			<% if (company) {%>
-			<i class="icon-briefcase"></i> works at <%= company%><br />
-			<%}%>
-
-			<% if (blog) {%>
-			<i class="icon-globe"></i> <a href="<%= blog%>"><%= blog%></a><br />
-			<%}%>
-
-			<i class="icon-eye-open"></i> watches <%= project_name%>
-
-			<br />
-
-			
-			</section>
-
-			<% if (bio) {%>
-			<br />
-			<i><%= bio%></i><br />
-			<%}%>
-
-		</div>
-
-
-
-
-</div>
-
-</script>
-
-<!-- ====DiagramView.html==== -->
-
-
-
-<script type='text/template' id='tpl_DiagramView'>
-
-
-<div class="row">
-
-	<div class="span7 offset2">
-
-		<div style="background-color: rgba(242, 233, 236, .08); margin-left: 45px; margin-bottom: 30px; border: 1px solid rgba(0, 0, 0, .09); -webkit-background-clip: padding-box; background-clip: padding-box; padding: 15px; -moz-border-radius: 15px; border-radius: 15px;">
-			 <div>
-			 	<h3 style="float: left"><span id="title" /></h3>
-				 <span id="help" class="graphHelp" style="float: right">[?]</span>
-			 </div>
-
-			 <div style="clear: both" />
-
-			<img id='loading' src='/img/wait.gif' />
-
-			<div id='diagram' style="margin-top: 15px; "  />
-		</div>
-
-	</div>
-
-</div>
-</script>
-
-<!-- ====RandomUserView.html==== -->
-
-
-
-<script type='text/template' id='tpl_RandomUserView'>
-
-<div>
-	<div id="project1users">
-	</div>
-	
-	<div id="project2users">
-	</div>
-</div>
-
-<div style="clear: both" />
-</script>
-
 <!-- ====ProjectView.html==== -->
 
 
@@ -494,6 +243,82 @@
 </div>
 </script>
 
+<!-- ====DepProjectListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_DepProjectListItemView'>
+
+
+    	 <div style="margin-bottom:5px">
+	        <a href="/#project/<%= name%>" style="font-size:18px; font-weight: bold;">		<%= name%>
+			</a>			
+			<br />
+			<i><%= description%></i>
+			<%if (description && description.length>0) {%>
+			<br />
+			<%}%>
+
+			<a href="/#project/<%= name%>"><%= name%></a>
+			<i class="icon-arrow-right"></i>				
+
+			<% for (i in dependency_path) {%><a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
+			<%if (i<dependency_path.length-1) {%>
+			<i class="icon-arrow-right"></i>
+			<%}%>
+
+			<%}%>
+			
+			<br />
+			<%for (j in users) {%>
+				<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />					
+			<%}%>	
+			
+			
+			
+			
+		</div>
+
+
+<br />
+</script>
+
+<!-- ====ProjectUserListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectUserListView'>
+
+
+<div class="row"> 
+    	<div class="control-group" style="margin-left: 1px">
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
+            </div>
+          </div>
+	    </div>        
+</div> 
+
+
+<!--workaround: only row within row gives the effect of HR spreading to all edges-->
+<div class="row">
+  <div class="row">
+    <hr align="left" style="width: 100%; margin-left: 0px" />
+  </div>
+</div>
+
+<div class="row">     
+  <div id="users-list"></div>        
+</div>
+  
+<div class="row"> 	
+		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+</div>
+
+
+</script>
+
 <!-- ====ProjectUserListItemView.html==== -->
 
 
@@ -604,82 +429,6 @@
   </div>
 
 
-</script>
-
-<!-- ====ProjectUserListView.html==== -->
-
-
-
-<script type='text/template' id='tpl_ProjectUserListView'>
-
-
-<div class="row"> 
-    	<div class="control-group" style="margin-left: 1px">
-          <div class="controls">
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
-            </div>
-          </div>
-	    </div>        
-</div> 
-
-
-<!--workaround: only row within row gives the effect of HR spreading to all edges-->
-<div class="row">
-  <div class="row">
-    <hr align="left" style="width: 100%; margin-left: 0px" />
-  </div>
-</div>
-
-<div class="row">     
-  <div id="users-list"></div>        
-</div>
-  
-<div class="row"> 	
-		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
-</div>
-
-
-</script>
-
-<!-- ====DepProjectListItemView.html==== -->
-
-
-
-<script type='text/template' id='tpl_DepProjectListItemView'>
-
-
-    	 <div style="margin-bottom:5px">
-	        <a href="/#project/<%= name%>" style="font-size:18px; font-weight: bold;">		<%= name%>
-			</a>			
-			<br />
-			<i><%= description%></i>
-			<%if (description && description.length>0) {%>
-			<br />
-			<%}%>
-
-			<a href="/#project/<%= name%>"><%= name%></a>
-			<i class="icon-arrow-right"></i>				
-
-			<% for (i in dependency_path) {%><a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
-			<%if (i<dependency_path.length-1) {%>
-			<i class="icon-arrow-right"></i>
-			<%}%>
-
-			<%}%>
-			
-			<br />
-			<%for (j in users) {%>
-				<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />					
-			<%}%>	
-			
-			
-			
-			
-		</div>
-
-
-<br />
 </script>
 
 <!-- ====HomeView.html==== -->
@@ -914,14 +663,6 @@
 
 </script>
 
-<!-- ====ProjectListItemView.html==== -->
-
-
-
-<script type='text/template' id='tpl_ProjectListItemView'>
-<a href="#project/<%= encodeURIComponent(name) %>" id="project-name"><%= name %></a>
-</script>
-
 <!-- ====DepProjectListView.html==== -->
 
 
@@ -947,6 +688,14 @@
 
 </script>
 
+<!-- ====ProjectListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectListItemView'>
+<a href="#project/<%= encodeURIComponent(name) %>" id="project-name"><%= name %></a>
+</script>
+
 <!-- ====SimilarProjectListItemView.html==== -->
 
 
@@ -963,6 +712,44 @@
 	<br />
 	<hr />	
 
+</script>
+
+<!-- ====SampleCodeListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SampleCodeListItemView'>
+<div class="row">     
+    
+    	<a href="/#project/<%= usingProjectName%>" style="font-size:14px; font-weight: bold;"><%= usingProjectName%></a>
+    	
+    	<%if (absoluteLink && absoluteLink.substring(0,7)=="http://") {%>
+    	(<a href="<%= absoluteLink%>"><%= relativeFileName %></a>)
+    	<%} else {%>
+    	<%= relativeFileName %>
+    	<%}%>
+
+
+    	<br />    	
+		<pre><% 
+		var reg = new RegExp(var_name, "g")
+		var pretty_code = code
+
+		if (searchWord && searchWord!="") {						
+			var reg1 = new RegExp(searchWord, "g")
+			pretty_code = pretty_code.replace(reg1, "<span class='codeSampleSearchHighlight'>"+searchWord+"</span>")
+		}
+
+		pretty_code = pretty_code.replace(reg, "<span class='codeSampleHighlight'>"+var_name+"</span>")		
+		
+		
+		print(pretty_code)
+
+		%></pre>
+    
+</div>
+
+<br />
 </script>
 
 <!-- ====ProjectListView.html==== -->
@@ -1011,42 +798,255 @@
 
 </script>
 
-<!-- ====SampleCodeListItemView.html==== -->
+<!-- ====CompareView.html==== -->
 
 
 
-<script type='text/template' id='tpl_SampleCodeListItemView'>
-<div class="row">     
-    
-    	<a href="/#project/<%= usingProjectName%>" style="font-size:14px; font-weight: bold;"><%= usingProjectName%></a>
-    	
-    	<%if (absoluteLink && absoluteLink.substring(0,7)=="http://") {%>
-    	(<a href="<%= absoluteLink%>"><%= relativeFileName %></a>)
-    	<%} else {%>
-    	<%= relativeFileName %>
-    	<%}%>
+<script type='text/template' id='tpl_CompareView'>
 
 
-    	<br />    	
-		<pre><% 
-		var reg = new RegExp(var_name, "g")
-		var pretty_code = code
+<div class="row" style="z-index: 100; position: fixed; left: 275px; right: 0px; top: 42px; background-color: white; height: 90px;  ">
 
-		if (searchWord && searchWord!="") {						
-			var reg1 = new RegExp(searchWord, "g")
-			pretty_code = pretty_code.replace(reg1, "<span class='codeSampleSearchHighlight'>"+searchWord+"</span>")
-		}
+<span class="span6" style="font-weight: bold; background-color: black; color: white; text-align: center; -moz-border-radius: 15px; border-radius: 15px; margin-top: 10px; width: 660px; padding-bottom: 10px">	
 
-		pretty_code = pretty_code.replace(reg, "<span class='codeSampleHighlight'>"+var_name+"</span>")		
-		
-		
-		print(pretty_code)
+	<div style="float: left; margin-left: 90px">
+		Choose <span style="color: #FF001F">red</span> project:<br />
+		<input style="margin-top: 7px" id="project1" type="text" data-provide="typeahead" placeholder="search npm project..." />
+	</div>
 
-		%></pre>
-    
+
+	<div style="float: left; margin-left: 50px">
+		Choose <span style="color: #9DD0FF">blue</span> project:<br />
+		<input style="margin-top: 7px" id="project2" type="text" data-provide="typeahead" placeholder="search npm project..." />
+	</div>
+
+<span>
+
 </div>
 
-<br />
+<div class="row" style="height: 70px;"></div>
+
+<div class="row" id="featured">
+
+<span class="span6 offset2" style="margin-top: 100px; font-size: medium; background: url('/img/moon_45_small.png') no-repeat; background-position: 110px 160px; min-height: 600px;">
+
+	<div style="margin-left: 250px">
+		<b>Search projects or choose featured:</b> <br /><br /><br />
+
+		<div style="margin-left: 50px;">
+			<a href="/#compare/jade/ejs"><b>jade</b> vs. <b>ejs</b></a><br /><br />
+			<a href="/#compare/mongodb/mongoose"><b>mongodb</b> vs. <b>mongoose</b></a><br /><br />
+			<a href="/#compare/express/railway"><b>express</b> vs. <b>RailwayJS</b></a><br /><br />	
+			<a href="/#compare/async/step"><b>async</b> vs. <b>step</b></a><br /><br />
+			<a href="/#compare/jitsu/azure"><b>jitsu</b> vs. <b>azure</b></a><br /><br />	
+			<a href="/#compare/xml2js/libxmljs"><b>xml2js</b> vs. <b>libxmljs</b></a><br /><br />
+			<a href="/#compare/mocha/nodeunit"><b>mocha</b> vs. <b>nodeunit</b></a><br /><br />
+		</div>
+	</div>
+</span>
+
+
+</div>
+
+
+<div class="row">
+
+<span>
+
+	<div style="z-index: 1500; position: fixed; left: 20px; top: 85px; background-color: white; width: 220px" class="span2">	
+			<div id="project1_div">
+			</div>
+
+			<div style="margin-top: 100px;" id="featured-left">
+				<span style="font-size: medium"><b>Featured Projects</b></span> <br /><br />
+
+				<div style="margin-left: 10px;">
+					<a href="/#compare/jade/ejs"><b>jade</b> vs. <b>ejs</b></a><br />
+					<a href="/#compare/mongodb/mongoose"><b>mongodb</b> vs. <b>mongoose</b></a><br />
+					<a href="/#compare/express/railway"><b>express</b> vs. <b>RailwayJS</b></a><br />
+					<a href="/#compare/async/step"><b>async</b> vs. <b>step</b></a><br />
+					<a href="/#compare/jitsu/azure"><b>jitsu</b> vs. <b>azure</b></a><br />
+					<a href="/#compare/xml2js/libxmljs"><b>xml2js</b> vs. <b>libxmljs</b></a><br />
+					<a href="/#compare/mocha/nodeunit"><b>mocha</b> vs. <b>nodeunit</b></a><br />
+				</div>
+			</div>
+	</div>
+
+	<div style="z-index: 1500; position: fixed; right: 30px; top: 85px; background-color: white; width: 220px" id="project2_div" class="span2">	
+		
+	</div>
+
+	
+<span>
+
+</div>
+
+
+<div class="row">
+
+	<div id="report_results" class="span12" style="margin-top: 10px">
+
+	</div>
+	
+<span>
+
+</div>
+
+</script>
+
+<!-- ====CompanyOverlapView.html==== -->
+
+
+
+<script type='text/template' id='tpl_CompanyOverlapView'>
+
+<% users_text = is_first?" users":"" %>
+
+<tr>
+  <td style="text-align: center; color: red"><%= project1_count%><%= users_text %></td>
+  <td style="text-align: center"><div><span><h2><%= name%></h2></span>
+      <img onerror="$(this).hide()" onload="$($(this).parent().children()[0]).hide()"
+      height="35" src="/img/companies/<%= canonizedName%>.jpg" /></div>
+  </td>
+  <td style="text-align: center; color: blue"><%= project2_count%><%= users_text %></td>
+</tr>
+
+</script>
+
+<!-- ====ProjectMiniView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectMiniView'>
+
+  <h2 style="color: <%= color%>"><%=name%></h2>
+
+  <img id="loading" src='/img/wait.gif' />
+
+
+  <div style="color: red; display: none" id="error">
+  	
+  </div>
+
+  <div style="margin-top: 10px;">
+  	<%=description%> <a target="_blank" href="/#project/<%=name%>">more graphs...</a>
+  </div>
+
+  <div style="margin-top: 20px">
+	<%for (j in users) {%>
+	<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />  
+	<%if ((j%4)==3) {%>
+		</div>
+		<div>	
+	<%}%>
+
+	<%}%>
+  </div>
+</script>
+
+<!-- ====UserView.html==== -->
+
+
+
+<script type='text/template' id='tpl_UserView'>
+
+
+<div class="row" > 
+    
+        <div style="float:left; margin-right: 25px;">
+        <a href="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=200"><img src="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=90" /></a>
+        </div>
+
+        <div>
+
+	        <div style="margin-bottom:5px;">
+	        <a  target="_blank" href="https://github.com/<%= login %>" style="font-size:18px; font-weight: bold; color: <%= color%>">
+				<% if (full_name) {%>
+				<%= full_name%> (<%= login %>)
+				<%} else {%>
+				<%= login %>
+				<%}%>
+			</a>
+			</div>
+			
+			<% if (location) {%>
+			<i class="icon-home"></i> lives in <%= location%><br />
+			<%}%>
+
+
+			<% if (company) {%>
+			<i class="icon-briefcase"></i> works at <%= company%><br />
+			<%}%>
+
+			<% if (blog) {%>
+			<i class="icon-globe"></i> <a href="<%= blog%>"><%= blog%></a><br />
+			<%}%>
+
+			<i class="icon-eye-open"></i> watches <%= project_name%>
+
+			<br />
+
+			
+			</section>
+
+			<% if (bio) {%>
+			<br />
+			<i><%= bio%></i><br />
+			<%}%>
+
+		</div>
+
+
+
+
+</div>
+
+</script>
+
+<!-- ====DiagramView.html==== -->
+
+
+
+<script type='text/template' id='tpl_DiagramView'>
+
+
+<div class="row">
+
+	<div class="span7 offset2">
+
+		<div style="background-color: rgba(242, 233, 236, .08); margin-left: 45px; margin-bottom: 30px; border: 1px solid rgba(0, 0, 0, .09); -webkit-background-clip: padding-box; background-clip: padding-box; padding: 15px; -moz-border-radius: 15px; border-radius: 15px;">
+			 <div>
+			 	<h3 style="float: left"><span id="title" /></h3>
+				 <span id="help" class="graphHelp" style="float: right">[?]</span>
+			 </div>
+
+			 <div style="clear: both" />
+
+			<img id='loading' src='/img/wait.gif' />
+
+			<div id='diagram' style="margin-top: 15px; "  />
+		</div>
+
+	</div>
+
+</div>
+</script>
+
+<!-- ====RandomUserView.html==== -->
+
+
+
+<script type='text/template' id='tpl_RandomUserView'>
+
+<div>
+	<div id="project1users">
+	</div>
+	
+	<div id="project2users">
+	</div>
+</div>
+
+<div style="clear: both" />
 </script>
 
 <!-- ====ListViewItemView.html==== -->

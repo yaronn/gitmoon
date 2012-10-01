@@ -3,6 +3,7 @@ error.log
 npm-debug.log
 crunch.js
 crunch.css
+crunch.html
 service/*.js
 server.js
 common/config.js
