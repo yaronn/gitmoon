@@ -74,10 +74,11 @@ window.ProjectView = Backbone.View.extend({
 
     close: function() {            
         this.unbind(); 
-        this.depProjectMasterView.close()
-        this.projectUsersMasterView.close()
-        this.sampleCodeMasterView.close()
-        this.similarProjectsListView.close()
+        
+        if (this.depProjectMasterView) this.depProjectMasterView.close()
+        if (this.projectUsersMasterView) this.projectUsersMasterView.close()
+        if (this.sampleCodeMasterView) this.sampleCodeMasterView.close()
+        if (this.similarProjectsListView) this.similarProjectsListView.close()
     },
 
     render: function () {            

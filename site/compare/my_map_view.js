@@ -19,7 +19,9 @@ window.MyMapView = BaseView.extend({
       var mapView = new MapView({mapModel: mapModel})
       mapModel.fetch(function() {mapView.render()})
       $("#diagram", this.el).html(mapView.el);  
-
+      mapView.bind("mapbuttonclicked", function(area) {
+        utils.trackEvent = function("h2h", "map click", area)
+      })
     }
 
 });

@@ -15,8 +15,9 @@
     });
 
     if (!/^\//.test(fragment)) fragment = '/' + fragment;
-    if (window._gaq !== undefined) {              
-      window._gaq.push(['_trackPageview', fragment]);
+    if (window._gaq !== undefined) {                    
+      //window._gaq.push(['_trackPageview', fragment]);
+      utils.reportVisit(fragment)
     }
 
     return matched;

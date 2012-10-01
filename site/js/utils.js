@@ -1,3 +1,6 @@
+var utils = {}
+
+/*
 // The Template Loader. Used to asynchronously load templates located in separate .html files
 window.templateLoader = {
 
@@ -33,19 +36,37 @@ window.templateLoader = {
     }
 
 };
+*/
+
+
+utils.loadTemplates = function(cbx) {
+    window.templates = {}
+    $.get('/crunch.html', function(data) {
+        var div = document.createElement("div")
+        div.innerHTML = data
+        var scripts = $("script", div)        
+        for (i in scripts) {                        
+            var curr = scripts[i]
+            if (curr.type!="text/template") continue
+            var id = curr.id.substring("tpl_".length)
+            console.log("loading template " + id)
+            if (window[id]) window[id].prototype.template = _.template(curr.innerHTML);
+            else window.templates[id] = _.template(curr.innerHTML);
+        }
+        cbx()
+    })
+}
 
 consts = 
 {
     page_size: 10
 }
 
-var utils = {}
-
 utils.ignoreKeyForSearch = function(code) {
     return (code>=9 && code<=47 && code!=32)
 }
 
-utils.reportVisit = function(fragment) {  
+utils.reportVisit = function(fragment) {      
     if (window._gaq !== undefined) {        
       window._gaq.push(['_trackPageview', fragment]);
     }

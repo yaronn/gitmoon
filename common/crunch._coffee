@@ -17,31 +17,24 @@ crunch = (files, dest, _) ->
 	fs.writeFileSync dest, res
 
 crunch_html = (_) ->
+	crunch_file = "./site/crunch.html"	
+	if fs.existsSync(crunch_file)
+		fs.unlink crunch_file, _			
 	html_crunch = ""
-	script_crunch = ""
-	files = utils.walk "./site/tpl", _
-	
-	files.forEach_ _, 1, (_, f) ->			
-		name = path.basename(f)
-		name_no_ext = name.substring(0, name.length-5)
-		
-		html_crunch += "\n\n<!-- ====#{name}==== -->\n\n"		
-		html_crunch += "\n\n<script type='text/template' id='tpl_#{name_no_ext}'>\n"
-		html_crunch += fs.readFileSync(f)
-		html_crunch += "\n</script>"
-
-		script_crunch += "\n\nwindow['#{name_no_ext}'].prototype.template = _.template($('#tpl_#{name_no_ext}').html())"
+	files = utils.walk "./site", _	
+	files.forEach_ _, 1, (_, f) ->
+		ext = path.extname f
+		name = path.basename(f)	
+		if ext==".html" and name!="index.html" and name!="test.html"					
+			name_no_ext = name.substring(0, name.length - ext.length)
+			#console.log "crunching #{name_no_ext}"			
+			html_crunch += "\n\n<!-- ====#{name}==== -->\n\n"		
+			html_crunch += "\n\n<script type='text/template' id='tpl_#{name_no_ext}'>\n"
+			html_crunch += fs.readFileSync(f)
+			html_crunch += "\n</script>"
 
 	res = html_crunch;
-	res += "\n\n<script>\n#{script_crunch}\n
-					startApp()
-				</script>"
-	res += "\n\n</body></html>"
-	#console.log res
-
-	index = fs.readFileSync "./site/index_partial.html"
-	res = index + "\n\n" + res
-	fs.writeFileSync "./site/index.html", res
+	fs.writeFileSync crunch_file, res
 
 
 scripts = [
@@ -83,8 +76,22 @@ scripts = [
 	"components/listview/item_model.js",
 	"components/listview/item_view.js",
 	"components/listview/list_model.js",
-	"components/listview/list_view.js"
-
+	"components/listview/list_view.js",
+	"lib/venn.js",
+	"lib/raphael-min.js",
+	"lib/bootstrap-typeahead.js",
+	"compare/base_view.js",
+	"compare/compare_view.js",
+	"compare/my_map_view.js",
+	"compare/venn_view.js",
+	"compare/depends_view.js",
+	"compare/total_network_view.js",
+	"compare/random_code_view.js",
+	"compare/random_user_view.js",
+	"compare/companies_view.js",
+	"compare/projectMiniView.js",
+	"components/map/map_model.js",
+	"components/map/map_view.js"
 
 	##"js/main.js" not cruncing main.js b/c in ie8 for some reason if we crunch it 
 	##the app seems to work but once we enter the project page if we click on the home link it will stack
@@ -94,4 +101,4 @@ css = ["css/bootstrap.css", "css/styles.css"]
 
 crunch scripts, "./site/crunch.js", _
 crunch css, "./site/crunch.css", _
-# crunch_html _
+crunch_html _

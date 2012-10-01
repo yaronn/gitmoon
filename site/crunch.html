@@ -1,0 +1,1111 @@
+
+
+<!-- ====CompanyOverlapView.html==== -->
+
+
+
+<script type='text/template' id='tpl_CompanyOverlapView'>
+
+<% users_text = is_first?" users":"" %>
+
+<tr>
+  <td style="text-align: center; color: red"><%= project1_count%><%= users_text %></td>
+  <td style="text-align: center"><div><span><h2><%= name%></h2></span>
+      <img onerror="$(this).hide()" onload="$($(this).parent().children()[0]).hide()"
+      height="35" src="/img/companies/<%= canonizedName%>.jpg" /></div>
+  </td>
+  <td style="text-align: center; color: blue"><%= project2_count%><%= users_text %></td>
+</tr>
+
+</script>
+
+<!-- ====CompareView.html==== -->
+
+
+
+<script type='text/template' id='tpl_CompareView'>
+
+
+<div class="row" style="z-index: 100; position: fixed; left: 275px; right: 0px; top: 42px; background-color: white; height: 90px;  ">
+
+<span class="span6" style="font-weight: bold; background-color: black; color: white; text-align: center; -moz-border-radius: 15px; border-radius: 15px; margin-top: 10px; width: 660px; padding-bottom: 10px">	
+
+	<div style="float: left; margin-left: 90px">
+		Choose <span style="color: #FF001F">red</span> project:<br />
+		<input style="margin-top: 7px" id="project1" type="text" data-provide="typeahead" placeholder="search npm project..." />
+	</div>
+
+
+	<div style="float: left; margin-left: 50px">
+		Choose <span style="color: #9DD0FF">blue</span> project:<br />
+		<input style="margin-top: 7px" id="project2" type="text" data-provide="typeahead" placeholder="search npm project..." />
+	</div>
+
+<span>
+
+</div>
+
+<div class="row" style="height: 70px;"></div>
+
+<div class="row" id="featured">
+
+<span class="span6 offset2" style="margin-top: 100px; font-size: medium; background: url('/img/moon_45_small.png') no-repeat; background-position: 110px 160px; min-height: 600px;">
+
+	<div style="margin-left: 250px">
+		<b>Search projects or choose featured:</b> <br /><br /><br />
+
+		<div style="margin-left: 50px;">
+			<a href="/#compare/jade/ejs"><b>jade</b> vs. <b>ejs</b></a><br /><br />
+			<a href="/#compare/mongodb/mongoose"><b>mongodb</b> vs. <b>mongoose</b></a><br /><br />
+			<a href="/#compare/express/railway"><b>express</b> vs. <b>RailwayJS</b></a><br /><br />	
+			<a href="/#compare/async/step"><b>async</b> vs. <b>step</b></a><br /><br />
+			<a href="/#compare/jitsu/azure"><b>jitsu</b> vs. <b>azure</b></a><br /><br />	
+			<a href="/#compare/xml2js/libxmljs"><b>xml2js</b> vs. <b>libxmljs</b></a><br /><br />
+			<a href="/#compare/mocha/nodeunit"><b>mocha</b> vs. <b>nodeunit</b></a><br /><br />
+		</div>
+	</div>
+</span>
+
+
+</div>
+
+
+<div class="row">
+
+<span>
+
+	<div style="z-index: 1500; position: fixed; left: 20px; top: 85px; background-color: white; width: 220px" class="span2">	
+			<div id="project1_div">
+			</div>
+
+			<div style="margin-top: 100px;" id="featured-left">
+				<span style="font-size: medium"><b>Featured Projects</b></span> <br /><br />
+
+				<div style="margin-left: 10px;">
+					<a href="/#compare/jade/ejs"><b>jade</b> vs. <b>ejs</b></a><br />
+					<a href="/#compare/mongodb/mongoose"><b>mongodb</b> vs. <b>mongoose</b></a><br />
+					<a href="/#compare/express/railway"><b>express</b> vs. <b>RailwayJS</b></a><br />
+					<a href="/#compare/async/step"><b>async</b> vs. <b>step</b></a><br />
+					<a href="/#compare/jitsu/azure"><b>jitsu</b> vs. <b>azure</b></a><br />
+					<a href="/#compare/xml2js/libxmljs"><b>xml2js</b> vs. <b>libxmljs</b></a><br />
+					<a href="/#compare/mocha/nodeunit"><b>mocha</b> vs. <b>nodeunit</b></a><br />
+				</div>
+			</div>
+	</div>
+
+	<div style="z-index: 1500; position: fixed; right: 30px; top: 85px; background-color: white; width: 220px" id="project2_div" class="span2">	
+		
+	</div>
+
+	
+<span>
+
+</div>
+
+
+<div class="row">
+
+	<div id="report_results" class="span12" style="margin-top: 10px">
+
+	</div>
+	
+<span>
+
+</div>
+
+</script>
+
+<!-- ====ProjectMiniView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectMiniView'>
+
+  <h2 style="color: <%= color%>"><%=name%></h2>
+
+  <img id="loading" src='/img/wait.gif' />
+
+
+  <div style="color: red; display: none" id="error">
+  	
+  </div>
+
+  <div style="margin-top: 10px;">
+  	<%=description%> <a target="_blank" href="/#project/<%=name%>">more graphs...</a>
+  </div>
+
+  <div style="margin-top: 20px">
+	<%for (j in users) {%>
+	<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />  
+	<%if ((j%4)==3) {%>
+		</div>
+		<div>	
+	<%}%>
+
+	<%}%>
+  </div>
+</script>
+
+<!-- ====UserView.html==== -->
+
+
+
+<script type='text/template' id='tpl_UserView'>
+
+
+<div class="row" > 
+    
+        <div style="float:left; margin-right: 25px;">
+        <a href="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=200"><img src="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=90" /></a>
+        </div>
+
+        <div>
+
+	        <div style="margin-bottom:5px;">
+	        <a  target="_blank" href="https://github.com/<%= login %>" style="font-size:18px; font-weight: bold; color: <%= color%>">
+				<% if (full_name) {%>
+				<%= full_name%> (<%= login %>)
+				<%} else {%>
+				<%= login %>
+				<%}%>
+			</a>
+			</div>
+			
+			<% if (location) {%>
+			<i class="icon-home"></i> lives in <%= location%><br />
+			<%}%>
+
+
+			<% if (company) {%>
+			<i class="icon-briefcase"></i> works at <%= company%><br />
+			<%}%>
+
+			<% if (blog) {%>
+			<i class="icon-globe"></i> <a href="<%= blog%>"><%= blog%></a><br />
+			<%}%>
+
+			<i class="icon-eye-open"></i> watches <%= project_name%>
+
+			<br />
+
+			
+			</section>
+
+			<% if (bio) {%>
+			<br />
+			<i><%= bio%></i><br />
+			<%}%>
+
+		</div>
+
+
+
+
+</div>
+
+</script>
+
+<!-- ====DiagramView.html==== -->
+
+
+
+<script type='text/template' id='tpl_DiagramView'>
+
+
+<div class="row">
+
+	<div class="span7 offset2">
+
+		<div style="background-color: rgba(242, 233, 236, .08); margin-left: 45px; margin-bottom: 30px; border: 1px solid rgba(0, 0, 0, .09); -webkit-background-clip: padding-box; background-clip: padding-box; padding: 15px; -moz-border-radius: 15px; border-radius: 15px;">
+			 <div>
+			 	<h3 style="float: left"><span id="title" /></h3>
+				 <span id="help" class="graphHelp" style="float: right">[?]</span>
+			 </div>
+
+			 <div style="clear: both" />
+
+			<img id='loading' src='/img/wait.gif' />
+
+			<div id='diagram' style="margin-top: 15px; "  />
+		</div>
+
+	</div>
+
+</div>
+</script>
+
+<!-- ====RandomUserView.html==== -->
+
+
+
+<script type='text/template' id='tpl_RandomUserView'>
+
+<div>
+	<div id="project1users">
+	</div>
+	
+	<div id="project2users">
+	</div>
+</div>
+
+<div style="clear: both" />
+</script>
+
+<!-- ====ProjectView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectView'>
+
+<div class="row">  
+
+<div class="span10">
+
+<div style="float:left; font-size: xx-large; font-weight: bold; ">
+<%= name%>
+</div>
+
+<div style="clear:both;" />
+
+<br />
+
+<span style="font-size:medium ; color:gray;"><%= description%> (<a target="_blank" href="<%= repository.replace('git://', 'http://')%>">github</a>)</span>
+
+<div style="margin-top:5px; margin-bottom:0px" />
+
+<hr style="margin-top:10px" />
+
+
+</div>
+
+</div>
+
+
+<div class="row">  
+<div class="span10">
+
+<ul id="myTab" class="nav nav-tabs">    
+    <li class="active"><a href="#users" data-toggle="tab">Users</a></li>    
+    <li><a href="#projects" data-toggle="tab">Projects</a></li>
+    <li><a href="#general" data-toggle="tab">Traction</a></li>
+    <li><a href="#code" data-toggle="tab">CodeBack</a></li>            
+</ul>
+
+ 		<div id="myTabContent" class="tab-content">
+
+ 			<div class="tab-pane fade in active" id="users">              
+            	<div class="row"> 
+						<div id="user-tab" class="span10" />
+				</div>
+
+            </div>
+
+            <div class="tab-pane fade" id="general">
+				
+	             	<div class="span4" style="margin-bottom: 5px">
+	             		<h3>Traction</h3><br />
+						
+						<span class="graphTitle" id="dependsTitle" />
+						<span id="dependsHelp" class="graphHelp">[?]</span>
+						<div id="depends"></div>
+
+						<span class="graphTitle" id="watchesTitle" />
+						<span id="watchesHelp" class="graphHelp">[?]</span>
+						<div id="watches"></div>
+
+						<span class="graphTitle" id="forksTitle" />
+						<span id="forksHelp" class="graphHelp">[?]</span>
+						<div id="forks"></div>
+					</div>
+
+					<div id="similar-projects" class="span4">
+					</div>
+					
+				
+
+            </div>            
+
+            <div class="tab-pane fade" id="projects">
+            	<div class="row"> 
+		         	<div id="dep-projects-tab" class="span10" />
+				</div>
+            </div> 
+
+
+            <div class="tab-pane fade" id="code">
+            <div class="row">             	
+	            	<div id="sample-code-tab" class="span10" />		
+            </div>            
+          </div>   
+
+</div>
+</div>
+</div>
+</script>
+
+<!-- ====HeaderView.html==== -->
+
+
+
+<script type='text/template' id='tpl_HeaderView'>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container" style="margin-left: 20px; width: 1255px; margin-right: 0px">
+           
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li><img src="/img/moon_logo2.gif" height="28" style="margin-top: 5px" /></li>     
+                    <li style="margin-left:15px; margin-right: 40px; margin-top: 0px">
+                        <a class="brand" style="color: white" href="">                        
+                        <img src="/img/gitmoon.png" height="18" style="margin-bottom:6px" />
+                        </a>
+                    </li>
+                    <li class="home-menu active"><a target="_blank" href="http://webservices20.blogspot.com/">Blog</a></li>
+
+                    <li class="home-menu active"><a target="_blank" href="http://twitter.com/#!/YaronNaveh">Twitter</a></li>
+
+                    <li class="home-menu active"><a target="_blank" href="http://feedproxy.google.com/WebServices20">Rss</a></li>
+
+                    <li class="home-menu active"><a href="mailto:yaronn01@gmail.com">Contact</a></li>
+                                        
+                    </li> 
+
+                    <li class="home-menu active"><a style="color: #FFCC6F" href="#/compare">Head2Head <span style="color: white">(new!)</span></a></li>
+                                        
+                    </li> 
+
+                    <!--
+                    <li class="home-menu active" style="margin-top: 7px; margin-left:14px">
+                            <a href="https://twitter.com/YaronNaveh" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @YaronNaveh</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>                                          
+                    </li>                    
+                -->
+                </ul>                            
+
+            </div>
+
+    <div style="float: right; margin-top: 8px; margin-right: 280px">
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<span>
+    <iframe id="like" src="http://www.facebook.com/plugins/like.php?href=www.gitmoon.com&amp;send=true&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:20px;" allowTransparency="true"></iframe>
+</span>
+
+<span>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.gitmoon.com" data-text="GitMoon is the home of node.js open source developers">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</span>
+
+
+<span>
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</span>
+
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+<!-- ====ProjectMasterView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectMasterView'>
+<div class="row">  
+
+<div class="span2">
+	
+	<div id="projects-list"/>
+
+	<div id="featured-list" style="margin-top: 10px; margin-left: 10px;">
+			
+	        <div><a href="#project/express">express</a></div>
+	        <div><a href="#project/socket.io">socket.io</a></div>
+	        <div><a href="#project/redis">redis </a></div>
+	        <div><a href="#project/jade">jade</a></div>
+	        <div><a href="#project/underscore">underscore</a></div>
+	        <div><a href="#project/async">async</a></div>
+	        <div><a href="#project/connect">connect</a></div>
+	        <div><a href="#project/coffee-script">coffee-script</a></div>
+	        <div><a href="#project/commander">commander</a></div>
+	        <div><a href="#project/azure">azure</a></div>
+	        <div><a href="#project/stylus">stylus</a></div>
+	        <div><a href="#project/dnode">dnode</a></div>
+	        <div><a href="#project/request">request</a></div>
+	        <div><a href="#project/npm">npm</a></div>
+	        <div><a href="#project/mongodb">mongodb</a></div>
+	        <div><a href="#project/browserify">browserify</a></div>
+	        <div><a href="#project/jshint">jshint</a></div>
+	        <div><a href="#project/mongoose">mongoose</a></div>
+	        <div><a href="#project/formidable">formidable</a></div>
+	        <div><a href="#project/colors">colors</a></div>
+	        <div><a href="#project/ws.js">ws.js</a></div>
+	        <div><a href="#project/less">less</a></div>
+	        <div><a href="#project/d3">d3</a></div>
+	        <div><a href="#project/mocha">mocha</a></div>
+	        <div><a href="#project/backbone">backbone</a></div>
+	        <div><a href="#project/lodash">lodash</a></div>
+	        <div><a href="#project/wcf.js">wcf.js</a></div>
+	        <div><a href="#project/flatiron">flatiron</a></div>	        
+	        <div><a href="#project/passport-oauth">passport-oauth</a></div>
+	        <div><a href="#project/grunt">grunt</a></div>
+	        <div><a href="#project/winston">winston</a></div>
+	        <div><a href="#project/step">step</a></div>
+	        <div><a href="#project/semver">semver</a></div>
+	        <div><a href="#project/http-proxy">http-proxy</a></div>
+	        <div><a href="#project/hook.io">hook.io</a></div>
+	        <div><a href="#project/forever">forever</a></div>
+	        <div><a href="#project/js-yaml ">js-yaml </a></div>
+
+	</div>
+</div>
+
+<div id="loading" class="span2" style="">
+	<img src="/img/wait.gif" /> loading...
+</div>
+
+<div class="span8" id="project-view" style="margin-left: 30px">	
+
+</div>
+
+</div>
+</script>
+
+<!-- ====DepProjectListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_DepProjectListItemView'>
+
+
+    	 <div style="margin-bottom:5px">
+	        <a href="/#project/<%= name%>" style="font-size:18px; font-weight: bold;">		<%= name%>
+			</a>			
+			<br />
+			<i><%= description%></i>
+			<%if (description && description.length>0) {%>
+			<br />
+			<%}%>
+
+			<a href="/#project/<%= name%>"><%= name%></a>
+			<i class="icon-arrow-right"></i>				
+
+			<% for (i in dependency_path) {%><a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
+			<%if (i<dependency_path.length-1) {%>
+			<i class="icon-arrow-right"></i>
+			<%}%>
+
+			<%}%>
+			
+			<br />
+			<%for (j in users) {%>
+				<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />					
+			<%}%>	
+			
+			
+			
+			
+		</div>
+
+
+<br />
+</script>
+
+<!-- ====ProjectUserListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectUserListView'>
+
+
+<div class="row"> 
+    	<div class="control-group" style="margin-left: 1px">
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
+            </div>
+          </div>
+	    </div>        
+</div> 
+
+
+<!--workaround: only row within row gives the effect of HR spreading to all edges-->
+<div class="row">
+  <div class="row">
+    <hr align="left" style="width: 100%; margin-left: 0px" />
+  </div>
+</div>
+
+<div class="row">     
+  <div id="users-list"></div>        
+</div>
+  
+<div class="row"> 	
+		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+</div>
+
+
+</script>
+
+<!-- ====ProjectUserListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectUserListItemView'>
+
+
+<div class="row"> 
+    
+    
+        
+        <div style="float:left; margin-right: 25px;">
+        <a href="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=200"><img src="https://secure.gravatar.com/avatar/<%=gravatar_id%>?s=90" /></a>
+        </div>
+
+        <div>
+
+	        <div style="margin-bottom:5px">
+	        <a  target="_blank" href="https://github.com/<%= login %>" style="font-size:18px; font-weight: bold;">
+				<% if (full_name) {%>
+				<%= full_name%> (<%= login %>)
+				<%} else {%>
+				<%= login %>
+				<%}%>
+			</a>
+			</div>
+			
+			<% if (location) {%>
+			<i class="icon-home"></i> lives in <%= location%><br />
+			<%}%>
+
+
+			<% if (company) {%>
+			<i class="icon-briefcase"></i> works at <%= company%><br />
+			<%}%>
+
+			<% if (blog) {%>
+			<i class="icon-globe"></i> <a href="<%= blog%>"><%= blog%></a><br />
+			<%}%>
+
+			<i class="icon-eye-open"></i> watches 
+			<% for (i in dependency_path) {%>
+
+			<a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
+
+			<%if (i<dependency_path.length-1) {%>
+			<i class="icon-arrow-right"></i>
+			<%}%>
+
+			<%}%>
+			<br />
+
+			
+			</section>
+
+			<% if (bio) {%>
+			<br />
+			<i><%= bio%></i><br />
+			<%}%>
+
+		</div>
+
+
+
+
+</div>
+
+<div class="row">
+	<hr align="left" style="width: 100%; margin-left: 0px" />
+</div>
+</script>
+
+<!-- ====SimilarProjectListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SimilarProjectListView'>
+
+
+	<h3>Similar Projects</h3>
+	<img width="20" style="margin-left: 3px;" src="/img/wait.gif" id="loading" />	
+	<div id="similar-projects-list"></div>		
+
+</script>
+
+<!-- ====SampleCodeListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SampleCodeListView'>
+
+  <div class="row">  
+      <div class="span4">
+      	<div class="control-group" style="margin-left: 1px">
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="search code..." />
+              </div>
+            </div>
+  	    </div>        
+      </div>
+
+      <div class="span4" style="font-size:x-large; text-align: right">
+        <span id="using_proj" />  <i style="margin-top:8px;" class="icon-arrow-right async"></i> <span id="used_proj" />  <span id="help" class="graphHelp" title="This report shows how other projects are using this project. You can filter the results by choosing a specific project from the list on the left.">[?]</span>
+      </div>      
+  </div>
+
+  <hr />
+
+  <div class="row"> 
+      <div class="span8">
+          <div id="sample-code-list"></div>        
+      </div>
+  </div>
+
+
+  <div class="row">  
+    <div class="span8">
+      <div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+  </div>
+  </div>
+
+
+</script>
+
+<!-- ====HomeView.html==== -->
+
+
+
+<script type='text/template' id='tpl_HomeView'>
+
+<div class="row">  
+
+<div class="span8 offset2 hero" id="hero-view">	
+   
+<div id="main">
+ 
+  <div>
+
+    <img src="/img/gitmoon_white.png" class="homeName" style="float: left; " />
+    <span style="font-size: 14px">
+
+    
+    <div style="height:40px;" />
+
+    <div>        
+     
+     <a href="http://feedproxy.google.com/WebServices20"><img height="20" src="/img/rss.png" class="hideIPad" style="margin-bottom: 13px; margin-left: 95px;" /></a>
+  
+     <a href="https://twitter.com/YaronNaveh" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @YaronNaveh</a>   
+
+  </div>
+
+
+	<div style="clear:both"/>
+
+    <div>
+
+    <span class="motoHeader" style="font-size: 22px">
+      Social analytics for node.js developers
+    </span>    
+
+
+    <div class="hero_space" /> 
+
+      <div id="projects-list" class="homeProjectList">
+
+	  </div>    
+
+    <div>
+      <div style="float: left; margin-top: 165px; margin-left: 55px;">        
+        <h3><a href="https://twitter.com/YaronNaveh">Twitter</a></h3>
+        <h3><a href="http://webservices20.blogspot.co.il/">Blog</a></h3>
+        <h3><a href="/#compare">Head2Head</a> <span style="color: orange; font-size: small">New!</span></h3>
+      </div>
+
+
+      </div>
+      <div id="featured-list" class="homeFeaturedList" style="margin-top: 17px; display: block">
+        <div style="margin-bottom: 10px"><b>Featured projects:</b></div>
+        <div class="span5" id="divFeatured" style="margin-left:28px">        
+
+          <div><a href="#project/socket.io">socket.io</a></div>        
+          <div><a href="#project/async">async</a></div>        
+          <div><a href="#project/mocha">mocha</a></div>
+          <div><a href="#project/browserify">browserify</a></div>
+          <div><a href="#project/azure">azure</a></div>
+          <div><a href="#project/redis">redis</a></div>
+          <div><a href="#project/wcf.js">wcf.js</a></div>
+          <div><a href="#project/request">request</a></div>
+          <div><a href="#project/mongoose">mongoose</a></div>
+          <div><a href="#project/stylus">stylus</a></div>        
+          <div><a href="#project/coffee-script">coffee-script</a></div>
+       </div>
+      </div>
+    </div>
+
+    </div>
+   </div>
+
+</div>
+
+
+</div>
+
+</div>
+</script>
+
+<!-- ====ProjectUsersMasterView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectUsersMasterView'>
+
+
+	<div class="row">
+
+		<div class="span6">
+			<ul class="nav nav-pills" style="margin: 0 0 0 0;">
+
+			  <li id="li_country" class="active">		  	
+			    <a href="#" id="byCountry"><i id="icon_country" class="icon-globe icon-white"></i> By Country</a>
+			  </li>
+			  <li id="li_company"><a href="#" id="byCompany"><i id="icon_company" class="icon-briefcase"></i> By Company</a></li>		  
+			  <li id="li_dependency"><a href="#" id="byDependency"><i id="icon_dependency" class="icon-th"></i> By Project</a></li>		  
+			</ul>			
+
+		</div>		
+
+		<div class="span3" align="right">
+				<h3><span id="item-name"></span><img id="item-image" class="img-polaroid" style="border-width: 1px; border-color: Black; margin-left: 20px; height: 45px" /></h3>	 		 			
+		</div>
+
+		<div class="span1" style="font-size:x-large; text-align: right; margin-top: 10px">			
+		      <div >
+		                <span id="help" class="graphHelp" title="This page shows all the users that starred in github this project or projects directly depending on it. You can filter users by country, company or project.">[?]</span>
+		      </div>      
+		</div>
+	 	
+	</div>
+
+	<hr />
+
+	<div class="span2" style="margin-left: 0px; ">		
+		<div id="dimention-list">  
+		
+		</div>
+	</div>
+	
+	<div id="users-list" class="span4">
+	 
+	 </div>
+
+
+	 <div  class="span4" style="text-align: left;">
+
+
+	 	<div id="extra-data-countries" style="overflow: hidden">
+
+	 		<div id="map-buttons" class="btn-group" data-toggle="buttons-radio">
+			  <button type="button" id="world" class="btn mapBtn active">World</button>
+			  <button type="button" id="US" class="btn mapBtn">US</button>
+			  <button type="button" id="europe" class="btn mapBtn">Europe</button>
+			  <button type="button" id="americas" class="btn mapBtn">Americas</button>
+			  <button type="button" id="africa" class="btn mapBtn">Africa</button>
+			  <button type="button" id="asia" class="btn mapBtn">Asia</button>
+			  <button type="button" id="oceania" class="btn mapBtn">Oceania</button>			  
+			</div>
+
+			 <div id="map-loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+
+	 		<div id="map" style="margin-top: 20px"></div>
+	 	</div>
+
+	 	<div id="extra-data-dependencies" style="margin-left: 15px; overflow: hidden">
+	 		<div id="dependencies-bar-loading"><img src="/img/wait.gif" /> loading... </div>
+
+	 		<div id="dependencies-bar" ></div>
+	 	</div>
+	 	
+	 </div>
+	
+	
+</script>
+
+<!-- ====DepProjectMasterView.html==== -->
+
+
+
+<script type='text/template' id='tpl_DepProjectMasterView'>
+
+
+
+	<div class="row">
+
+		<div class="span6">
+			<ul class="nav nav-pills" style="margin: 0 0 0 0;">
+
+			  <li id="li_depends-on" class="active">		  	
+			    <a href="#" id="byDependsOn"><i id="icon_depends-on" class="icon-edit icon-white"></i> Depends On</a>
+			  </li>
+			  <li id="li_dependant-by"><a href="#" id="byDependantBy"><i id="icon_dependant-by" class="icon-share"></i> Dependant By</a></li>		  
+			  
+			</ul>			
+		</div>
+
+		<div class="span1 offset3" style="font-size:x-large; text-align: right; margin-top: 10px">			
+		      <div >
+		                <span id="help" class="graphHelp" title="The 'Depends On' diagram show all projects the current project depends on directly or indirectly. The 'Dependant By' diagram shows all projects that depend on this project directly or indirectly.">[?]</span>
+		      </div>      
+		</div>
+
+	</div>
+
+	<hr />
+
+	<div id="dependant-by-list">
+		
+	</div>
+
+	<div id="depends-on-graph">
+
+		<div id="loading">
+			<img src="/img/wait.gif" /> loading...
+		</div>
+		
+		<div id="wrapper" style="border: 1px solid #DEDEDE; margin: 0px; padding: 0px; width:963px; height: 505px;">
+			
+		</div>
+		
+		<div id="noDepends" style="display:none">
+			This project has no dependencies. Please try a different project.
+		</div>
+
+	</div>
+
+</script>
+
+<!-- ====SampleCodeMasterView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SampleCodeMasterView'>
+
+	<b>By Project</b><br/>	
+	
+	<div id="using-projects-list"  class="span2" style="margin-left: 0px; ">  
+
+	</div>
+	
+
+	<div id="code-samples" class="span8">
+	 
+	 </div>
+
+</script>
+
+<!-- ====DepProjectListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_DepProjectListView'>
+
+    	<div class="control-group" style="margin-left: 1px">
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter projects..." />
+            </div>
+          </div>
+	    </div>        
+
+<hr />
+
+    <div id="dep-projects-list"></div>        
+
+
+    <div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+
+
+
+</script>
+
+<!-- ====ProjectListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectListItemView'>
+<a href="#project/<%= encodeURIComponent(name) %>" id="project-name"><%= name %></a>
+</script>
+
+<!-- ====SimilarProjectListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SimilarProjectListItemView'>
+
+	<b><a href="/#project/<%= name %>"><%= name %></a></b>
+	<br />
+	<%= description %>
+	<br />
+	<%for (j in users) {%>
+	<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />
+	<%}%>								
+	<br />
+	<hr />	
+
+</script>
+
+<!-- ====ProjectListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectListView'>
+
+
+
+
+<div class="row">
+    <div id="divSearch">
+        <div class="control-group">          
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-small" style="width:80px" id="search" placeholder="find project..." />
+              <img width="20" style="margin-left: 3px;" src="/img/wait.gif" id="loading_list" />          
+            </div>
+          </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div id="divList">
+        <div id="projects-list" style="word-wrap:break-word;"></div>
+    </div>
+</div>
+
+
+<div class="row">
+	<div id="divPager" style="margin-top:20px">
+    <ul class="pager" style="text-align: left">
+      <li>
+        <a href="#" id="prev" style="visibility:hidden">Previous</a>
+      </li>
+      <li>
+        <a href="#" id="next" style="visibility:hidden">Next</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+</script>
+
+<!-- ====SampleCodeListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SampleCodeListItemView'>
+<div class="row">     
+    
+    	<a href="/#project/<%= usingProjectName%>" style="font-size:14px; font-weight: bold;"><%= usingProjectName%></a>
+    	
+    	<%if (absoluteLink && absoluteLink.substring(0,7)=="http://") {%>
+    	(<a href="<%= absoluteLink%>"><%= relativeFileName %></a>)
+    	<%} else {%>
+    	<%= relativeFileName %>
+    	<%}%>
+
+
+    	<br />    	
+		<pre><% 
+		var reg = new RegExp(var_name, "g")
+		var pretty_code = code
+
+		if (searchWord && searchWord!="") {						
+			var reg1 = new RegExp(searchWord, "g")
+			pretty_code = pretty_code.replace(reg1, "<span class='codeSampleSearchHighlight'>"+searchWord+"</span>")
+		}
+
+		pretty_code = pretty_code.replace(reg, "<span class='codeSampleHighlight'>"+var_name+"</span>")		
+		
+		
+		print(pretty_code)
+
+		%></pre>
+    
+</div>
+
+<br />
+</script>
+
+<!-- ====ListViewItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ListViewItemView'>
+<a id="link" href="#" item="<%= name%>"><%= canonize(name)%> (<%= count%>)</a>
+
+
+</script>
+
+<!-- ====ListViewView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ListViewView'>
+
+
+<div id="loading">
+	<img width="20" style="margin-left: 3px;" src="/img/wait.gif" />
+	<br />
+</div>
+
+<a id="all-items" href="#"><b>All (<span id="all-items-count"><img width="20" style="margin-left: 3px;" src="/img/wait.gif" /></span>)</b></a>
+<div id="other-items" style="word-wrap:break-word; width: 100px" />
+
+
+
+<div id="divPager" style="margin-top:12px;">
+    <ul class="pager" style="text-align: left">
+      <li>
+        <a href="#" id="prev" style="display: none">Prev</a>
+      </li>
+      <li>
+        <a href="#" id="next" style="display: none">Next</a>
+      </li>
+    </ul>
+  </div>
+
+</script>
+
+<!-- ====MapView.html==== -->
+
+
+
+<script type='text/template' id='tpl_MapView'>
+
+<div id="map-buttons" class="btn-group" data-toggle="buttons-radio" style="margin-left: 52px; margin-bottom: 15px">
+  <button type="button" id="world" class="btn mapBtn active">World</button>
+  <button type="button" id="US" class="btn mapBtn">US</button>
+  <button type="button" id="europe" class="btn mapBtn">Europe</button>
+  <button type="button" id="americas" class="btn mapBtn">Americas</button>
+  <button type="button" id="africa" class="btn mapBtn">Africa</button>
+  <button type="button" id="asia" class="btn mapBtn">Asia</button>
+  <button type="button" id="oceania" class="btn mapBtn">Oceania</button>		  
+</div>
+
+<img id="map_loading" src="/img/wait.gif" style="margin-left: 200px;" />
+<div id="map" />
+
+</script>

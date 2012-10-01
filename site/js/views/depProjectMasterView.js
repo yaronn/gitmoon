@@ -57,11 +57,10 @@ window.DepProjectMasterView = Backbone.View.extend({
         var self = this
 
         url = "/projects/"+this.projectName+"/depends_on"
-        $.get(url, function(data) {  
-            var dataj = JSON.parse(data)
+        $.get(url, function(data) {              
             $("#loading", self.el).hide()
             
-            if (dataj.length==0) {
+            if (data.length==0) {
                 $("#wrapper", self.el).hide()
                 $("#noDepends", self.el).show()
             }
@@ -70,7 +69,7 @@ window.DepProjectMasterView = Backbone.View.extend({
                 $("#wrapper", self.el).show()
             }
 
-            self.drawVisualizationInternal(dataj)   
+            self.drawVisualizationInternal(data)
         })
 
     },

@@ -26,7 +26,8 @@
         "node": ">= 0.6"
     },
     "scripts": {
-        "build": "_coffee -c server._coffee common/ service/; _coffee ./common/crunch._coffee",        
+        "crunch": "_coffee ./common/crunch._coffee",
+        "build": "_coffee -c server._coffee common/ service/; _coffee ./common/crunch._coffee",
         "clean": "rm server.js service/*.js common/*.js ./site/crunch.js ./site/crunch.css",
         "run-dev": "forever --minUptime 5000 --minUptime 60000 -w run_dev.js",
         "run-stag": "staging=true forever --minUptime 5000 --minUptime 60000 -w run_dev.js",

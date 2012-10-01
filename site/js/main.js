@@ -56,12 +56,8 @@ window.Router = Backbone.Router.extend({
 
 });
 
-function startApp() {
-    app = new Router();
-    Backbone.history.start();
-};
 
-
+/*
 templateLoader.load(["HomeView", "HeaderView", "ProjectMasterView", "ProjectListView", 
                      "ProjectListItemView", "ProjectView", "ProjectUserListView",
                      "ProjectUserListItemView", "DepProjectListView", 
@@ -78,3 +74,11 @@ templateLoader.load(["HomeView", "HeaderView", "ProjectMasterView", "ProjectList
             app = new Router();            
             Backbone.history.start();                   
     });
+*/
+
+utils.loadTemplates(function() {
+    $('#wait').css("display", "none")            
+    app = new Router();            
+    Backbone.history.start();
+})
+

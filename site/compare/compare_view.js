@@ -28,9 +28,11 @@ window.CompareView = Backbone.View.extend({
         var self = this
         $('#' + current, this.el).typeahead({
             source: searchProjects,
-            updater: function(project) {               
-                self.chooseProject(current, other, color, project)
+            updater: function(project) {                
+                self.chooseProject(current, other, color, project)                
                 $("#" + other, self.el).focus()                
+                if (self.project1!=null && self.project2!=null)
+                    utils.reportVisit("/compare/" + self.project1 + "/" + self.project2)
                 return project;
             },
             items: 8})
@@ -109,14 +111,14 @@ window.CompareView = Backbone.View.extend({
 })
 
 
-function searchProjects(q, cbx) {    
-    
+function searchProjects(q, cbx) {        
     $.get("/projects?$name="+q+"&$top=8&mode=starts", function(data) {  
         var res = []
         data = JSON.parse(data)
         data.forEach(function(d) {
             res.push(d.name)
             cbx(res)
+            utils.trackEvent("h2h", "search", q)    
         })
     })
 

@@ -21,6 +21,8 @@ window.MapView = Backbone.View.extend({
             var old_is_us = self.mapModel.is_us
             self.mapModel.is_us = self.currentRegion=="US"            
             self.mapModel.fetch(function() {self.render()})
+
+            self.trigger("mapbuttonclicked", e.currentTarget.id)
         })            
 
     },
