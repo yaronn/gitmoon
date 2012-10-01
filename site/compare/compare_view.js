@@ -118,7 +118,7 @@ function searchProjects(q, cbx) {
             res.push(d.name)
             cbx(res)
             utils.trackEvent("h2h", "search", q)    
-        })
+        }, "json")
     })
 
 }

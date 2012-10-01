@@ -8,6 +8,8 @@ var request = require('request')
 
 
 exports.index = function(req, res, _) {
+  res.writeHead(200, {"Content-Type": "application/json"})
+  console.log("write json")
   name = req.query.$name ? req.query.$name : ""
   mode = req.query.$mode ? req.query.$mode : ""
   key = "all_projects_" + req.query.$skip + "_"+req.query.$top + "_" + name  + "_" + mode
