@@ -14,9 +14,9 @@ window.RandomCodeView = BaseView.extend({
       var html = ''
       
       if (data.project1sample)
-        addHtml(data.project1sample, this.project1, '255,0,0')
+        addHtml(data.project1sample, this.project1, 'red')
       if (data.project2sample)
-        addHtml(data.project2sample, this.project2, '0,0,255')
+        addHtml(data.project2sample, this.project2, 'blue')
 
       if (!data.project1sample && !data.project2sample)
         html = 'no code samples available'
@@ -29,9 +29,9 @@ window.RandomCodeView = BaseView.extend({
         var reg = new RegExp(data.var_name, "g")        
         var sample = data.code.replace(reg, "<span class='codeSampleHighlight'>"+data.var_name+"</span>")        
 
-        html += '<b>' + data.project_using_name + ' using ' + project + ':</b>'
+        html += '<b>' + data.project_using_name + ' using <span style="color: '+color+'">' + project + '</span>:</b>'
         html += '<br />'
-        html += '<pre style="background-color: rgba('+color+',0.1)">' + sample + '</pre>' 
+        html += '<pre>' + sample + '</pre>' 
       }
 
     },

@@ -72,7 +72,9 @@ window.DependsView = BaseView.extend({
           .attr("r", 6)                        
           .attr("class", "directed")
           .style("fill", function(d, i) {
-            return (d.name==self.project1 || d.name==self.project2)?"#4E803B":"#aaa"
+            if (d.name==self.project1) return "red"
+            else if (d.name==self.project2) return "blue"
+            return "#aaa"
           })
           .call(force.drag);
       

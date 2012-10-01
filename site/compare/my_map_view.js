@@ -18,7 +18,17 @@ window.MyMapView = BaseView.extend({
 
       var mapView = new MapView({mapModel: mapModel})
       mapModel.fetch(function() {mapView.render()})
-      $("#diagram", this.el).html(mapView.el);  
+
+
+
+      $("#diagram", this.el).html("<div><div id='map'style='float: left'></div>" +
+                                  "<div id='legend' style='float: right'></div></div>" +
+                                  "<div style='clear: both'></div>");  
+      $("#map", this.el).html(mapView.el)      
+
+
+      var data = {project1: this.project1, project2: this.project2}
+      $("#legend", this.el).html(window.templates.MapLegend(data))
       mapView.bind("mapbuttonclicked", function(area) {
         utils.trackEvent("h2h", "map click", area)
       })

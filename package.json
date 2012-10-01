@@ -35,7 +35,7 @@
         "test-dev-prepare": "java -jar ~/apps/selenium-server-standalone-2.25.0.jar",
         "test-dev": "mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee",
         "test-prod": "production=true mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee",
-        "compiler": "supervisor -w ./site/js,./site/css,./site/index.html,./site/components -n \"exit\" -x _coffee ./common/crunch._coffee"
+        "compiler": "supervisor -w ./site/js,./site/css,./site/index.html,./site/components,./site/compare -e html -n \"exit\" -x _coffee ./common/crunch._coffee"
     },
     "repository" : {
         "type" : "git",
