@@ -165,6 +165,19 @@
 </div>
 </script>
 
+<!-- ====SimilarProjectListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SimilarProjectListView'>
+
+
+	<h3>Similar Projects</h3>
+	<img width="20" style="margin-left: 3px;" src="/img/wait.gif" id="loading" />	
+	<div id="similar-projects-list"></div>		
+
+</script>
+
 <!-- ====ProjectMasterView.html==== -->
 
 
@@ -230,19 +243,6 @@
 </div>
 </script>
 
-<!-- ====SimilarProjectListView.html==== -->
-
-
-
-<script type='text/template' id='tpl_SimilarProjectListView'>
-
-
-	<h3>Similar Projects</h3>
-	<img width="20" style="margin-left: 3px;" src="/img/wait.gif" id="loading" />	
-	<div id="similar-projects-list"></div>		
-
-</script>
-
 <!-- ====DepProjectListItemView.html==== -->
 
 
@@ -281,6 +281,42 @@
 
 
 <br />
+</script>
+
+<!-- ====ProjectUserListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectUserListView'>
+
+
+<div class="row"> 
+    	<div class="control-group" style="margin-left: 1px">
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
+            </div>
+          </div>
+	    </div>        
+</div> 
+
+
+<!--workaround: only row within row gives the effect of HR spreading to all edges-->
+<div class="row">
+  <div class="row">
+    <hr align="left" style="width: 100%; margin-left: 0px" />
+  </div>
+</div>
+
+<div class="row">     
+  <div id="users-list"></div>        
+</div>
+  
+<div class="row"> 	
+		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+</div>
+
+
 </script>
 
 <!-- ====ProjectUserListItemView.html==== -->
@@ -353,42 +389,6 @@
 <div class="row">
 	<hr align="left" style="width: 100%; margin-left: 0px" />
 </div>
-</script>
-
-<!-- ====ProjectUserListView.html==== -->
-
-
-
-<script type='text/template' id='tpl_ProjectUserListView'>
-
-
-<div class="row"> 
-    	<div class="control-group" style="margin-left: 1px">
-          <div class="controls">
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
-            </div>
-          </div>
-	    </div>        
-</div> 
-
-
-<!--workaround: only row within row gives the effect of HR spreading to all edges-->
-<div class="row">
-  <div class="row">
-    <hr align="left" style="width: 100%; margin-left: 0px" />
-  </div>
-</div>
-
-<div class="row">     
-  <div id="users-list"></div>        
-</div>
-  
-<div class="row"> 	
-		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
-</div>
-
-
 </script>
 
 <!-- ====SampleCodeListView.html==== -->

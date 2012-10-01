@@ -113,8 +113,7 @@ window.CompareView = Backbone.View.extend({
 
 function searchProjects(q, cbx) {        
     $.get("/projects?$name="+q+"&$top=8&mode=starts", function(data) {  
-        var res = []
-        data = JSON.parse(data)
+        var res = []        
         data.forEach(function(d) {
             res.push(d.name)
             cbx(res)
