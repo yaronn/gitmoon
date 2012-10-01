@@ -49,7 +49,7 @@ utils.loadTemplates = function(cbx) {
             var curr = scripts[i]
             if (curr.type!="text/template") continue
             var id = curr.id.substring("tpl_".length)
-            console.log("loading template " + id)
+            //console.log("loading template " + id)
             if (window[id]) window[id].prototype.template = _.template(curr.innerHTML);
             else window.templates[id] = _.template(curr.innerHTML);
         }

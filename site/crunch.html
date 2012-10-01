@@ -165,19 +165,6 @@
 </div>
 </script>
 
-<!-- ====SimilarProjectListView.html==== -->
-
-
-
-<script type='text/template' id='tpl_SimilarProjectListView'>
-
-
-	<h3>Similar Projects</h3>
-	<img width="20" style="margin-left: 3px;" src="/img/wait.gif" id="loading" />	
-	<div id="similar-projects-list"></div>		
-
-</script>
-
 <!-- ====ProjectMasterView.html==== -->
 
 
@@ -243,6 +230,19 @@
 </div>
 </script>
 
+<!-- ====SimilarProjectListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SimilarProjectListView'>
+
+
+	<h3>Similar Projects</h3>
+	<img width="20" style="margin-left: 3px;" src="/img/wait.gif" id="loading" />	
+	<div id="similar-projects-list"></div>		
+
+</script>
+
 <!-- ====DepProjectListItemView.html==== -->
 
 
@@ -281,42 +281,6 @@
 
 
 <br />
-</script>
-
-<!-- ====ProjectUserListView.html==== -->
-
-
-
-<script type='text/template' id='tpl_ProjectUserListView'>
-
-
-<div class="row"> 
-    	<div class="control-group" style="margin-left: 1px">
-          <div class="controls">
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
-            </div>
-          </div>
-	    </div>        
-</div> 
-
-
-<!--workaround: only row within row gives the effect of HR spreading to all edges-->
-<div class="row">
-  <div class="row">
-    <hr align="left" style="width: 100%; margin-left: 0px" />
-  </div>
-</div>
-
-<div class="row">     
-  <div id="users-list"></div>        
-</div>
-  
-<div class="row"> 	
-		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
-</div>
-
-
 </script>
 
 <!-- ====ProjectUserListItemView.html==== -->
@@ -389,6 +353,42 @@
 <div class="row">
 	<hr align="left" style="width: 100%; margin-left: 0px" />
 </div>
+</script>
+
+<!-- ====ProjectUserListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectUserListView'>
+
+
+<div class="row"> 
+    	<div class="control-group" style="margin-left: 1px">
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
+            </div>
+          </div>
+	    </div>        
+</div> 
+
+
+<!--workaround: only row within row gives the effect of HR spreading to all edges-->
+<div class="row">
+  <div class="row">
+    <hr align="left" style="width: 100%; margin-left: 0px" />
+  </div>
+</div>
+
+<div class="row">     
+  <div id="users-list"></div>        
+</div>
+  
+<div class="row"> 	
+		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+</div>
+
+
 </script>
 
 <!-- ====SampleCodeListView.html==== -->
@@ -714,44 +714,6 @@
 
 </script>
 
-<!-- ====SampleCodeListItemView.html==== -->
-
-
-
-<script type='text/template' id='tpl_SampleCodeListItemView'>
-<div class="row">     
-    
-    	<a href="/#project/<%= usingProjectName%>" style="font-size:14px; font-weight: bold;"><%= usingProjectName%></a>
-    	
-    	<%if (absoluteLink && absoluteLink.substring(0,7)=="http://") {%>
-    	(<a href="<%= absoluteLink%>"><%= relativeFileName %></a>)
-    	<%} else {%>
-    	<%= relativeFileName %>
-    	<%}%>
-
-
-    	<br />    	
-		<pre><% 
-		var reg = new RegExp(var_name, "g")
-		var pretty_code = code
-
-		if (searchWord && searchWord!="") {						
-			var reg1 = new RegExp(searchWord, "g")
-			pretty_code = pretty_code.replace(reg1, "<span class='codeSampleSearchHighlight'>"+searchWord+"</span>")
-		}
-
-		pretty_code = pretty_code.replace(reg, "<span class='codeSampleHighlight'>"+var_name+"</span>")		
-		
-		
-		print(pretty_code)
-
-		%></pre>
-    
-</div>
-
-<br />
-</script>
-
 <!-- ====ProjectListView.html==== -->
 
 
@@ -795,6 +757,63 @@
     </ul>
   </div>
 </div>
+
+</script>
+
+<!-- ====SampleCodeListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SampleCodeListItemView'>
+<div class="row">     
+    
+    	<a href="/#project/<%= usingProjectName%>" style="font-size:14px; font-weight: bold;"><%= usingProjectName%></a>
+    	
+    	<%if (absoluteLink && absoluteLink.substring(0,7)=="http://") {%>
+    	(<a href="<%= absoluteLink%>"><%= relativeFileName %></a>)
+    	<%} else {%>
+    	<%= relativeFileName %>
+    	<%}%>
+
+
+    	<br />    	
+		<pre><% 
+		var reg = new RegExp(var_name, "g")
+		var pretty_code = code
+
+		if (searchWord && searchWord!="") {						
+			var reg1 = new RegExp(searchWord, "g")
+			pretty_code = pretty_code.replace(reg1, "<span class='codeSampleSearchHighlight'>"+searchWord+"</span>")
+		}
+
+		pretty_code = pretty_code.replace(reg, "<span class='codeSampleHighlight'>"+var_name+"</span>")		
+		
+		
+		print(pretty_code)
+
+		%></pre>
+    
+</div>
+
+<br />
+</script>
+
+<!-- ====CompanyOverlapView.html==== -->
+
+
+
+<script type='text/template' id='tpl_CompanyOverlapView'>
+
+<% users_text = is_first?" users":"" %>
+
+<tr>
+  <td style="text-align: center; color: red"><%= project1_count%><%= users_text %></td>
+  <td style="text-align: center"><div><span><h2><%= name%></h2></span>
+      <img onerror="$(this).hide()" onload="$($(this).parent().children()[0]).hide()"
+      height="35" src="/img/companies/<%= canonizedName%>.jpg" /></div>
+  </td>
+  <td style="text-align: center; color: blue"><%= project2_count%><%= users_text %></td>
+</tr>
 
 </script>
 
@@ -891,25 +910,6 @@
 <span>
 
 </div>
-
-</script>
-
-<!-- ====CompanyOverlapView.html==== -->
-
-
-
-<script type='text/template' id='tpl_CompanyOverlapView'>
-
-<% users_text = is_first?" users":"" %>
-
-<tr>
-  <td style="text-align: center; color: red"><%= project1_count%><%= users_text %></td>
-  <td style="text-align: center"><div><span><h2><%= name%></h2></span>
-      <img onerror="$(this).hide()" onload="$($(this).parent().children()[0]).hide()"
-      height="35" src="/img/companies/<%= canonizedName%>.jpg" /></div>
-  </td>
-  <td style="text-align: center; color: blue"><%= project2_count%><%= users_text %></td>
-</tr>
 
 </script>
 

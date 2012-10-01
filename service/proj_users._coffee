@@ -122,7 +122,7 @@ projectUsersCountriesInternal = (req, _) ->
 projectUsersUSStatesInternal = (req, _) ->     
   utils.projectUsersFilterDimentionInternal req, 
     { name: req.params.project
-    , dimnetion: "state"
+    , dimention: "state"
     , filter: "AND HAS(u.country) AND u.country='United States'"}
     , _
 
