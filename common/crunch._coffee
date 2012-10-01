@@ -1,6 +1,10 @@
 fs = require 'fs'
 path = require 'path'
 utils = require '../data-loader/utils.js'
+config = require './config'
+neo4j = require 'neo4j'
+db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
+
 
 crunch = (files, dest, _) ->
 	res = ""
@@ -35,6 +39,14 @@ crunch_html = (_) ->
 
 	res = html_crunch;
 	fs.writeFileSync crunch_file, res
+
+crunch_project_cache = (_) ->
+	res = db.query "START n=node:node_auto_index(type='project')
+					WITH n.name as name, n.name_lower as name_lower, count(*) as count
+					RETURN name ORDER BY name_lower", _
+	arr = []
+	arr.push i.name for i in res
+	fs.writeFileSync "./site/projects.json", JSON.stringify(arr)
 
 
 scripts = [
@@ -102,3 +114,4 @@ css = ["css/bootstrap.css", "css/styles.css"]
 crunch scripts, "./site/crunch.js", _
 crunch css, "./site/crunch.css", _
 crunch_html _
+crunch_project_cache _

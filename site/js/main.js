@@ -77,6 +77,7 @@ templateLoader.load(["HomeView", "HeaderView", "ProjectMasterView", "ProjectList
     });
 */
 
+utils.loadProjectsCache()
 utils.loadTemplates(function() {
     $('#wait').css("display", "none")            
     app = new Router();            

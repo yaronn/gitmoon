@@ -7,3 +7,4 @@ crunch.html
 service/*.js
 server.js
 common/config.js
+projects.json

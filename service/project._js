@@ -33,7 +33,7 @@ function getAllProjects(req, _) {
     var mode = req.query['$mode']    
 
     var filter = name+"*"
-    if (mode=="starts") filter="*" + filter
+    if (mode!="starts") filter="*" + filter
 
     qry = 'START n=node:node_auto_index("name_lower:'+filter+'")\n'
   }

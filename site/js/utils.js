@@ -256,7 +256,18 @@ utils.getCanonizedCompany = function(c) {
 }
 
 
+utils.loadProjectsCache = function() { 
+ $.get("/projects.json", function(data) {                 
+        utils.projects_cache = data
+    })
+}
+
 utils.searchProjects = function(q, source, cbx) {        
+    if (utils.projects_cache) {
+        cbx(utils.projects_cache)
+        return
+    }
+
     $.get("/projects?$name="+q+"&$top=8&mode=starts", function(data) {  
         var res = []        
         data.forEach(function(d) {
