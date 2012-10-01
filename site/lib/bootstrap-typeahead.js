@@ -33,6 +33,7 @@
     this.sorter = this.options.sorter || this.sorter
     this.highlighter = this.options.highlighter || this.highlighter
     this.updater = this.options.updater || this.updater
+    this.maybeSelected = this.options.maybeSelected
     this.$menu = $(this.options.menu).appendTo('body')
     this.source = this.options.source
     this.shown = false
@@ -224,8 +225,18 @@
           break
 
         case 9: // tab
-        case 13: // enter
+          //yaron: sepearet tab and enter cases
           if (!this.shown) return
+          this.select()
+          break
+
+        case 13: // enter
+          if (!this.shown) {            
+            //yaron: so that if user focused outside the text box w/o choosing
+            //he can still come back in and click enter
+            if (this.maybeSelected) this.maybeSelected()
+            return
+          }
           this.select()
           break
 

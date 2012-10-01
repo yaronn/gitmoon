@@ -57,6 +57,14 @@ window.HomeView = Backbone.View.extend({
           
     },
 
+    tryNavigate: function() {
+        var prj1 = $("#project1").val()
+        var prj2 = $("#project2").val()
+
+        if (prj1!="" && prj2!="")
+            app.navigate('/#compare/' + prj1 + '/' + prj2, true);
+    },
+
     addTypeahead: function(current, other) {        
         var self = this
         $('#' + current, this.el).typeahead({
@@ -64,9 +72,11 @@ window.HomeView = Backbone.View.extend({
             updater: function(project) {
                 $("#" + other, self.el).focus()                
                 self[current] = project
-                if (self.project1!=null && self.project2!=null)
-                    app.navigate('/#compare/' + self.project1 + '/' + self.project2, true);
+                self.tryNavigate()
                 return project;
+            },
+            maybeSelected: function() {                
+                self.tryNavigate()
             },
             items: 8})
     }

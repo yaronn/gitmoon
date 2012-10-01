@@ -34,8 +34,14 @@ window.CompareView = Backbone.View.extend({
                     utils.reportVisit("/compare/" + self.project1 + "/" + self.project2)
                 return project;
             },
-            items: 8})
+            maybeSelected: function() {                
+                var prj1 = $("#project1", self.el).val()
+                var prj2 = $("#project2", self.el).val()
 
+                if (prj1!="" && prj2!="")
+                    app.navigate('/#compare/' + prj1 + '/' + prj2, true);
+            },
+            items: 8})
     },   
 
     chooseProject: function(current, other, color, project) {        
