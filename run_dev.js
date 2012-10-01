@@ -1,9 +1,4 @@
-
-var cmd = ""
-if (process.env.staging) cmd = "_coffee ./common/crunch._coffee; "
-cmd +=  "_coffee server._coffee"
-
-var terminal = require('child_process').exec(cmd)
+var terminal = require('child_process').exec('_coffee ./common/crunch._coffee; _coffee server._coffee')
 
 terminal.stdout.on('data', function (data) {
     console.log(data);
