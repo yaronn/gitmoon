@@ -56,7 +56,7 @@
 #main {
 	margin-top: 20px;
 	background-color: white;	
-	min-height: 370px;	
+	min-height: 500px;	
 	background: url('/img/moon_45_small.png') no-repeat;	
 	background-position: 0px 0px;
 }
@@ -123,10 +123,7 @@ text.shadow {
 
 @media not screen and (min-device-width: 320px) and (max-device-width: 1024px)
 {
-	.hero {margin-top:50px;}
 	.motoHeader {margin-left:200px; }
-	.homeProjectList {margin-left:260px;}
-	.homeFeaturedList {margin-left:310px;}
 	.homeName {margin-bottom:25px; margin-left:140px; margin-top:10px;}		
 }
 /*

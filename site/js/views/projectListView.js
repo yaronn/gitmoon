@@ -100,6 +100,10 @@ window.ProjectListView = Backbone.View.extend({
 
     close: function() {
         
+    },
+
+    focus: function() {                
+        $("#search", this.el).focus()
     }
 
 });

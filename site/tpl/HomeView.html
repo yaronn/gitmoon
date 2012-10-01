@@ -1,76 +1,110 @@
 
 <div class="row">  
 
-<div class="span8 offset2 hero" id="hero-view">	
-   
-<div id="main">
- 
-  <div>
+  <div class="span8 offset2 hero" id="hero-view">	
 
-    <img src="/img/gitmoon_white.png" class="homeName" style="float: left; " />
-    <span style="font-size: 14px">
+    <div id="main">
 
-    
-    <div style="height:40px;" />
 
-    <div>        
-     
-     <a href="http://feedproxy.google.com/WebServices20"><img height="20" src="/img/rss.png" class="hideIPad" style="margin-bottom: 13px; margin-left: 95px;" /></a>
-  
-     <a href="https://twitter.com/YaronNaveh" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @YaronNaveh</a>   
+      <img src="/img/gitmoon_white.png" class="homeName" style="float: left; " />
+      <span style="font-size: 14px">
+
+
+        <div style="height:40px;" />
+
+        <div>        
+
+         <a href="http://feedproxy.google.com/WebServices20"><img height="20" src="/img/rss.png" class="hideIPad" style="margin-bottom: 13px; margin-left: 95px;" /></a>
+
+         <a href="https://twitter.com/YaronNaveh" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @YaronNaveh</a>   
+
+       </div>
+
+
+       <div style="clear:both"/>
+
+       <div>
+
+        <span class="motoHeader" style="font-size: 22px">
+          Social analytics for node.js developers
+        </span>    
+
+
+        <div style="margin-left: 300px; margin-top: 20px">
+
+
+          <ul class="nav nav-pills" id="tab">
+            <li class="active"><a href="#projects" data-toggle="tab">Projects</a></li>
+            <li><a href="#h2h" data-toggle="tab">Head2Head</a></li>      
+          </ul>
+
+          <div class="tab-content" style="width: 700px; padding-left: 5px; margin-top: 30px;">
+            <div class="tab-pane active" id="projects">          
+
+              <div id="projects-list" />
+
+              <div id="project-featured-list" style="margin-top: 17px; margin-left: 50px; display: block">
+                <div style="margin-bottom: 10px"><b>Featured projects:</b></div>
+                <div class="span5" id="divFeatured" style="margin-left:28px">        
+
+                  <div><a href="#project/socket.io">socket.io</a></div>        
+                  <div><a href="#project/async">async</a></div>        
+                  <div><a href="#project/mocha">mocha</a></div>
+                  <div><a href="#project/browserify">browserify</a></div>                
+                  <div><a href="#project/redis">redis</a></div>                  
+                  <div><a href="#project/mongoose">mongoose</a></div>
+                  <div><a href="#project/stylus">stylus</a></div>        
+                  <div><a href="#project/coffee-script">coffee-script</a></div>
+                </div>
+              </div>
+
+
+
+            </div>
+
+            <div class="tab-pane" id="h2h">
+
+
+              <div style="width: 410px; margin-left: 0px;">
+
+                <div style="float: left">
+                  1. Choose <span style="color: red">red</span> project (e.g. async)<br />
+                  <input style="margin-top: 7px; width: 210px" id="project1" type="text" data-provide="typeahead" placeholder="search npm project..." />
+                </div>
+
+
+                <div style="float: right; ">
+                  2. <span style="color: blue">blue</span> project (e.g. step)<br />
+                  <input style="margin-top: 7px; width: 150px" id="project2" type="text" data-provide="typeahead" placeholder="search npm project..." />
+                </div>
+              </div>
+
+              <div style="clear: both" />
+
+
+              <div id="h2h-featured-list" style="margin-top: 17px; margin-left: 80px; display: block">
+                <div style="margin-bottom: 10px"><b>Featured Head2Head:</b></div>
+                <div class="span5" id="divFeatured" style="margin-left:28px">        
+
+                  <div><a href="/#compare/jade/ejs">jade vs. ejs</a></div>
+                  <div><a href="/#compare/mongodb/mongoose">mongodb vs. mongoose</a></div>
+                  <div><a href="/#compare/express/railway">express vs. RailwayJS</a></div>
+                  <div><a href="/#compare/async/step">async vs. step</a></div>
+                  <div><a href="/#compare/jitsu/azure">jitsu vs. azure</a></div>
+                  <div><a href="/#compare/xml2js/libxmljs">xml2js vs. libxmljs</a></div>
+                  <div><a href="/#compare/mocha/nodeunit">mocha vs. nodeunit</a></div>
+
+                </div>
+              </div>
+
+            </div> 
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
-
-
-	<div style="clear:both"/>
-
-    <div>
-
-    <span class="motoHeader" style="font-size: 22px">
-      Social analytics for node.js developers
-    </span>    
-
-
-    <div class="hero_space" /> 
-
-      <div id="projects-list" class="homeProjectList">
-
-	  </div>    
-
-    <div>
-      <div style="float: left; margin-top: 165px; margin-left: 55px;">        
-        <h3><a href="https://twitter.com/YaronNaveh">Twitter</a></h3>
-        <h3><a href="http://webservices20.blogspot.co.il/">Blog</a></h3>
-        <h3><a href="/#compare">Head2Head</a> <span style="color: orange; font-size: small">New!</span></h3>
-      </div>
-
-
-      </div>
-      <div id="featured-list" class="homeFeaturedList" style="margin-top: 17px; display: block">
-        <div style="margin-bottom: 10px"><b>Featured projects:</b></div>
-        <div class="span5" id="divFeatured" style="margin-left:28px">        
-
-          <div><a href="#project/socket.io">socket.io</a></div>        
-          <div><a href="#project/async">async</a></div>        
-          <div><a href="#project/mocha">mocha</a></div>
-          <div><a href="#project/browserify">browserify</a></div>
-          <div><a href="#project/azure">azure</a></div>
-          <div><a href="#project/redis">redis</a></div>
-          <div><a href="#project/wcf.js">wcf.js</a></div>
-          <div><a href="#project/request">request</a></div>
-          <div><a href="#project/mongoose">mongoose</a></div>
-          <div><a href="#project/stylus">stylus</a></div>        
-          <div><a href="#project/coffee-script">coffee-script</a></div>
-       </div>
-      </div>
-    </div>
-
-    </div>
-   </div>
-
-</div>
-
-
-</div>
-
-</div>

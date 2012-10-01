@@ -30,7 +30,8 @@ window.Router = Backbone.Router.extend({
     },
 
     home: function () {
-       this.homeView = new HomeView();       
+       var options = utils.getParameterByName("start")=="h2h"?{startTab: "h2h"}:{};       
+       this.homeView = new HomeView(options);       
        window.controller.showView(this.homeView, $("#content"))
     },
 

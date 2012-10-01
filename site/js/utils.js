@@ -254,3 +254,28 @@ utils.regionsMap = {
 utils.getCanonizedCompany = function(c) {
     return c.toLowerCase().replace(/[!]/g, "")            
 }
+
+
+utils.searchProjects = function(q, source, cbx) {        
+    $.get("/projects?$name="+q+"&$top=8&mode=starts", function(data) {  
+        var res = []        
+        data.forEach(function(d) {
+            res.push(d.name)
+            cbx(res)
+            utils.trackEvent("h2h", "search - " + source, q)    
+        }, "json")
+    })
+
+}
+
+utils.getParameterByName = function(name)
+{
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regexS = "[\\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(window.location.search);
+  if(results == null)
+    return "";
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+}

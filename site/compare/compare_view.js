@@ -13,8 +13,7 @@ window.CompareView = Backbone.View.extend({
     render:function () {                    
         var self = this
         $(this.el).html(this.template());                                            
-
-        $("#featured-left", self.el).hide()
+      
 
         this.addTypeahead("project1", "project2", "red")
         this.addTypeahead("project2", "project1", "blue")                    
@@ -27,7 +26,7 @@ window.CompareView = Backbone.View.extend({
     addTypeahead: function(current, other, color) {
         var self = this
         $('#' + current, this.el).typeahead({
-            source: searchProjects,
+            source: function(q,cbx) {utils.searchProjects(q, "e2e page", cbx)},
             updater: function(project) {                
                 self.chooseProject(current, other, color, project)                
                 $("#" + other, self.el).focus()                
@@ -40,8 +39,7 @@ window.CompareView = Backbone.View.extend({
     },   
 
     chooseProject: function(current, other, color, project) {        
-        var self = this
-        $("#featured", self.el).hide()
+        var self = this        
         $("#featured-left", self.el).show()
         self[current] = project            
         self[current + "Model"] = new Project({name: project, color: color})
@@ -109,16 +107,3 @@ window.CompareView = Backbone.View.extend({
 
     }
 })
-
-
-function searchProjects(q, cbx) {        
-    $.get("/projects?$name="+q+"&$top=8&mode=starts", function(data) {  
-        var res = []        
-        data.forEach(function(d) {
-            res.push(d.name)
-            cbx(res)
-            utils.trackEvent("h2h", "search", q)    
-        }, "json")
-    })
-
-}
