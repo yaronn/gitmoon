@@ -416,6 +416,19 @@
 </div>
 </script>
 
+<!-- ====SimilarProjectListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_SimilarProjectListView'>
+
+
+	<h3>Similar Projects</h3>
+	<img width="20" style="margin-left: 3px;" src="/img/wait.gif" id="loading" />	
+	<div id="similar-projects-list"></div>		
+
+</script>
+
 <!-- ====ProjectMasterView.html==== -->
 
 
@@ -479,82 +492,6 @@
 </div>
 
 </div>
-</script>
-
-<!-- ====DepProjectListItemView.html==== -->
-
-
-
-<script type='text/template' id='tpl_DepProjectListItemView'>
-
-
-    	 <div style="margin-bottom:5px">
-	        <a href="/#project/<%= name%>" style="font-size:18px; font-weight: bold;">		<%= name%>
-			</a>			
-			<br />
-			<i><%= description%></i>
-			<%if (description && description.length>0) {%>
-			<br />
-			<%}%>
-
-			<a href="/#project/<%= name%>"><%= name%></a>
-			<i class="icon-arrow-right"></i>				
-
-			<% for (i in dependency_path) {%><a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
-			<%if (i<dependency_path.length-1) {%>
-			<i class="icon-arrow-right"></i>
-			<%}%>
-
-			<%}%>
-			
-			<br />
-			<%for (j in users) {%>
-				<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />					
-			<%}%>	
-			
-			
-			
-			
-		</div>
-
-
-<br />
-</script>
-
-<!-- ====ProjectUserListView.html==== -->
-
-
-
-<script type='text/template' id='tpl_ProjectUserListView'>
-
-
-<div class="row"> 
-    	<div class="control-group" style="margin-left: 1px">
-          <div class="controls">
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
-            </div>
-          </div>
-	    </div>        
-</div> 
-
-
-<!--workaround: only row within row gives the effect of HR spreading to all edges-->
-<div class="row">
-  <div class="row">
-    <hr align="left" style="width: 100%; margin-left: 0px" />
-  </div>
-</div>
-
-<div class="row">     
-  <div id="users-list"></div>        
-</div>
-  
-<div class="row"> 	
-		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
-</div>
-
-
 </script>
 
 <!-- ====ProjectUserListItemView.html==== -->
@@ -629,19 +566,6 @@
 </div>
 </script>
 
-<!-- ====SimilarProjectListView.html==== -->
-
-
-
-<script type='text/template' id='tpl_SimilarProjectListView'>
-
-
-	<h3>Similar Projects</h3>
-	<img width="20" style="margin-left: 3px;" src="/img/wait.gif" id="loading" />	
-	<div id="similar-projects-list"></div>		
-
-</script>
-
 <!-- ====SampleCodeListView.html==== -->
 
 
@@ -680,6 +604,82 @@
   </div>
 
 
+</script>
+
+<!-- ====ProjectUserListView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectUserListView'>
+
+
+<div class="row"> 
+    	<div class="control-group" style="margin-left: 1px">
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-search"></i></span><input type="search" class="input-medium" id="search" placeholder="filter users..." /> 
+            </div>
+          </div>
+	    </div>        
+</div> 
+
+
+<!--workaround: only row within row gives the effect of HR spreading to all edges-->
+<div class="row">
+  <div class="row">
+    <hr align="left" style="width: 100%; margin-left: 0px" />
+  </div>
+</div>
+
+<div class="row">     
+  <div id="users-list"></div>        
+</div>
+  
+<div class="row"> 	
+		<div id="loading"><br /><img src="/img/wait.gif" /> loading...<br /><br /><br /><br /></div>
+</div>
+
+
+</script>
+
+<!-- ====DepProjectListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_DepProjectListItemView'>
+
+
+    	 <div style="margin-bottom:5px">
+	        <a href="/#project/<%= name%>" style="font-size:18px; font-weight: bold;">		<%= name%>
+			</a>			
+			<br />
+			<i><%= description%></i>
+			<%if (description && description.length>0) {%>
+			<br />
+			<%}%>
+
+			<a href="/#project/<%= name%>"><%= name%></a>
+			<i class="icon-arrow-right"></i>				
+
+			<% for (i in dependency_path) {%><a href="/#project/<%= dependency_path[i].name%>"><%= dependency_path[i].name%></a>
+			<%if (i<dependency_path.length-1) {%>
+			<i class="icon-arrow-right"></i>
+			<%}%>
+
+			<%}%>
+			
+			<br />
+			<%for (j in users) {%>
+				<img src="https://secure.gravatar.com/avatar/<%= users[j].gravatar_id%>?s=70" width="25" height="25" />					
+			<%}%>	
+			
+			
+			
+			
+		</div>
+
+
+<br />
 </script>
 
 <!-- ====HomeView.html==== -->
@@ -914,6 +914,14 @@
 
 </script>
 
+<!-- ====ProjectListItemView.html==== -->
+
+
+
+<script type='text/template' id='tpl_ProjectListItemView'>
+<a href="#project/<%= encodeURIComponent(name) %>" id="project-name"><%= name %></a>
+</script>
+
 <!-- ====DepProjectListView.html==== -->
 
 
@@ -937,14 +945,6 @@
 
 
 
-</script>
-
-<!-- ====ProjectListItemView.html==== -->
-
-
-
-<script type='text/template' id='tpl_ProjectListItemView'>
-<a href="#project/<%= encodeURIComponent(name) %>" id="project-name"><%= name %></a>
 </script>
 
 <!-- ====SimilarProjectListItemView.html==== -->
