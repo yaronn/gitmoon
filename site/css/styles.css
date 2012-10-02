@@ -54,7 +54,8 @@
 }
 
 #main {
-	margin-top: 20px;
+	margin-top: 60px;
+	margin-left: 80px;
 	background-color: white;	
 	min-height: 500px;	
 	background: url('/img/moon_45_small.png') no-repeat;	
@@ -124,16 +125,17 @@ text.shadow {
 .homeName {margin-bottom:25px; margin-left:140px; margin-top:10px;} 
  
 
-/*
+
 @media screen and (min-device-width: 320px) and (max-device-width: 2600px) {
   
 }
 
 @media all and (max-device-width: 768px) and (max-device-height: 1024px) and (orientation:portrait) {  
-  
+  #content {margin-left: 40px; }
+  #main {margin-top: 20px; margin-left: 0px}
 }
 @media all and (max-device-width: 768px) and (max-device-height: 1024px) and (orientation:landscape) {  
- 
+  #content {margin-left: 40px; }	
+  #main {margin-top: 20px; margin-left: 0px}
 }
 
-*/
