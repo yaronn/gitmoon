@@ -122,14 +122,12 @@ text.shadow {
 
 .motoHeader {margin-left:200px; }
 .homeName {margin-bottom:25px; margin-left:140px; margin-top:10px;}
+ #report_search_box {left: 275px;}
+ #report_results {}  
 
-
-
+/*
 @media screen and (min-device-width: 320px) and (max-device-width: 2600px) {
-  #report_search_box {left: 275px;}
-  #report_results {}
-  #project1_div_wrapper {left: 20px; width: 220px;}
-  #project2_div {left: 980px; width: 220px;}
+  
 }
 
 @media all and (max-device-width: 768px) and (max-device-height: 1024px) and (orientation:portrait) {  
@@ -145,3 +143,4 @@ text.shadow {
   #project2_div {left: 895px; width: 170px;}
 }
 
+*/
