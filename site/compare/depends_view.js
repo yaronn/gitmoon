@@ -3,9 +3,10 @@
 window.DependsView = BaseView.extend({
 
     initialize: function (options) {
+       BaseView.prototype.initialize.call(this, options)
        this.title="Shared Dependencies"
        this.help = "This map shows which dependencies both projecst share"       
-       BaseView.prototype.initialize.call(this, options)
+       this.requiresSvg = true       
     },
 
     showData: function (data, cbx) {              

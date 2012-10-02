@@ -2,9 +2,10 @@
 window.TotalNetworkView = BaseView.extend({
 
    initialize: function (options) {
+       BaseView.prototype.initialize.call(this, options)
        this.title="Total Network"
        this.help = "These bars show how many users each project has directly and indirectly (via the network of its dependant projects)"
-       BaseView.prototype.initialize.call(this, options)
+       this.requiresSvg = true              
     },
 
    showData: function (data, cbx) {           

@@ -35,16 +35,8 @@ window.HomeView = Backbone.View.extend({
         }        
        
         this.addTypeahead("project1", "project2")
-        this.addTypeahead("project2", "project1")                
+        this.addTypeahead("project2", "project1")                        
 
-        var supportsSvg = supportsSVG()
-
-        if (!supportsSvg) {            
-            $("#feature1", this.el).hide()
-            $("#feature4", this.el).hide()            
-            $("#homeImageGroup", this.el).css("marginTop", "100px")
-        }
-        
         $('a[data-toggle="tab"]', self.el).on('shown', function (e) {                  
           if (e.target.href.indexOf("#h2h")!=-1) $("#project1", self.el).focus()
           else self.projectListView.focus()
@@ -65,8 +57,12 @@ window.HomeView = Backbone.View.extend({
             app.navigate('/#compare/' + prj1 + '/' + prj2, true);
     },
 
-    addTypeahead: function(current, other) {        
+    addTypeahead: function(current, other) {    
+        
+    
         var self = this
+        
+        var x = $('#' + current, this.el)
         $('#' + current, this.el).typeahead({
             source: function(q,cbx) {utils.searchProjects(q, "home", cbx)},
             updater: function(project) {
@@ -79,11 +75,8 @@ window.HomeView = Backbone.View.extend({
                 self.tryNavigate()
             },
             items: 8})
+
     }
 
 });
 
-
-function supportsSVG() {
-    return !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
-}

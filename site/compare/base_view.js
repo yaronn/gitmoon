@@ -6,6 +6,7 @@ window.BaseView = Backbone.View.extend({
        this.project2 = options.project2       
        this.url = options.url       
        this.span = options.span
+       this.requiresSvg = false
     },
 
     render: function () {     
@@ -13,8 +14,18 @@ window.BaseView = Backbone.View.extend({
         
         $(this.el).html(window.templates.DiagramView)        
 
+
+
         $("#title", self.el).text(this.title)
         $("#help", self.el).attr("title", this.help)        
+
+        if (this.requiresSvg && !utils.supportsSVG())
+        {        
+            $("#loading", self.el).hide()   
+            $("#diagram", self.el).html("This report requires an SVG enabled browser :(")
+            return this;
+        }
+
         $("#loading", self.el).show()
                 
         if (this.url) {

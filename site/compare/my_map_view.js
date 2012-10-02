@@ -3,9 +3,10 @@
 window.MyMapView = BaseView.extend({
 
     initialize: function (options) {
+       BaseView.prototype.initialize.call(this, options)
        this.title="World Dominance"
        this.help = "This map shows which project has more users across the globe"       
-       BaseView.prototype.initialize.call(this, options)
+       this.requiresSvg = true              
     },
 
     showData: function (data, cbx) {        

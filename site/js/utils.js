@@ -290,3 +290,7 @@ utils.getParameterByName = function(name)
   else
     return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+utils.supportsSVG = function() {
+    return !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
+}

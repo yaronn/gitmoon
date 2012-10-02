@@ -27,17 +27,21 @@
   * ================================= */
 
   var Typeahead = function (element, options) {
+    
     this.$element = $(element)
     this.options = $.extend({}, $.fn.typeahead.defaults, options)
     this.matcher = this.options.matcher || this.matcher
     this.sorter = this.options.sorter || this.sorter
+    
     this.highlighter = this.options.highlighter || this.highlighter
     this.updater = this.options.updater || this.updater
     this.maybeSelected = this.options.maybeSelected
     this.$menu = $(this.options.menu).appendTo('body')
+    
     this.source = this.options.source
     this.shown = false
     this.listen()
+    
   }
 
   Typeahead.prototype = {
@@ -271,12 +275,13 @@
 
   }
 
-
   /* TYPEAHEAD PLUGIN DEFINITION
    * =========================== */
 
   $.fn.typeahead = function (option) {
+    
     return this.each(function () {
+      
       var $this = $(this)
         , data = $this.data('typeahead')
         , options = typeof option == 'object' && option

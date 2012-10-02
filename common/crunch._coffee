@@ -1,9 +1,9 @@
 fs = require 'fs'
 path = require 'path'
 utils = require '../data-loader/utils.js'
-config = require './config'
-neo4j = require 'neo4j'
-db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
+#config = require './config'
+#neo4j = require 'neo4j'
+#db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
 
 
 crunch = (files, dest, _) ->
@@ -58,6 +58,7 @@ scripts = [
 	"lib/bootstrap-tab.js",
 	"lib/bootstrap-tooltip.js",
 	"lib/bootstrap-button.js",
+	"lib/bootstrap-typeahead.js",
 	"js/utils.js",
 	"js/views/defaultView.js",
 	"js/views/header.js",
@@ -89,9 +90,7 @@ scripts = [
 	"components/listview/item_view.js",
 	"components/listview/list_model.js",
 	"components/listview/list_view.js",
-	"lib/venn.js",
-	"lib/raphael-min.js",
-	"lib/bootstrap-typeahead.js",
+	"lib/venn.js",		
 	"compare/base_view.js",
 	"compare/compare_view.js",
 	"compare/my_map_view.js",
@@ -103,7 +102,8 @@ scripts = [
 	"compare/companies_view.js",
 	"compare/projectMiniView.js",
 	"components/map/map_model.js",
-	"components/map/map_view.js"
+	"components/map/map_view.js",
+	"lib/raphael-min.js"
 
 	##"js/main.js" not cruncing main.js b/c in ie8 for some reason if we crunch it 
 	##the app seems to work but once we enter the project page if we click on the home link it will stack

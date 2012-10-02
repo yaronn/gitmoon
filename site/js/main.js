@@ -5,17 +5,17 @@ function AppController() {
     this.showView = function(view, selector) {
       if (this.currentView){        
         this.currentView.close();
-      }
+      }      
       this.currentView = view;
-      this.currentView.render();
-      $(selector).html(this.currentView.el);
+      this.currentView.render();      
+      $(selector).html(this.currentView.el);      
     }
 }
 
 window.controller = new AppController()
 
 window.Router = Backbone.Router.extend({
-
+    
     routes: {
         "": "home",
         "project/:id": "project",          
@@ -24,15 +24,16 @@ window.Router = Backbone.Router.extend({
         "compare/:id1/:id2": "compare"
     },
 
-    initialize: function () {    
+    initialize: function () {            
         this.headerView = new HeaderView();                                
         $('.header').html(this.headerView.render().el);     
     },
 
-    home: function () {
+    home: function () {         
        var options = utils.getParameterByName("start")=="h2h"?{startTab: "h2h"}:{};       
        this.homeView = new HomeView(options);       
        window.controller.showView(this.homeView, $("#content"))
+
     },
 
     project: function(name) {    
@@ -81,6 +82,5 @@ utils.loadProjectsCache()
 utils.loadTemplates(function() {
     $('#wait').css("display", "none")            
     app = new Router();            
-    Backbone.history.start();
+    Backbone.history.start();    
 })
-

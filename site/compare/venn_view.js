@@ -2,9 +2,10 @@
 window.VennView = BaseView.extend({
 
    initialize: function (options) {
-       this.title="Users Overlap"
-       this.help = "This Venn diagram shows how many users each project has, and how many of them watch both projects"
        BaseView.prototype.initialize.call(this, options)
+       this.title="Users Overlap"
+       this.help = "This Venn diagram shows how many users each project has, and how many of them watch both projects"       
+       this.requiresSvg = true
     },
 
    showData: function (data, cbx) {     
