@@ -29,8 +29,8 @@ window.DependsView = BaseView.extend({
       if (!nodes[this.project1]) nodes[this.project1] = {name: this.project1}
       if (!nodes[this.project2]) nodes[this.project2] = {name: this.project2}
 
-      var w = 600,
-          h = Math.min(600, 200 + links.length*12)
+      var w = 720,
+          h = Math.min(550, 200 + links.length*12)
 
       var force = d3.layout.force()
           .nodes(d3.values(nodes))            
