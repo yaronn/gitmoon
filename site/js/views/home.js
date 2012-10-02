@@ -53,11 +53,8 @@ window.HomeView = Backbone.View.extend({
           
     },
 
-    tryNavigate: function() {
-        var prj1 = $("#project1").val()
-        var prj2 = $("#project2").val()
-
-        if (prj1!="" && prj2!="")
+    tryNavigate: function(prj1, prj2) {        
+        if (prj1 && prj1!="" && prj2 && prj2!="")
             app.navigate('/#compare/' + prj1 + '/' + prj2, true);
     },
 
@@ -69,14 +66,14 @@ window.HomeView = Backbone.View.extend({
         var x = $('#' + current, this.el)
         $('#' + current, this.el).typeahead({
             source: function(q,cbx) {utils.searchProjects(q, "home", cbx)},
-            updater: function(project) {
+            updater: function(project) {                
                 $("#" + other, self.el).focus()                
                 self[current] = project
-                self.tryNavigate()
+                self.tryNavigate($("#" + other, self.el).val(), project)
                 return project;
             },
-            maybeSelected: function() {                
-                self.tryNavigate()
+            maybeSelected: function() {                                
+                self.tryNavigate($("#project1").val(), $("#project2").val())
             },
             items: 8})
 

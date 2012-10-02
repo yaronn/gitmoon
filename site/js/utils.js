@@ -265,6 +265,7 @@ utils.loadProjectsCache = function() {
 utils.searchProjects = function(q, source, cbx) {        
     if (utils.projects_cache) {
         cbx(utils.projects_cache)
+        utils.trackEvent("h2h", "search - " + source, q)    
         return
     }
 

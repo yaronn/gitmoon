@@ -234,8 +234,8 @@
           this.select()
           break
 
-        case 13: // enter
-          if (!this.shown) {            
+        case 13: // enter          
+          if (!this.shown) {                        
             //yaron: so that if user focused outside the text box w/o choosing
             //he can still come back in and click enter
             if (this.maybeSelected) this.maybeSelected()
