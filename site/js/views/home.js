@@ -28,18 +28,22 @@ window.HomeView = Backbone.View.extend({
 
         if (this.startTab=="h2h") {           
             window.setTimeout(function() {$('#tab a[href="#h2h"]').tab('show')}, 0)            
-            window.setTimeout(function() {$("#project1", self.el).focus()}, 0)                        
+            if (!utils.isMobile())
+                window.setTimeout(function() {$("#project1", self.el).focus()}, 0)                        
         }
         else {
-            window.setTimeout(function() {self.projectListView.focus()}, 0)
+            if (!utils.isMobile())
+                window.setTimeout(function() {self.projectListView.focus()}, 0)
         }        
        
         this.addTypeahead("project1", "project2")
         this.addTypeahead("project2", "project1")                        
 
-        $('a[data-toggle="tab"]', self.el).on('shown', function (e) {                  
-          if (e.target.href.indexOf("#h2h")!=-1) $("#project1", self.el).focus()
-          else self.projectListView.focus()
+        $('a[data-toggle="tab"]', self.el).on('shown', function (e) {    
+          if (!utils.isMobile()) {              
+            if (e.target.href.indexOf("#h2h")!=-1) $("#project1", self.el).focus()
+            else self.projectListView.focus()
+          }
         })
 
         return this;

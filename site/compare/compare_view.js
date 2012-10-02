@@ -18,7 +18,8 @@ window.CompareView = Backbone.View.extend({
         this.addTypeahead("project1", "project2", "red")
         this.addTypeahead("project2", "project1", "blue")                    
 
-        setTimeout(function() {$("#project1", self.el).focus()}, 0)
+        if (!utils.isMobile())
+            setTimeout(function() {$("#project1", self.el).focus()}, 0)
 
         return self;
     },

@@ -294,3 +294,7 @@ utils.getParameterByName = function(name)
 utils.supportsSVG = function() {
     return !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
 }
+
+utils.isMobile = function() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)
+}
