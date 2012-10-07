@@ -301,7 +301,9 @@ utils.isMobile = function() {
 }
 
 utils.getEdition = function() {
-    return "nuget"
+    var host = window.location.hostname
+    var sub_domain = host.substring(0, host.indexOf('.'))
+    return sub_domain=="nuget"?"nuget":"npm"
 }
 
 utils.shorter = function(str, length) {

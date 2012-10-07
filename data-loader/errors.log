@@ -58,4 +58,44 @@ SyntaxError: Unexpected token < + http://twitter.com/#!/zgramana<?xml version="1
 <ResultSet version="1.0"><Error>100</Error><ErrorMessage>No location parameters</ErrorMessage><Locale>us_US</Locale><Quality>0</Quality><Found>0</Found></ResultSet>
 <!-- gws13.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 07:56:14 PDT 2012 -->
 <!-- wws1.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 07:56:14 PDT 2012 -->
+SyntaxError: Unexpected token < + <img src="http://www.gravatar.com/avatar/#lcase(Hash(lcase(user_email)))#?r=R&d=http%3A%2F%2Fwww.yoursite.com%2Fsomeimage.jpg" />error while updating project CodeContracts.Unofficial: TypeError: Cannot read property 'Id' of undefined<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>0</Error><ErrorMessage>No error</ErrorMessage><Locale>us_US</Locale><Quality>10</Quality><Found>0</Found></ResultSet>
+<!-- gws14.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:27:24 PDT 2012 -->
+<!-- wws3.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:27:24 PDT 2012 -->
+SyntaxError: Unexpected token < + http://twitter.com/#!/zgramana<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>100</Error><ErrorMessage>No location parameters</ErrorMessage><Locale>us_US</Locale><Quality>0</Quality><Found>0</Found></ResultSet>
+<!-- gws14.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:27:24 PDT 2012 -->
+<!-- wws3.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:27:24 PDT 2012 -->
+SyntaxError: Unexpected token < + <img src="http://www.gravatar.com/avatar/#lcase(Hash(lcase(user_email)))#?r=R&d=http%3A%2F%2Fwww.yoursite.com%2Fsomeimage.jpg" />TypeError: undefined is not a functionTypeError: undefined is not a functioncould not update Fonet: not_foundcould not update CodeContracts.Unofficial: not_foundcould not update MvcTurbine.MembershipProvider: not_foundcould not update MvcTurbine.FluentValidation: not_foundcould not update Windows7APICodePack-Shell: not_foundTypeError: Cannot read property 'data' of nullTypeError: Cannot read property 'data' of null<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>0</Error><ErrorMessage>No error</ErrorMessage><Locale>us_US</Locale><Quality>10</Quality><Found>0</Found></ResultSet>
+<!-- gws14.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:28:47 PDT 2012 -->
+<!-- wws3.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:28:47 PDT 2012 -->
+SyntaxError: Unexpected token < + http://twitter.com/#!/zgramana<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>100</Error><ErrorMessage>No location parameters</ErrorMessage><Locale>us_US</Locale><Quality>0</Quality><Found>0</Found></ResultSet>
+<!-- gws14.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:28:48 PDT 2012 -->
+<!-- wws3.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:28:48 PDT 2012 -->
+SyntaxError: Unexpected token < + <img src="http://www.gravatar.com/avatar/#lcase(Hash(lcase(user_email)))#?r=R&d=http%3A%2F%2Fwww.yoursite.com%2Fsomeimage.jpg" />could not update Fonet: not_foundcould not update CodeContracts.Unofficial: not_foundcould not update MvcTurbine.MembershipProvider: not_foundcould not update MvcTurbine.FluentValidation: not_foundcould not update Windows7APICodePack-Shell: not_foundTypeError: Cannot read property 'data' of nullTypeError: Cannot read property 'data' of null<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>0</Error><ErrorMessage>No error</ErrorMessage><Locale>us_US</Locale><Quality>10</Quality><Found>0</Found></ResultSet>
+<!-- gws14.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:30:41 PDT 2012 -->
+<!-- wws3.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:30:41 PDT 2012 -->
+SyntaxError: Unexpected token < + http://twitter.com/#!/zgramana<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>100</Error><ErrorMessage>No location parameters</ErrorMessage><Locale>us_US</Locale><Quality>0</Quality><Found>0</Found></ResultSet>
+<!-- gws13.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:30:41 PDT 2012 -->
+<!-- wws3.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:30:41 PDT 2012 -->
+SyntaxError: Unexpected token < + <img src="http://www.gravatar.com/avatar/#lcase(Hash(lcase(user_email)))#?r=R&d=http%3A%2F%2Fwww.yoursite.com%2Fsomeimage.jpg" />could not update corona_statbot: not_founderror in url https://api.github.com/repos/git@github.com:Bwen/NoobHTTP<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>0</Error><ErrorMessage>No error</ErrorMessage><Locale>us_US</Locale><Quality>10</Quality><Found>0</Found></ResultSet>
+<!-- gws13.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:34:38 PDT 2012 -->
+<!-- wws3.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:34:38 PDT 2012 -->
+SyntaxError: Unexpected token < + http://twitter.com/#!/zgramana<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>100</Error><ErrorMessage>No location parameters</ErrorMessage><Locale>us_US</Locale><Quality>0</Quality><Found>0</Found></ResultSet>
+<!-- gws14.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:34:38 PDT 2012 -->
+<!-- wws1.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:34:38 PDT 2012 -->
+SyntaxError: Unexpected token < + <img src="http://www.gravatar.com/avatar/#lcase(Hash(lcase(user_email)))#?r=R&d=http%3A%2F%2Fwww.yoursite.com%2Fsomeimage.jpg" />error while updating project CodeContracts.Unofficial: TypeError: Cannot read property 'Id' of undefinederror in url https://api.github.com/repos/darrencauthon/MvcTurbineerror in url https://api.github.com/repos/darrencauthon/MvcTurbine<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>0</Error><ErrorMessage>No error</ErrorMessage><Locale>us_US</Locale><Quality>10</Quality><Found>0</Found></ResultSet>
+<!-- gws14.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:35:17 PDT 2012 -->
+<!-- wws2.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:35:17 PDT 2012 -->
+SyntaxError: Unexpected token < + http://twitter.com/#!/zgramana<?xml version="1.0" encoding="UTF-8"?>
+<ResultSet version="1.0"><Error>100</Error><ErrorMessage>No location parameters</ErrorMessage><Locale>us_US</Locale><Quality>0</Quality><Found>0</Found></ResultSet>
+<!-- gws14.maps.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:35:18 PDT 2012 -->
+<!-- wws3.geotech.ch1.yahoo.com uncompressed/chunked Sun Oct  7 13:35:18 PDT 2012 -->
 SyntaxError: Unexpected token < + <img src="http://www.gravatar.com/avatar/#lcase(Hash(lcase(user_email)))#?r=R&d=http%3A%2F%2Fwww.yoursite.com%2Fsomeimage.jpg" />

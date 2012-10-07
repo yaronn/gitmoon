@@ -15,10 +15,13 @@ exports.index = (req, res, _) ->
 
 getProjUsers = (req, _) ->  
   result = ""
+  platform = utils.getEdition req
   prj_name = inj.sanitizeString req.params.project
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
         MATCH (n)<-[depends_on*0..#{utils.max_depth}]-(x)<-[:watches]-(u)
-        WHERE HAS(x.name) AND x.name<>'hoarders'\n"
+        WHERE HAS(x.name) AND x.name<>'hoarders'
+        AND   HAS(n.platform) AND n.platform='#{platform}'
+        AND   HAS(x.platform) AND x.platform='#{platform}'"
 
   params = {}
   login = req.query['$login']
@@ -133,10 +136,13 @@ exports.projectUsersByDepProject = (req, res, _) ->
 
 projectUsersByDepProjectInternal = (req, _) ->   
   prj_name = inj.sanitizeString req.params.project  
-    
+  
+  platform = utils.getEdition req
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)<-[depends_on*0..2]-(x)<-[:watches]-(u)  
          WHERE HAS(x.name) AND n.name<>x.name and x.name<>'hoarders'
+         AND HAS(n.platform) AND n.platform='#{platform}'
+         AND   HAS(x.platform) AND x.platform='#{platform}'
          WITH u as user, x as dep, count(*) as tmp
          RETURN dep.name as name, count(*) as count
          ORDER BY count(*) DESC\n"
@@ -167,17 +173,22 @@ exports.projectUserCount = (req, res, _) ->
   utils.handleRequestCache res, req, key, getProjectUserCountInternal, _ 
 
 getProjectUserCountInternal = (req, _) ->
-  (getProjectUserCountInternalByProject req.params.project, "network", _).toString()  
+  platform = utils.getEdition req
+  (getProjectUserCountInternalByProject platform, req.params.project, "network", _).toString()  
 
-getProjectUserCountInternalByProject = (project, mode, _) ->  
+getProjectUserCountInternalByProject = (platform, project, mode, _) ->    
   prj_name = inj.sanitizeString project
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)<-"
   if mode=="network"
     qry += "[depends_on*0..#{utils.max_depth}]-(x)<-"
   qry += "[:watches]-(u)\n"
+
+  qry += "WHERE HAS(n.platform) AND n.platform='#{platform}'"
+
   if mode=="network"
-    qry += "WHERE HAS(x.name) AND x.name<>'hoarders'\n"
+    qry += "AND HAS(x.name) AND x.name<>'hoarders'
+            AND HAS(x.platform) AND x.platform='#{platform}'"  
   qry += "RETURN count(distinct u) as count\n"
   
   start = utils.startTiming()  
@@ -191,15 +202,18 @@ exports.projectRandomUsers = (req, res, _) ->
   key = "project_random_user_#{req.params.project}_#{random}"
   utils.handleRequestCache res, req, key, projectRandomUsersInternal, _ 
 
-projectRandomUsersInternal = (req, _) ->  
+projectRandomUsersInternal = (req, _) -> 
+  platform = utils.getEdition req 
   prj_name = inj.sanitizeString req.params.project
-  count = getProjectUserCountInternalByProject prj_name, "direct", _  
+  count = getProjectUserCountInternalByProject platform, prj_name, "direct", _  
   
   rnd = utils.random count-1
 
+  platform = utils.getEdition req
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)<-[:watches]-(u)
-         WHERE HAS(u.gravatar_id) and LENGTH(u.gravatar_id)>0
+         WHERE HAS(n.platform) AND n.platform='#{platform}' 
+         AND HAS(u.gravatar_id) and LENGTH(u.gravatar_id)>0
          RETURN u.login as login, u.full_name as full_name, u.gravatar_id as gravatar_id,
                 u.location as location, u.blog as blog, u.company as company , u.bio as bio
          SKIP #{rnd} LIMIT #{req.query.limit}"  

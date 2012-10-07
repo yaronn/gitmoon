@@ -38,7 +38,9 @@ function getAllProjects(req, _) {
     qry = 'START n=node:node_auto_index("name_lower:'+filter+'")\n'
   }
 
+  var platform = utils.getEdition(req)
   qry += 'WHERE HAS(n.type) and n.type="project"\n'
+  qry += 'AND HAS(n.platform) AND n.platform="'+platform+'"\n'
   qry += 'WITH n.name as name, n.name_lower as name_lower, count(*) as count\n'
   qry += 'RETURN name\n' +
          'ORDER BY name_lower\n'
@@ -77,7 +79,7 @@ function getProject(req, _) {
   var name = req.params.project  
   name = inj.sanitizeString(name)
   var start = utils.startTiming()        
-  var node = db.getIndexedNodes('node_auto_index', 'name', name, _)[0]  
+  var node = utils.getProject(req, name, _)
   utils.endTiming(start, "getProject query")
 
   if (node==null) {
@@ -90,7 +92,7 @@ function getProject(req, _) {
   data.id = node.id
   
   if (req.query.include_users=="true")
-    data.users = utils.getProjectUsers(node.id, 8, _)
+    data.users = utils.getProjectUsers(req, node.id, 8, _)
 
 
   var getStat = req.query.include_stat=="true"
@@ -99,7 +101,7 @@ function getProject(req, _) {
     getDirectDeps(data, _)        
     getTotalDeps(data, _)
     getDirectWatch(data, _)    
-    getTotalForks(data, _)
+    getTotalForks(req, data, _)
     getTotalWatch(data, _)              
     utils.endTiming(start, "getProject inner queries")
   }
@@ -125,12 +127,14 @@ function getDirectDeps(node, cbx)
   })
 }
 
-function getTotalForks(node, cbx)
+function getTotalForks(req, node, cbx)
 {
+  var platform = utils.getEdition(req)
   node.total_forks = 0
   qry = 'START n=node(' + node.id + ')\n' +
         'MATCH (n)<-[:depends_on*0..'+utils.max_depth+']-(x)\n' +
-        'WHERE HAS(x.forks)' +
+        'WHERE HAS(x.forks) AND HAS(x.platform)\n' +
+        'AND x.platform="'+platform+'"\n' +
         'WITH x as y, count(*) as count\n' +
         'MATCH (y)<-[:depends_on*0]-(z)\n' + //trick so that z will be each one of the y's (dependent projects)
         'RETURN sum(z.forks) as sum'

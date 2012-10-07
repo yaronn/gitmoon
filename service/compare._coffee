@@ -12,17 +12,22 @@ exports.projectsUsersOverlap = (req, res, _) ->
   utils.handleRequestCache res, req, key, projectsUsersOverlapInternal, _ 
 
 projectsUsersOverlapInternal = (req, _) ->
+  platform = utils.getEdition req
+
   project1 = inj.sanitizeString req.query.project1
   project2 = inj.sanitizeString req.query.project2
   
-  p1count = getWatchersCount project1, _
-  p2count = getWatchersCount project2, _
+  p1count = getWatchersCount platform, project1, _
+  p2count = getWatchersCount platform, project2, _
 
+  
   if project1!=project2
     qry = "START  n1=node:node_auto_index(name='#{project1}'),
-                  n2=node:node_auto_index(name='#{project2}')
+                  n2=node:node_auto_index(name='#{project2}')           
            MATCH (n1)<-[:watches]-(u),
                  (n2)<-[:watches]-(u)
+           WHERE HAS(n1.platform) AND n1.platform='#{platform}'
+           AND   HAS(n2.platform) AND n2.platform='#{platform}'
            RETURN count(distinct u) as count"         
 
     start = utils.startTiming()  
@@ -37,9 +42,11 @@ projectsUsersOverlapInternal = (req, _) ->
                  , overlap: overlap}
 
 
-getWatchersCount = (project, _) ->
+getWatchersCount = (platform, project, _) ->
+  
   qry = "START  n=node:node_auto_index(name='#{project}')
          MATCH (n)<-[:watches]-(u)
+         WHERE HAS(n.platform) AND n.platform='#{platform}'
          RETURN count(distinct u) as count"         
 
   start = utils.startTiming()  

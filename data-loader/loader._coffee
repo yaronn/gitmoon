@@ -51,8 +51,10 @@ class DataLoader
 	updateStaleProjects: (limit, _) ->		
 		self = this
 		
+		platform = @loader.getPlatformName()
 		qry = "START n=node:node_auto_index(type='project') 
 				WHERE HAS(n.type) and n.type='project' and n.stale=true
+					  and HAS(n.platform) and n.platform='#{platform}'
 				RETURN n.name as name LIMIT #{limit}" #and n.name =~ /^[s-z].*/		
 		res = @db.query qry, _
 				
@@ -129,8 +131,10 @@ class DataLoader
 
 	updateGithub: (limit, _) ->		
 		self = this
+		platform = @loader.getPlatformName()
 		qry = "START n=node(*) 
 			WHERE HAS(n.type) and n.type='project' and has(n.repository) and n.repository<>''
+					AND HAS(n.platform) AND n.platform='#{platform}'
 			RETURN n.name as name 		 	 		 	 
 			ORDER BY n.github_last_update
 	 	 	LIMIT #{limit}" # and n.github_last_update=0
@@ -280,15 +284,16 @@ class DataLoader
 	setProjectRating: (_) ->	
 		console.log "start rating"
 		qry = "START u=node:node_auto_index(type='user') WITH count(distinct u) as total_watchers
-				START n=node(*) MATCH (n)<-[:watches]-(y) WITH count(*) as prj_watchers_count, n as n, 
+				START n=node(*) MATCH (n)<-[:watches]-(y) WITH count(*) as prj_watchers_count, n as n,
 				total_watchers as total_watchers
 				SET n.rating = prj_watchers_count/total_watchers*100"
 
 		@db.query qry, _
 		console.log "end rating"
 
-	parseLocations: (_) ->	
+	parseLocations: (_) ->			
 		console.log "start parse locations"
+		
 		qry = "START u=node:node_auto_index(type='user') WHERE HAS(u.location) and u.location<>''
 				and (not has(u.city)) and (not has(u.country)) and (not has(u.state))
 				return u limit 10000"
@@ -299,25 +304,26 @@ class DataLoader
 		#only risk is yahoo blocking usage
 		users.forEach_ _, 5, (_, r) ->
 			try
-				info = request.get "http://where.yahooapis.com/geocode?location=#{r.u.data.location}&flags=J", _
+				if r.u.data.location.trim()!=""
+					info = request.get "http://where.yahooapis.com/geocode?location=#{r.u.data.location}&flags=J", _
 
-				try
-					json = JSON.parse(info.body)
-				catch e
-					utils.logError info.body
-					throw e
+					try
+						json = JSON.parse(info.body)
+					catch e
+						utils.logError info.body
+						throw e
 
-				if json.ResultSet.Found==0
-					console.log "no info found for #{r.u.data.location}"
-					r.u.data.location_parse = "fail"
-				else					
-					r.u.data.city = json.ResultSet.Results[0].city
-					r.u.data.state = json.ResultSet.Results[0].state
-					r.u.data.country = json.ResultSet.Results[0].country
-					r.u.save _
-					i = i+1
-					#console.log i
-					console.log "#{r.u.data.country} - #{r.u.data.city}"
+					if json.ResultSet.Found==0
+						console.log "no info found for #{r.u.data.location}"
+						r.u.data.location_parse = "fail"
+					else					
+						r.u.data.city = json.ResultSet.Results[0].city
+						r.u.data.state = json.ResultSet.Results[0].state
+						r.u.data.country = json.ResultSet.Results[0].country
+						r.u.save _
+						i = i+1
+						#console.log i
+						console.log "#{r.u.data.country} - #{r.u.data.city}"
 			catch e
 				utils.logError "#{e} + #{r.u.data.location}"
 

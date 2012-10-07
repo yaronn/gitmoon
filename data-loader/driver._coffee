@@ -1,6 +1,7 @@
 DataLoader = require('./loader').DataLoader
 NpmStrategy = require('./npm').NpmStrategy
 NugetStrategy = require('./nuget').NugetStrategy
+NpmStrategy = require('./npm').NpmStrategy
 db_url = "http://localhost:7474/"
 neo4j = require 'neo4j'
 db = new neo4j.GraphDatabase db_url
@@ -57,12 +58,12 @@ console.log res
 
 try
 	#cleanDb _
-	#initDb _
-	l = new NugetStrategy()
+	#initDb _	
+	l = new NugetStrategy()	
 	dl = new DataLoader l ,db, _
-	#dl.registerLoader _	
-	#dl.updatePackageManager 40, _	
-	dl.updateGithub 30, _
+	#dl.registerLoader _		
+	dl.updatePackageManager 5, _	
+	dl.updateGithub 2, _
 	dl.postProcessData _
 catch e
 	utils.logError e

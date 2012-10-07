@@ -10,10 +10,13 @@ mem = if config.memcached then new nMemcached else null
 
 exports.max_depth = 2
 
-exports.getProjectUsers = (projectId, limit, _) ->
-  #return []
+exports.getProjectUsers = (req, projectId, limit, _) ->
+  #return []  
+
+  platform = module.exports.getEdition req
   qry = "START n=node(#{projectId})
         MATCH (n)<-[:watches]-(u)
+        WHERE HAS(n.platform) AND n.platform='#{platform}'
         RETURN u.login as login, ID(u) as id, u.gravatar_id? as gravatar_id, count(*) as count
         ORDER BY gravatar_id DESC
         LIMIT #{limit}"
@@ -102,13 +105,16 @@ exports.encodeMemcached = (s) ->
 exports.projectUsersFilterDimentionInternal = (req, options, _) ->   
   prj_name = inj.sanitizeString options.name
   
+  platform = module.exports.getEdition req
+
   #u.company should have at least one letter, to avoid just spcaes
   qry = "START  n=node:node_auto_index(name='#{prj_name}')
          MATCH (n)<-"
   if !options.direct_only
     qry += "[depends_on*0..2]-(x)<-"
   qry += "[:watches]-(u)         
-         WHERE HAS(u.#{options.dimention}) AND u.#{options.dimention}<>''"
+         WHERE HAS(u.#{options.dimention}) AND u.#{options.dimention}<>''
+         AND HAS(n.platform) AND n.platform='#{platform}'"
          
   if !options.direct_only
          qry += " AND HAS(x.name) AND x.name<>'hoarders' "
@@ -140,3 +146,23 @@ exports.projectUsersFilterDimentionInternal = (req, options, _) ->
 
 exports.random = (max) ->
   Math.floor(Math.random()*(max+1))
+
+exports.getEdition = (req) ->    
+    console.log req.headers.host
+    if !req.subdomain
+      host = req.headers.host
+      sub_domain = host.substring 0, host.indexOf('.')
+      console.log sub_domain
+      if sub_domain=="nuget" then req.subdomain="nuget"
+      else req.subdomain="npm"
+    req.subdomain
+
+
+exports.getProject = (req, name, _) ->
+  prj_name = inj.sanitizeString name
+  platform = module.exports.getEdition req
+  qry = "START n=node:node_auto_index(name='#{prj_name}')
+         WHERE HAS(n.platform) AND n.platform='#{platform}'
+         RETURN n"
+  res = db.query qry, _
+  res[0].n

@@ -13,13 +13,16 @@ exports.index = function(req, res, _) {
 }
 
 function getSimilarProjects(req, cbx, _) {	        
-  prj_name = inj.sanitizeString(req.params.project)
-  var node = db.getIndexedNodes('node_auto_index', 'name', prj_name, _)[0]  
+  prj_name = inj.sanitizeString(req.params.project)  
+  var node = utils.getProject(req, prj_name, _)
   var min_threashold = node.data.rating>0.02? 0.02 : 0.002  
 
   var projects = []
 
-  var qry = "START n=node:node_auto_index(name=\""+prj_name+"\") MATCH (n)<-[:watches]-(y) WITH n as n, count(distinct y) as project_watchers\n" +
+  platform = utils.getEdition(req)
+  var qry = "START n=node:node_auto_index(name=\""+prj_name+"\") MATCH (n)<-[:watches]-(y)\n" +
+     "WHERE HAS(n.platform) AND n.platform='" + platform + "'\n" +
+     "WITH n as n, count(distinct y) as project_watchers\n" +
      "MATCH (n)<-[:watches]-(y) with DISTINCT y as y, project_watchers as project_watchers\n" +
      "MATCH (y)-[:watches]->(x) with x as x, count(*) as local_num_watchers, project_watchers as project_watchers WHERE HAS(x.rating)\n" +
      "with x as x, local_num_watchers/project_watchers*100 as local_rating, x.rating as global_rating\n" +
@@ -42,7 +45,7 @@ function getSimilarProjects(req, cbx, _) {
               }
 
           //fetch users per project    
-          utils.getProjectUsers(item.id, 4, function(err, users) {   
+          utils.getProjectUsers(req, item.id, 4, function(err, users) {   
             similar_project.users = users 
             projects.push(similar_project)             
             callback()

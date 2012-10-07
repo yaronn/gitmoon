@@ -23,7 +23,9 @@ window.HeaderView = Backbone.View.extend({
 
     changeEdition: function(e) {
       this.currentEdition = $("#selEdition", this.el).val()
-      var url = "http://" + this.currentEdition + ".gitmoon.com"      
+      var host_suffix = window.location.host
+      var suffix = host_suffix.substring(host_suffix.indexOf('.'))
+      var url = "http://" + this.currentEdition + suffix     
       window.location.href = url
     }
 
