@@ -7,6 +7,14 @@ window.SampleCodeMasterView = Backbone.View.extend({
         
         this.projectName = options.projectName
 
+
+        if (utils.getEdition()=="nuget") {
+            $("#code-samples", this.el).html("CodeBacks are not available for nuget just yet. <br />"
+                + "You can check them out for node.js in <a href='http://npm.gitmoon.com'>GitMoon npm edition</a>")
+            $("#byProjectTitle", this.el).hide()
+            return
+        }
+
         var baseCodeUrl = "/projects/" + this.projectName + "/sample_code"
         this.sampleCodeList = new PagedList(null, 
             { "model": SampleCode
@@ -42,6 +50,9 @@ window.SampleCodeMasterView = Backbone.View.extend({
     render:function () {
         var self = this 
 
+        if (utils.getEdition()=="nuget")
+            return this
+
         if (!this.isLoaded) {
             this.projectsView.refreshData()
             this.sampleCodeListView.filterByAllProjects()
@@ -58,11 +69,13 @@ window.SampleCodeMasterView = Backbone.View.extend({
     },
 
     close: function() {
-        this.sampleCodeListView.close()
+        if (utils.getEdition()=="npm")
+            this.sampleCodeListView.close()
     },
 
     trackScroll: function(shouldTrack) {
-        this.sampleCodeListView.trackScroll(shouldTrack)
+        if (utils.getEdition()=="npm")
+            this.sampleCodeListView.trackScroll(shouldTrack)
     },
 
 

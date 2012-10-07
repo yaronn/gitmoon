@@ -1,5 +1,5 @@
 
-  <h2 style="color: <%= color%>"><%=name%></h2>
+  <h3 style="color: <%= color%>" title="<%= name%>"><%=utils.shorter(name, 18)%></h3>
 
   <img id="loading" src='/img/wait.gif' />
 
@@ -8,7 +8,7 @@
   	
   </div>
 
-  <div style="margin-top: 10px;">
+  <div style="margin-top: 10px; word-wrap:break-word">
   	<%=description%> <a target="_blank" href="/#project/<%=name%>">more graphs...</a>
   </div>
 

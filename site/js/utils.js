@@ -257,7 +257,7 @@ utils.getCanonizedCompany = function(c) {
 
 
 utils.loadProjectsCache = function() { 
- $.get("/projects.json", function(data) {                 
+ $.get("/projects-"+utils.getEdition()+".json", function(data) {                 
         utils.projects_cache = data
     })
 }
@@ -298,4 +298,13 @@ utils.supportsSVG = function() {
 
 utils.isMobile = function() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)
+}
+
+utils.getEdition = function() {
+    return "nuget"
+}
+
+utils.shorter = function(str, length) {
+    if (str.length<=length) return str
+    return str.substring(0, length) + "..."
 }

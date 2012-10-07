@@ -15,7 +15,10 @@ window.ProjectMiniView = Backbone.View.extend({
 
         var repo = self.model.get("repository")
         if (!repo || repo.indexOf("github")==-1) {
-          $("#error", this.el).text("Information about this project may be incomplete since its package.json file does not link to its github repository.")
+          var editionTerm = utils.getEdition()=="npm"?"package.json file":"nuget definition"
+          $("#error", this.el).text(            
+            "Information about this project may be incomplete because its " +
+             editionTerm + " does not link to its github repository.")
           $("#error", this.el).show()
         }
 

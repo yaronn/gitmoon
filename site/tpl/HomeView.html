@@ -26,7 +26,7 @@
        <div>
 
         <span class="motoHeader" style="font-size: 22px">
-          Social analytics for node.js developers
+          Social analytics for <%= edition %> developers
         </span>    
 
 
@@ -43,7 +43,7 @@
 
               <div id="projects-list" />
 
-              <div id="project-featured-list" style="margin-top: 17px; margin-left: 50px; display: block">
+              <div id="project-featured-list-npm" style="margin-top: 17px; margin-left: 50px; display: none">
                 <div style="margin-bottom: 10px"><b>Featured projects:</b></div>
                 <div class="span5" id="divFeatured" style="margin-left:28px">        
 
@@ -55,6 +55,17 @@
                   <div><a href="#project/mongoose">mongoose</a></div>
                   <div><a href="#project/stylus">stylus</a></div>        
                   <div><a href="#project/coffee-script">coffee-script</a></div>
+                </div>
+              </div>
+
+              <div id="project-featured-list-nuget" style="margin-top: 17px; margin-left: 50px; display: none">
+                <div style="margin-bottom: 10px"><b>Featured projects:</b></div>
+                <div class="span5" id="divFeatured" style="margin-left:28px">        
+
+                  <div><a href="#project/socket.io">socket.io</a></div>        
+                  <div><a href="#project/async">async</a></div>        
+                  <div><a href="#project/mocha">mocha</a></div>
+                  <div><a href="#project/browserify">browserify</a></div>                                  
                 </div>
               </div>
 
@@ -82,20 +93,30 @@
               <div style="clear: both" />
 
 
-              <div id="h2h-featured-list" style="margin-top: 17px; margin-left: 80px; display: block">
+              <div style="margin-top: 17px; margin-left: 80px;">
                 <div style="margin-bottom: 10px"><b>Featured Head2Head:</b></div>
                 <div class="span5" id="divFeatured" style="margin-left:28px">        
+                  <div id="h2h-featured-list-npm" style="display: none">
+                    <div><a href="/#compare/redis/mongodb">redis vs. mongodb</a></div>
+                    <div><a href="/#compare/jade/ejs">jade vs. ejs</a></div>
+                    <div><a href="/#compare/express/railway">express vs. RailwayJS</a></div>
+                    <div><a href="/#compare/async/step">async vs. step</a></div>
+                    <div><a href="/#compare/jitsu/azure">jitsu vs. azure</a></div>
+                    <div><a href="/#compare/xml2js/libxmljs">xml2js vs. libxmljs</a></div>
+                    <div><a href="/#compare/mocha/nodeunit">mocha vs. nodeunit</a></div>
+                  </div>
 
-                  <div><a href="/#compare/redis/mongodb">redis vs. mongodb</a></div>
-                  <div><a href="/#compare/jade/ejs">jade vs. ejs</a></div>
-                  <div><a href="/#compare/express/railway">express vs. RailwayJS</a></div>
-                  <div><a href="/#compare/async/step">async vs. step</a></div>
-                  <div><a href="/#compare/jitsu/azure">jitsu vs. azure</a></div>
-                  <div><a href="/#compare/xml2js/libxmljs">xml2js vs. libxmljs</a></div>
-                  <div><a href="/#compare/mocha/nodeunit">mocha vs. nodeunit</a></div>
+                  <div id="h2h-featured-list-nuget" style="display: none">
+                    <div><a href="/#compare/redis/mongodb">redis vs. mongodb</a></div>
+                    <div><a href="/#compare/jade/ejs">jade vs. ejs</a></div>
+                    <div><a href="/#compare/express/railway">express vs. RailwayJS</a></div>
+                    <div><a href="/#compare/async/step">async vs. step</a></div>              
+                  </div>
+
 
                 </div>
               </div>
+              
 
             </div> 
 

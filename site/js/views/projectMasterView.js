@@ -3,13 +3,16 @@ window.ProjectMasterView = Backbone.View.extend({
 
     initialize: function(options) {                                   
         var self = this    
-        $(this.el).html(this.template());                                            
+        $(this.el).html(this.template());         
+
+        $("#featured-list-" + utils.getEdition(), self.el).show()
+
         this.projects = new PagedList(null, {"model": Project, "url": "/projects"})
         this.projects.paginator_ui.perPage = 35
         this.projectListView = new ProjectListView({model: this.projects, mode: "side"})
 
         this.projectListView.bind("hasSearchResult", function() {               
-            $("#featured-list", self.el).hide()            
+            $("#featured-list-"+utils.getEdition(), self.el).hide()            
         })
         
         //this.projects.fetch()        

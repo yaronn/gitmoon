@@ -14,6 +14,7 @@ window.CompareView = Backbone.View.extend({
         var self = this
         $(this.el).html(this.template());                                            
       
+        $("#featured-" + utils.getEdition(), this.el).show()
 
         this.addTypeahead("project1", "project2", "red")
         this.addTypeahead("project2", "project1", "blue")                    

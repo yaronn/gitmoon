@@ -10,9 +10,9 @@ window.HomeView = Backbone.View.extend({
         this.projects = new PagedList(null, {"model": Project, "url": "/projects"})
         this.projects.paginator_ui.perPage = 15
         this.projectListView = new ProjectListView({model: this.projects, mode: "center"})
-        
+
         this.projectListView.bind("hasSearchResult", function() {               
-            $("#project-featured-list", self.el).hide()            
+            $("#project-featured-list-" + utils.getEdition(), self.el).hide()
         })
 
         this.startTab = options.startTab
@@ -22,7 +22,11 @@ window.HomeView = Backbone.View.extend({
     render:function () {            
         var self = this
 
-        $(this.el).html(this.template());                                         
+        var edition = utils.getEdition()=="npm"?"Node.js":"c# .net"
+        $(this.el).html(this.template({edition: edition}));                                         
+
+        $("#project-featured-list-" + utils.getEdition(), self.el).show()
+        $("#h2h-featured-list-" + utils.getEdition(), self.el).show()
 
         $("#projects-list", this.el).html(this.projectListView.el)       
 
