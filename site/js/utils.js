@@ -66,13 +66,24 @@ utils.ignoreKeyForSearch = function(code) {
     return (code>=9 && code<=47 && code!=32)
 }
 
+utils.isProduction = function() {
+    //staging/dev
+    return window.location.port!="3001"
+}
+
 utils.reportVisit = function(fragment) {      
+    if (!utils.isProduction())
+        return
+
     if (window._gaq !== undefined) {        
       window._gaq.push(['_trackPageview', fragment]);
     }
 }
 
 utils.trackEvent = function(category, action, label) {
+    if (!utils.isProduction())
+        return
+
     if (window._gaq !== undefined) {
       _gaq.push(['_trackEvent', category, action, label])
     }
