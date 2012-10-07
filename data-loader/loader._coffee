@@ -29,15 +29,15 @@ class DataLoader
 
 	updatePackageManager: (limit, _) =>						
 		@markStale limit, _		
-		#@updateStaleProjects limit, _
+		@updateStaleProjects limit, _
 
 	markStale: (limit, _) =>			
 		self = this				
 		updated = @loader.getUpdatedProjectsList @config, limit, _		
 		#safe in paralel. each row with different project.		
-		updated.forEach_ _, 10, (_, r) ->							
+		updated.forEach_ _, 10, (_, r) ->										
 			proj = self.findNode r.name, _			
-			if !proj				
+			if !proj
 				proj = self.addNewProject(r.name, _)
 			else				
 				proj.data.stale = true
@@ -58,18 +58,19 @@ class DataLoader
 				
 		#probably safe in paralel. risks are that when adding link we add a new duplicate project,
 		#but adding new projects here will be rare. also risk on deletions.
-		res.forEach_ _, 2, (_, r) ->			
+		res.forEach_ _, 2, (_, r) ->						
 			try				
 				self.updateProject r.name, _
 			catch e
 				utils.logError "error while updating project #{r.name}: #{e}" 		
 
-	updateProject: (name, _) ->		
+	updateProject: (name, _) ->				
 		return if @loader.shouldIgnoreProject name		
 		proj = @findNode name, _
 		data = @loader.getProject name, _		
 		#sometimes the project is deleted and we get json with error
 		if  data.error!="not_found"			
+			proj.data.displayName = data.displayName ? ""					
 			proj.data.version = data.version	
 			proj.data.description = data.description ? ""					
 			if data.repository and data.repository.url and data.repository.url.indexOf('github')!=-1
@@ -99,16 +100,18 @@ class DataLoader
 			console.log "delete link between #{proj.data.name} and #{dep_name.data.name}"
 			l.del _
 
-	addNewDependencies: (proj, dependencies, _) ->				
-		for d of dependencies		
-			dep = @findNode d, _
-			dep = @addNewProject(d, _) if !dep
-			path = proj.path dep, 'depends_on', 'out', 1, null, _										
+	addNewDependencies: (proj, dependencies, _) ->
+		#console.log dependencies
+		for d of dependencies
+			#console.log "check dependency #{d}"
+			dep = @findNode d, _			
+			dep = @addNewProject(d, _) if !dep			
+			path = proj.path dep, 'depends_on', 'out', 1, null, _													
 			if path
 				console.log "path found between #{proj.data.name} and #{dep.data.name}"
 				continue		
-				console.log "adding path between #{proj.data.name} and #{dep.data.name}"
-				proj.createRelationshipTo dep, 'depends_on', {}, _
+			console.log "adding path between #{proj.data.name} and #{dep.data.name}"
+			proj.createRelationshipTo dep, 'depends_on', {}, _
 
 	postProcessData: (_) ->		
 		@setProjectRating _
@@ -162,7 +165,7 @@ class DataLoader
 				catch e
 					utils.logError e
 
-				self.deleteOldStoredWatchers proj, watchers_ids, _
+			self.deleteOldStoredWatchers proj, watchers_ids, _
 		catch e
 			utils.logError e
 
@@ -250,7 +253,10 @@ class DataLoader
 		user.last_update = Date.now()	
 		user.save _
 
+
+	#extracts github user name and repository name from urls like:
 	#https://github.com/bu/Accessor_Singleton/
+	#http://github.com/bu/Accessor_Singleton/
 	#git://github.com/dominictarr/remote-events.git
 	repository: (url) ->
 		#url.substring(0, 4) == "http"
