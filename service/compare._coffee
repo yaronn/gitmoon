@@ -8,7 +8,7 @@ exports.projectsUsersOverlap = (req, res, _) ->
   res.writeHead 200, {"Content-Type": "application/json"}
   project1 = req.query.project1 ? ""
   project2 = req.query.project2 ? ""
-  key = "projects_users_overlap_#{project1}_#{project2}"
+  key = utils.getKeyPfx(req) + "projects_users_overlap_#{project1}_#{project2}"
   utils.handleRequestCache res, req, key, projectsUsersOverlapInternal, _ 
 
 projectsUsersOverlapInternal = (req, _) ->
@@ -59,7 +59,7 @@ exports.projectsCountriesOverlap = (req, res, _) ->
   project1 = req.query.project1 ? ""
   project2 = req.query.project2 ? ""
   by_us_states = req.query.by_us_states ? "false"
-  key = "projects_countries_overlap_#{project1}_#{project2}_#{by_us_states}"
+  key = utils.getKeyPfx(req) + "projects_countries_overlap_#{project1}_#{project2}_#{by_us_states}"
   utils.handleRequestCache res, req, key, projectsCountriesOverlapInternal, _ 
 
 projectsCountriesOverlapInternal = (req, _) ->  
@@ -118,14 +118,14 @@ exports.projectsCompaniesOverlap = (req, res, _) ->
   res.writeHead 200, {"Content-Type": "application/json"}
   project1 = req.query.project1 ? ""
   project2 = req.query.project2 ? ""
-  key = "projects_companies_overlap_#{project1}_#{project2}"
+  key = utils.getKeyPfx(req) + "projects_companies_overlap_#{project1}_#{project2}"
   utils.handleRequestCache res, req, key, projectsCompaniesOverlapInternal, _ 
 
 projectsCompaniesOverlapInternal = (req, _) ->
   project1 = inj.sanitizeString req.query.project1
   project2 = inj.sanitizeString req.query.project2
   
-  params1 = {"query": {"$top": "10"}}
+  req.query.$top = "10"
 
   ###
   companies array is
@@ -134,12 +134,12 @@ projectsCompaniesOverlapInternal = (req, _) ->
     {name: "company1", count: 12}
   ]
   ###
-  companies1 = utils.projectUsersFilterDimentionInternal params1, 
+  companies1 = utils.projectUsersFilterDimentionInternal req, 
     { name: req.query.project1
     , dimention: "company"
     , direct_only: true }, _
   companies1 = JSON.parse companies1
-  companies2 = utils.projectUsersFilterDimentionInternal params1, 
+  companies2 = utils.projectUsersFilterDimentionInternal req, 
     { name: req.query.project2
     , dimention: "company"
     , direct_only: true }, _

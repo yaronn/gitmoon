@@ -5,7 +5,7 @@ config = require '../common/config'
 db = utils.db
 
 exports.index = (req, res, _) ->  
-  key = "sample_code_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
+  key = utils.getKeyPfx(req) + "sample_code_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, getReferencingProjects, _ 
   
 getReferencingProjects = (req, _) ->   

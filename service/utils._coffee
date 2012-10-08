@@ -44,13 +44,13 @@ exports.answerFromCache = (response, key, _) ->
     try    
       cache = mem.get key, _    
       if cache
-         #console.log "cache hit #{key}"
+         console.log "cache hit #{key}"
          response.end cache
          return true  
     catch e    
       #console.log e
     
-  #console.log "cache miss #{key}"
+  console.log "cache miss #{key}"
   return false
 
 exports.getCache = (key, _) ->
@@ -102,9 +102,8 @@ exports.encodeMemcached = (s) ->
   return s.replace /[ ]/g, ""  
 
 
-exports.projectUsersFilterDimentionInternal = (req, options, _) ->   
-  prj_name = inj.sanitizeString options.name
-  
+exports.projectUsersFilterDimentionInternal = (req, options, _) ->     
+  prj_name = inj.sanitizeString options.name  
   platform = module.exports.getEdition req
 
   #u.company should have at least one letter, to avoid just spcaes
@@ -147,16 +146,18 @@ exports.projectUsersFilterDimentionInternal = (req, options, _) ->
 exports.random = (max) ->
   Math.floor(Math.random()*(max+1))
 
-exports.getEdition = (req) ->    
-    console.log req.headers.host
+exports.getEdition = (req) ->        
     if !req.subdomain
       host = req.headers.host
-      sub_domain = host.substring 0, host.indexOf('.')
-      console.log sub_domain
+      sub_domain = host.substring 0, host.indexOf('.')      
       if sub_domain=="nuget" then req.subdomain="nuget"
       else req.subdomain="npm"
     req.subdomain
 
+#for now npm keys are prefixed with empty string so that current cache is not invalidated
+exports.getKeyPfx = (req) ->
+  platform = module.exports.getEdition req
+  if platform=="nuget" then return "nuget_" else return ""
 
 exports.getProject = (req, name, _) ->
   prj_name = inj.sanitizeString name

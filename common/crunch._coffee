@@ -1,9 +1,9 @@
 fs = require 'fs'
 path = require 'path'
 utils = require '../data-loader/utils.js'
-config = require './config'
-neo4j = require 'neo4j'
-db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
+#config = require './config'
+#neo4j = require 'neo4j'
+#db = new neo4j.GraphDatabase {url: config.neo4j, proxy: config.proxy}
 
 crunch = (files, dest, _) ->
 	res = ""

@@ -7,7 +7,7 @@ var async = require('async')
 
 exports.index = function(req, res, _) {
   console.log("startGetSimilarProjects")
-  var key = "similar_projects_" + req.params.project
+  var key = utils.getKeyPfx(req) + "similar_projects_" + req.params.project
   console.log(key)
   utils.handleRequestCache(res, req, key, getSimilarProjects, _)
 }

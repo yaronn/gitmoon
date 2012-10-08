@@ -7,7 +7,7 @@ db = utils.db
 exports.index = (req, res, _) ->
   code = req.query.$code ? ""
   using_project_name = req.query.using_project_name ? ""
-  key = "sample_code_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{code}_#{using_project_name}"
+  key = utils.getKeyPfx(req) + "sample_code_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{code}_#{using_project_name}"
   utils.handleRequestCache res, req, key, getCodeSamples, _ 
 
 getCodeSamples = (req, _) ->   
@@ -81,7 +81,7 @@ getCodeSamples = (req, _) ->
 
 exports.getCodeSamplesCount = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "text/plain"}
-  key = "sample_code_#{req.params.project}_count"
+  key = utils.getKeyPfx(req) + "sample_code_#{req.params.project}_count"
   utils.handleRequestCache res, req, key, getCodeSamplesCountInternal, _ 
 
 getCodeSamplesCountInternal = (req, _) ->
@@ -98,7 +98,7 @@ getCodeSamplesCountInternalByProject = (project, _) ->
 exports.getRandomCodeSamples = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "application/json"}
   random = utils.random 4
-  key = "random_code_#{req.query.project1}_#{req.query.project2}_#{random}"
+  key = utils.getKeyPfx(req) + "random_code_#{req.query.project1}_#{req.query.project2}_#{random}"
   utils.handleRequestCache res, req, key, getRandomCodeSamplesInternal, _ 
 
 

@@ -62,10 +62,15 @@
                 <div style="margin-bottom: 10px"><b>Featured projects:</b></div>
                 <div class="span5" id="divFeatured" style="margin-left:28px">        
 
-                  <div><a href="#project/socket.io">socket.io</a></div>        
-                  <div><a href="#project/async">async</a></div>        
-                  <div><a href="#project/mocha">mocha</a></div>
-                  <div><a href="#project/browserify">browserify</a></div>                                  
+                  <div><a href="#project/SignalR">SignalR</a></div>
+                  <div><a href="#project/Mono.Cecil">Mono.Cecil</a></div>                  
+                  <div><a href="#project/ServiceStack.Mvc">ServiceStack.Mvc </a></div>
+                  <div><a href="#project/Facebook">Facebook</a></div>
+                  <div><a href="#project/Hammock">Hammock</a></div>
+                  <div><a href="#project/StoryTeller">StoryTeller</a></div>
+                  <div><a href="#project/sqlite-net">sqlite-net</a></div>
+                  <div><a href="#project/EasyHttp">EasyHttp</a></div>
+                                          
                 </div>
               </div>
 
@@ -79,13 +84,13 @@
               <div style="width: 430px; margin-left: 0px;">
 
                 <div style="float: left">
-                  Choose <span style="color: red">red</span> project (e.g. redis)<br />
+                  Choose <span style="color: red">red</span> project (e.g. <%=compare1 %>)<br />
                   <input style="margin-top: 7px; width: 193px" id="project1" type="text" data-provide="typeahead" placeholder="search npm project..." />
                 </div>
 
 
                 <div style="float: right; ">
-                  <span style="color: blue">blue</span> project (e.g. mongodb)<br />
+                  <span style="color: blue">blue</span> project (e.g. <%= compare2%>)<br />
                   <input style="margin-top: 7px; width: 172px" id="project2" type="text" data-provide="typeahead" placeholder="search npm project..." />
                 </div>
               </div>
@@ -106,11 +111,12 @@
                     <div><a href="/#compare/mocha/nodeunit">mocha vs. nodeunit</a></div>
                   </div>
 
-                  <div id="h2h-featured-list-nuget" style="display: none">
-                    <div><a href="/#compare/redis/mongodb">redis vs. mongodb</a></div>
-                    <div><a href="/#compare/jade/ejs">jade vs. ejs</a></div>
-                    <div><a href="/#compare/express/railway">express vs. RailwayJS</a></div>
-                    <div><a href="/#compare/async/step">async vs. step</a></div>              
+                  <div id="h2h-featured-list-nuget" style="display: none">                    
+                    <div><a href="/#compare/SignalR/ServiceStack">SignalR vs. ServiceStack</a></div>
+                    <div><a href="/#compare/Mono.Cecil/LibGit2Sharp">Mono.Cecil vs. LibGit2Sharp</a></div>
+                    <div><a href="/#compare/sqlite-net/FluentMongo">sqlite-net vs. FluentMongo</a></div>              
+                    <div><a href="/#compare/TweetSharp/Facebook">TweetSharp vs. Facebook</a></div>              
+                    <div><a href="/#compare/Hammock/EasyHttp">Hammock vs. EasyHttp</a></div>              
                   </div>
 
 

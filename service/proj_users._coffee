@@ -10,7 +10,7 @@ exports.index = (req, res, _) ->
   company = req.query.company ? ""
   country = req.query.country ? ""
   dependency = req.query.dependency ? ""
-  key = "proj_users_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{login}_#{company}_#{country}_#{dependency}"
+  key = utils.getKeyPfx(req) + "proj_users_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{login}_#{company}_#{country}_#{dependency}"
   utils.handleRequestCache res, req, key, getProjUsers, _ 
 
 getProjUsers = (req, _) ->  
@@ -98,17 +98,17 @@ getProjUsers = (req, _) ->
 
 
 exports.projectUsersCompanies = (req, res, _) ->  
-  key = "projectUsersCompanies_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
+  key = utils.getKeyPfx(req) + "projectUsersCompanies_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, projectUsersCompaniesInternal, _ 
 
 exports.projectUsersCountries = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "application/json"}
-  key = "projectUsersCountires_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
+  key = utils.getKeyPfx(req) + "projectUsersCountires_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, projectUsersCountriesInternal, _ 
 
 exports.projectUsersUSStates = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "application/json"}
-  key = "projectUsersUSStates_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
+  key = utils.getKeyPfx(req) + "projectUsersUSStates_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, projectUsersUSStatesInternal, _ 
   
 
@@ -131,7 +131,7 @@ projectUsersUSStatesInternal = (req, _) ->
 
 exports.projectUsersByDepProject = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "application/json"}
-  key = "projectUsersByDepProject_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
+  key = utils.getKeyPfx(req) + "projectUsersByDepProject_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}"
   utils.handleRequestCache res, req, key, projectUsersByDepProjectInternal, _ 
 
 projectUsersByDepProjectInternal = (req, _) ->   
@@ -169,7 +169,7 @@ projectUsersByDepProjectInternal = (req, _) ->
 
 exports.projectUserCount = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "text/plain"}
-  key = "project_user_#{req.params.project}_count"
+  key = utils.getKeyPfx(req) + "project_user_#{req.params.project}_count"
   utils.handleRequestCache res, req, key, getProjectUserCountInternal, _ 
 
 getProjectUserCountInternal = (req, _) ->
@@ -199,7 +199,7 @@ getProjectUserCountInternalByProject = (platform, project, mode, _) ->
 exports.projectRandomUsers = (req, res, _) ->  
   res.writeHead 200, {"Content-Type": "application/json"}
   random = utils.random 4
-  key = "project_random_user_#{req.params.project}_#{random}"
+  key = utils.getKeyPfx(req) + "project_random_user_#{req.params.project}_#{random}"
   utils.handleRequestCache res, req, key, projectRandomUsersInternal, _ 
 
 projectRandomUsersInternal = (req, _) -> 

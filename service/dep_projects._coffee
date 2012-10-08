@@ -6,7 +6,7 @@ db = utils.db
 
 exports.index = (req, res, _) ->    
   name = req.query.$name ? ""
-  key = "dep_projects_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{name}"
+  key = utils.getKeyPfx(req) + "dep_projects_#{req.params.project}_#{req.query.$skip}_#{req.query.$top}_#{name}"
   utils.handleRequestCache res, req, key, getDependantBy, _   
 
 getDependantBy = (req, _) ->    
@@ -71,7 +71,7 @@ getDependantBy = (req, _) ->
 exports.getDependsOn = (req, res, _) ->    
   res.writeHead 200, {"Content-Type": "application/json"} 
   project = req.query.$project ? ""
-  key = "dependsOn_#{req.params.project}"
+  key = utils.getKeyPfx(req) + "dependsOn_#{req.params.project}"
   utils.handleRequestCache res, req, key, getDependsOnInternal, _   
 
 getDependsOnInternal = (req, _) ->   
@@ -105,7 +105,7 @@ exports.getMutualDependsOn = (req, res, _) ->
   res.writeHead 200, {"Content-Type": "application/json"} 
   project1 = req.query.project1 ? ""
   project2 = req.query.project2 ? ""
-  key = "dependsOn_#{project1}_#{project2}"
+  key = utils.getKeyPfx(req) + "dependsOn_#{project1}_#{project2}"
   utils.handleRequestCache res, req, key, getMutualDependsOnInternal, _   
 
 getMutualDependsOnInternal = (req, _) -> 

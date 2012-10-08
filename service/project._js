@@ -12,7 +12,7 @@ exports.index = function(req, res, _) {
   console.log("write json")
   name = req.query.$name ? req.query.$name : ""
   mode = req.query.$mode ? req.query.$mode : ""
-  key = "all_projects_" + req.query.$skip + "_"+req.query.$top + "_" + name  + "_" + mode
+  key = utils.getKeyPfx(req) + "all_projects_" + req.query.$skip + "_"+req.query.$top + "_" + name  + "_" + mode
   utils.handleRequestCache(res, req, key, getAllProjects, _)
 }
 
@@ -71,7 +71,7 @@ exports.show = function(req, res, _) {
   res.writeHead(200, {"Content-Type": "application/json"})
   var getStat = req.query.include_stat=="true"?"stat":"no_stat"
   var getUsers = req.query.include_users=="true"?"users":"no_users"
-  var key = "show_project_" + req.params.project + "_" + getStat + "_" + getUsers
+  var key = utils.getKeyPfx(req) + "show_project_" + req.params.project + "_" + getStat + "_" + getUsers
   utils.handleRequestCache(res, req, key, getProject, _)
 }
 

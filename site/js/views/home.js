@@ -22,8 +22,20 @@ window.HomeView = Backbone.View.extend({
     render:function () {            
         var self = this
 
-        var edition = utils.getEdition()=="npm"?"Node.js":"c# .net"
-        $(this.el).html(this.template({edition: edition}));                                         
+        var data = {}
+        if (utils.getEdition()=="nuget") {
+            data.edition = "c# .net"
+            data.compare1 = "SignalR"
+            data.compare2 = "ServiceStack"
+        }
+        else
+        {
+            data.edition = "Node.js"
+            data.compare1 = "redis"
+            data.compare2 = "mongodb"
+        }
+        
+        $(this.el).html(this.template(data));                                         
 
         $("#project-featured-list-" + utils.getEdition(), self.el).show()
         $("#h2h-featured-list-" + utils.getEdition(), self.el).show()
