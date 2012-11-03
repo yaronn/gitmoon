@@ -38,6 +38,7 @@
     "test-prod": "production=true mocha -R xunit -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee > r.xml",
     "compiler": "supervisor -w ./site/tpl,./site/js,./site/js/views,./site/css,./site/index.html,./site/components,./site/compare -e html,js -n \"exit\" -x _coffee ./common/crunch._coffee"
   },
+  
   "repository": {
     "type": "git",
     "url": "https://github.com/yaronn/gitmoon.git"
