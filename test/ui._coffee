@@ -12,9 +12,10 @@ if run_on_prod
 else
   b = webdriver.remote()
 
-host = if run_on_prod then "www.gitmoon.com" else "localhost:3000"
+host = if run_on_prod then "www.gitmoon.com:3001" else "localhost:3000"
 
-describe 'Site', () ->
+###
+describe 'Project', () ->
   beforeEach (_) ->
     b.init _
 
@@ -44,3 +45,19 @@ describe 'Site', () ->
         name = b.elementByLinkText "Yaron Naveh (yaronn)", _
       catch e
         throw "could not find name"      
+###
+
+describe 'Compare', () ->
+  beforeEach (_) ->
+    b.init _
+
+  afterEach (_) ->
+     b.quit _
+
+  describe 'Two projects', () ->
+    it 'should compare two projects', (_) ->      
+      b.get "http://#{host}/#compare/redis/mongodb", _            
+      b.setImplicitWaitTimeout 20000, _            
+      project2_desc = b.elementsByCssSelector "#project2_div div div", _            
+      desc = project2_desc[1].text _      
+      throw new Error("desc does not contain mongodb") if desc.indexOf("Mongo DB")==-1

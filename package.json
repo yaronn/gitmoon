@@ -34,8 +34,8 @@
     "run-stag": "staging=true forever --minUptime 5000 --minUptime 60000 -w run_dev.js",
     "run-prod": "forever --minUptime 5000 --minUptime 60000 -w run_prod.js",
     "test-dev-prepare": "java -jar ~/apps/selenium-server-standalone-2.25.0.jar",
-    "test-dev": "mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee",
-    "test-prod": "production=true mocha -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee",
+    "test-dev": "mocha -R xunit -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee",
+    "test-prod": "production=true mocha -R xunit -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee",
     "compiler": "supervisor -w ./site/tpl,./site/js,./site/js/views,./site/css,./site/index.html,./site/components,./site/compare -e html,js -n \"exit\" -x _coffee ./common/crunch._coffee"
   },
   "repository": {
