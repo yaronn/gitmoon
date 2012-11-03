@@ -1,0 +1,7 @@
+
+> gitmoon@0.0.1 test-prod /home/storm/work/gitmoon
+> production=true mocha -R xunit -t 40000 --compilers coffee:coffee-script,_coffee:streamline/register ./test/ui._coffee
+
+<testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skip="0" timestamp="Sat, 03 Nov 2012 18:49:13 GMT" time="18.013">
+<testcase classname="Compare Two projects" name="should compare two projects" time="6.446"/>
+</testsuite>

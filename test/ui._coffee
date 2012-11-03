@@ -57,7 +57,7 @@ describe 'Compare', () ->
   describe 'Two projects', () ->
     it 'should compare two projects', (_) ->      
       b.get "http://#{host}/#compare/redis/mongodb", _            
-      b.setImplicitWaitTimeout 20000, _            
+      #b.setImplicitWaitTimeout 20000, _            
       project2_desc = b.elementsByCssSelector "#project2_div div div", _            
       desc = project2_desc[1].text _      
       throw new Error("desc does not contain mongodb") if desc.indexOf("Mongo DB")==-1
