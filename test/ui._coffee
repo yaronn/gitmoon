@@ -47,15 +47,15 @@ describe 'Project', () ->
         throw "could not find name"      
 ###
 
-describe 'Compare1', () ->
+describe 'Compare', () ->
   beforeEach (_) ->
     b.init _
 
   afterEach (_) ->
      b.quit _
 
-  describe 'Two projects1', () ->
-    it 'should compare two projects1', (_) ->      
+  describe 'Two projects', () ->
+    it 'should compare two projects', (_) ->      
       b.get "http://#{host}/#compare/redis/mongodb", _            
       #b.setImplicitWaitTimeout 20000, _            
       project2_desc = b.elementsByCssSelector "#project2_div div div", _            
